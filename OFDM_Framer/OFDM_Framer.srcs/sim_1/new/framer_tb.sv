@@ -24,8 +24,8 @@ module framer_tb(
     reg [31 : 0] sync_word [0 : 24];
     reg [20 : 0] count = 0; 
     reg signed [9 : 0] sw_counter = 0;
-    reg [31 : 0] input_samples[0 : 359];
-    reg [31 : 0] output_samples[0 : 639];
+    reg [31 : 0] input_samples[0 : 3599];
+    reg [31 : 0] output_samples[0 : 6399];
     reg [20 : 0] input_counter, output_counter;
     wire [1023 : 0] exp_output;
     reg [31 : 0] rand_int;
@@ -35,11 +35,11 @@ module framer_tb(
     end
     
     initial begin
-        $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, 359);
+        $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, 3599);
     end
     
     initial begin
-        $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/output.txt", output_samples, 0, 639);
+        $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/output.txt", output_samples, 0, 6399);
     end
     
     assign exp_output[0 * 32 +: 32] = output_samples[output_counter * 32 + 0];
@@ -98,13 +98,13 @@ module framer_tb(
         end
         else begin
             if(s_axis_data_tready && s_axis_data_tvalid) begin
-                if(input_counter == 359)
+                if(input_counter == 3599)
                     input_counter <= 0;
                 else
                     input_counter <= input_counter + 1;
             end
             if(m_axis_data_tready && m_axis_data_tvalid) begin
-                if(output_counter == 19) 
+                if(output_counter == 199) 
                     $finish;
                 else
                     output_counter <= output_counter + 1;
@@ -140,8 +140,8 @@ module framer_tb(
     
     always@(posedge axis_aclk) begin
         if(axis_aresetn) begin
-            if(rand_int[7 : 0] == 0)
-                s_axis_data_tvalid = ~s_axis_data_tvalid;
+//            if(rand_int[7 : 0] == 0)
+//                s_axis_data_tvalid = ~s_axis_data_tvalid;
             if(rand_int[7 : 0] == 2)
                 m_axis_data_tready = ~m_axis_data_tready;
         end
