@@ -27,8 +27,9 @@ module framer_tb(
     reg [31 : 0] input_samples[0 : 3599];
     reg [31 : 0] output_samples[0 : 6399];
     reg [20 : 0] input_counter, output_counter;
-    wire [1023 : 0] exp_output;
+    logic [1023 : 0] exp_output;
     reg [31 : 0] rand_int;
+    reg i;
     
     initial begin
         $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/sync_word.txt", sync_word, 0, 24);
@@ -140,10 +141,10 @@ module framer_tb(
     
     always@(posedge axis_aclk) begin
         if(axis_aresetn) begin
-//            if(rand_int[7 : 0] == 0)
-//                s_axis_data_tvalid = ~s_axis_data_tvalid;
-            if(rand_int[7 : 0] == 2)
-                m_axis_data_tready = ~m_axis_data_tready;
+            if(rand_int[4 : 0] == 0)
+                s_axis_data_tvalid <= ~s_axis_data_tvalid;
+            if(rand_int[4 : 0] == 2)
+                m_axis_data_tready <= ~m_axis_data_tready;
         end
     end
     
@@ -166,9 +167,9 @@ module framer_tb(
     initial begin
         #100 
         @(posedge axis_aclk);
-        axis_aresetn = 1;
-        s_axis_data_tvalid = 1;
-        m_axis_data_tready = 1;
+        axis_aresetn <= 1;
+        s_axis_data_tvalid <= 1;
+        m_axis_data_tready <= 1;
     end
     
 endmodule

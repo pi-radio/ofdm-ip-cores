@@ -212,7 +212,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>66b9be85</spirit:value>
+            <spirit:value>a46afa36</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -228,7 +228,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>66b9be85</spirit:value>
+            <spirit:value>a46afa36</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -243,7 +243,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>30b4c80b</spirit:value>
+            <spirit:value>722600a7</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -563,8 +563,8 @@
       </spirit:file>
       <spirit:file>
         <spirit:name>OFDM_Framer.srcs/sim_1/new/OFDM_Framer.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_86480c8f</spirit:userFileType>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_059d5305</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -579,14 +579,14 @@
       </spirit:file>
       <spirit:file>
         <spirit:name>OFDM_Framer.srcs/sim_1/new/OFDM_Framer.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
       <spirit:name>xilinx_testbench_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>OFDM_Framer.srcs/sim_1/new/framer_tb.v</spirit:name>
-        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:name>OFDM_Framer.srcs/sim_1/new/framer_tb.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
         <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
         <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
@@ -657,8 +657,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>OFDM_Framer</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>4</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2022-06-24T09:50:37Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>5</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-06-27T15:00:03Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@4a523c6b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@3f5439f0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
@@ -701,12 +701,24 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@35a57c84_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@478f0b7d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@42ec9ed9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39400925_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5b9617c5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3725fe2a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@169b7156_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b3c8c0a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10b11f40_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c53ba3c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39c5391_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ffcc443_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3299154_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15703fbf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1902d678_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="ed8ec034"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="0839cd29"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="3457f1b9"/>
       <xilinx:checksum xilinx:scope="ports" xilinx:value="258c9cbe"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="be6ad20d"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="bcb06bbb"/>

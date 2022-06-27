@@ -78,11 +78,10 @@ module data_module #
                     current_symbol[index + bit_index + 1 +: 4] <= s_axis_data_tdata[bit_index - bit_index/PILOT_DENSITY +: 4];
                 end
             end
-            else if(!s_axis_data_tvalid && m_axis_data_tready)
-                if(index == USED_CARRIERS - step)
-                    index <= 0;
+            else if(!s_axis_data_tvalid && m_axis_data_tready) begin
                 if(data_valid)
                     data_valid <= 0;
+            end
         end
     end
     
@@ -90,7 +89,7 @@ module data_module #
         if(!s_axis_data_aresetn)
             symbol_cnt <= 0;
         else begin
-            if(m_axis_data_tvalid)
+            if(m_axis_data_tvalid && m_axis_data_tready)
                 if(symbol_cnt < SYMBOLS_PER_FRAME - 1)
                     symbol_cnt <= symbol_cnt + 1;
                 else
