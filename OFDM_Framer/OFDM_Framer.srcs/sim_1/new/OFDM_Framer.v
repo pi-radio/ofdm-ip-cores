@@ -1,31 +1,10 @@
 
 `timescale 1 ns / 1 ps
 
-/**
-This core wraps layer-2 data into OFDM suitable Frames of 1024 bits/subcarriers (in the BPSK case).
-The config AXIS channel is used to provide the synchronization word at the beginning of execution.
-Until the sync word has been provided, the slave data channel will not assert tready.
-As soon as it is provided, the core can accept layer-2 data. The core will add null subcarriers, as
-well as pilots before passing the data to the modulator. The outgoing frame has the following form:
-
-N N N N ... N P D D D D P D D D D ... P D D D D N N P D D D D ... P D D D D N N N ... N
-|____ ______| | |_____|                         |_|                         |__________| 
-     |      Pilot  |                          2 Null                              |
-  111 Null        Data                        Subcarriers                       111 Null   
-Subcarriers   |_______________________________|     |_____________________|     Subcarriers
-                           |                                    |
-                 400 Data/Pilot Subcarriers          400 Data/Pilot Subcarriers
-                 
-                 
-The core will always output the sync word symbol first, and then 9 symbols with the above structure,
-before sending again the sync word and repeating the structure.
-
-**/
-
 	module OFDM_Framer #
 	(
 		parameter integer C_S_AXIS_DATA_TDATA_WIDTH	= 32,
-		parameter integer C_M_AXIS_DATA_TDATA_WIDTH	= 1024
+		parameter integer C_M_AXIS_DATA_TDATA_WIDTH	= 128
 	)
 	(
 		input wire  axis_aclk,
@@ -47,10 +26,16 @@ before sending again the sync word and repeating the structure.
 		input wire  s_axis_config_tvalid
 	);
 	
-	wire [799 : 0] sync_word;
-
+	wire [31 : 0] sync_word[0 : 1023];
+    wire [31 : 0] template[0 : 1023];
+    wire [1023 : 0] map;
+    wire [127 : 0] s_axis_fifo_tdata;
+    wire s_axis_fifo_tvalid;
+    wire s_axis_fifo_tready;
+    wire s_axis_fifo_tlast;
+    wire fifo_almost_full;
 	sync_word_module #(
-       .USED_CARRIERS(800),
+       .TOTAL_CARRIERS(1024),
        .S_AXIS_TDATA_WIDTH(32)
        ) sync_word_mod_inst (
         .s_axis_config_aclk(axis_aclk),
@@ -60,7 +45,9 @@ before sending again the sync word and repeating the structure.
 		.s_axis_config_tstrb(s_axis_config_tstrb),
 		.s_axis_config_tlast(s_axis_config_tlast),
 		.s_axis_config_tvalid(s_axis_config_tvalid),
-		.sync_word(sync_word)
+		.sync_word(sync_word),
+		.template(template),
+		.map(map)
        );
             
        data_module #(
@@ -77,13 +64,49 @@ before sending again the sync word and repeating the structure.
             .s_axis_data_tlast(s_axis_data_tlast),
             .s_axis_data_tvalid(s_axis_data_tvalid),
             .sync_word(sync_word),
+            .template(template),
+            .map(map),
             .sync_word_ready(!s_axis_config_tready),
-            .m_axis_data_tvalid(m_axis_data_tvalid),
-            .m_axis_data_tdata(m_axis_data_tdata),
-            .m_axis_data_tstrb(m_axis_data_tstrb),
-            .m_axis_data_tlast(m_axis_data_tlast),
-            .m_axis_data_tready(m_axis_data_tready)
+            .m_axis_data_tvalid(s_axis_fifo_tvalid),
+            .m_axis_data_tdata(s_axis_fifo_tdata),
+            .m_axis_data_tlast(s_axis_fifo_tlast),
+            .m_axis_data_tready(s_axis_fifo_tready),
+            .fifo_almost_full(fifo_almost_full)
        );
+       
+     xpm_fifo_axis #(
+     .CDC_SYNC_STAGES(2), // DECIMAL
+     .CLOCKING_MODE("common_clock"), // String
+     .ECC_MODE("no_ecc"), // String
+     .FIFO_DEPTH(512), // DECIMAL
+     .FIFO_MEMORY_TYPE("auto"), // String
+     .PACKET_FIFO("false"), // String
+     .PROG_EMPTY_THRESH(10), // DECIMAL
+     .PROG_FULL_THRESH(255), // DECIMAL
+     .RD_DATA_COUNT_WIDTH(1), // DECIMAL
+     .RELATED_CLOCKS(0), // DECIMAL
+     .SIM_ASSERT_CHK(0), // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
+     .TDATA_WIDTH(128), // DECIMAL
+     .TDEST_WIDTH(1), // DECIMAL
+     .TID_WIDTH(1), // DECIMAL
+     .TUSER_WIDTH(1), // DECIMAL
+     .USE_ADV_FEATURES("1002"), // String
+     .WR_DATA_COUNT_WIDTH(1) // DECIMAL
+    )
+    xpm_fifo_axis_inst (
+     .m_axis_tdata(m_axis_data_tdata),
+     .m_axis_tvalid(m_axis_data_tvalid),
+     .m_axis_tlast(m_axis_data_tlast),
+     .s_axis_tready(s_axis_fifo_tready),
+     .m_aclk(axis_aclk),
+     .m_axis_tready(m_axis_data_tready),
+     .s_aclk(axis_aclk),
+     .s_aresetn(axis_aresetn),
+     .s_axis_tdata(s_axis_fifo_tdata),
+     .s_axis_tvalid(s_axis_fifo_tvalid),
+     .s_axis_tlast(s_axis_fifo_tlast),
+     .prog_full_axis(fifo_almost_full)
+    );
 
         
 	endmodule
