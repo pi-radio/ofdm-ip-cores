@@ -2,12 +2,9 @@
 
 module data_module #
         (
-        parameter integer SYMBOLS_PER_FRAME = 10,
-        parameter integer USED_CARRIERS = 800,
-        parameter integer PILOT_DENSITY = 5,
         parameter integer M_AXIS_TDATA_WIDTH = 128,
         parameter integer S_AXIS_TDATA_WIDTH = 32,
-        parameter integer BITS = 4
+        parameter integer MODULATION = 0
         )
         (
     	input wire  s_axis_data_aclk,
@@ -26,7 +23,11 @@ module data_module #
 		output reg [M_AXIS_TDATA_WIDTH-1 : 0] m_axis_data_tstrb,
 		output wire  m_axis_data_tlast,
 		input wire  m_axis_data_tready,
-		input wire fifo_almost_full
+		input wire fifo_almost_full,
+		output wire bram_en,
+		input wire [127 : 0] sync_temp_dout,
+		input wire [3 : 0] map_dout,
+		output reg [8 : 0] bram_addr
     );
        // `define	CVG
    `ifdef CVG
@@ -49,34 +50,37 @@ module data_module #
     typedef enum {IDLE, SYNC_WORD, DATA, FIFO_AFULL} state_t;
     state_t state = IDLE;
     state_t last_state = IDLE;
-    mod_t modulation = QAM16;
+    mod_t modulation = BPSK;
     reg [127 : 0] shift_reg = 0;
     reg [7 : 0] bits_available = 0;
     wire [7 : 0] bits_consumed;
     reg [4 : 0] bits_per_mod [0 : 4];
     reg [10 : 0] subcarrier_cnt = 0;
     reg [9 : 0] symbol_cnt = 0;
-    
-    reg[7 : 0] bit_index;
-    reg[9 : 0] plt_index;
-    wire state_sync_word;
-    reg [127 : 0] current_symbol;
-    reg [1023 : 0] sync_word_symbol;
-    reg [9 : 0] index = 0;
-    reg data_valid = 0;
-    reg [9 : 0] sample_counter;
-    reg [9 : 0] input_cntr;
-    reg [5 : 0] symbol_counter;
     reg [3 : 0] ones_lut[0 : 15];
-    wire [127 : 0] sync_word_out;
-    wire [2 : 0] aces_before[0 : 3];
     wire [3 : 0] current_map_slice;
     reg [2 : 0] i;
     reg [31 : 0] mods[0 : 4][0 : 15];
     wire [4 : 0] current_bits_per_mod;
     wire [2 : 0] ones_past[0 : 3];
+    reg [1 : 0] valid_shift_reg = 0;
 
-    assign bits_consumed = (ones_lut[current_map_slice] * current_bits_per_mod);
+    assign bits_consumed = (state == DATA) ? (ones_lut[current_map_slice] * current_bits_per_mod) : 32'h00000000;
+    assign bram_en = (s_axis_data_tvalid || (bram_addr != 0 && (bram_addr != 256))) && (state != FIFO_AFULL) && sync_word_ready;
+    assign current_map_slice = map_dout;
+    assign s_axis_data_tready = (bits_available - bits_consumed < 64) && sync_word_ready
+            && (state != FIFO_AFULL);
+    assign current_bits_per_mod = bits_per_mod[modulation];
+    assign ones_past[0] = 0;
+    assign ones_past[1] = ones_lut[current_map_slice[0 : 0]];
+    assign ones_past[2] = ones_lut[current_map_slice[1 : 0]];
+    assign ones_past[3] = ones_lut[current_map_slice[2 : 0]];
+    
+    // Keep a shift register of two positions for the bram enabe signal,
+    // since there's a 2 cycle latency when requesting data
+    always@(posedge s_axis_data_aclk) begin
+        valid_shift_reg <= {bram_en, valid_shift_reg[1]};
+    end
     
     /* Create arrays with constellation points for each modulation */
     always@(posedge s_axis_data_aclk) begin
@@ -103,6 +107,7 @@ module data_module #
         if(~s_axis_data_aresetn) begin
             state <= IDLE;
             subcarrier_cnt <= 0;
+            bram_addr <= 0;
             symbol_cnt <= 0;
             `ifdef	CVG
             cg_inst = new();
@@ -114,91 +119,74 @@ module data_module #
                 `ifdef	CVG
                     $display("Coverage = %0.2f %%", cg_inst.get_inst_coverage());
                  `endif
-                    m_axis_data_tvalid <= 0;
-                    if(bits_available > 0)
+                    if(s_axis_data_tvalid && sync_word_ready) begin
                         state <= SYNC_WORD;
+                        bram_addr <= bram_addr + 1;
+                    end
                 end
                 SYNC_WORD: begin
-                    if(!m_axis_data_tvalid) begin
-                        m_axis_data_tvalid <= 1;
-                        subcarrier_cnt <= subcarrier_cnt + 4;
-                    end
-                    else begin
-                        if(subcarrier_cnt == 1020) begin
+                        bram_addr <= bram_addr + 1;
+                        if(bram_addr == 255) begin
                             state <= DATA;
-                            subcarrier_cnt <= 0;
                             symbol_cnt <= symbol_cnt + 1;
                             if(fifo_almost_full) begin
                                 state <= FIFO_AFULL;
                                 last_state <= DATA;
                              end
                         end
-                        else
-                            subcarrier_cnt <= subcarrier_cnt + 4;
-                    end
                 end
                 DATA: begin
-                        m_axis_data_tvalid <= 1;
-                        if(subcarrier_cnt == 1020) begin
-                            subcarrier_cnt <= 0;
+                        if(bram_addr == 511) begin
                             if(fifo_almost_full) begin
                                 state <= FIFO_AFULL;
-                                if(symbol_cnt == 9 && (bits_available > 0)) begin
+                                if(symbol_cnt == 9 && s_axis_data_tvalid) begin
                                     last_state <= SYNC_WORD;
                                     symbol_cnt <= 0;
+                                    bram_addr <= 0;
                                 end
-                                else if((symbol_cnt == 9) && (bits_available == 0)) begin
+                                else if((symbol_cnt == 9) && (!s_axis_data_tvalid)) begin
                                     last_state <= IDLE;
                                     symbol_cnt <= 0;
+                                    bram_addr <= 0;
                                 end
                                 else begin
                                     last_state <= DATA;
                                     symbol_cnt <= symbol_cnt + 1;
+                                    bram_addr <= 256;
                                 end
                             end
                             else begin
                                 if(symbol_cnt == 9) begin
-                                    if(bits_available > 0)begin
+                                    if(s_axis_data_tvalid)begin
                                         symbol_cnt <= 0;
                                         state <= SYNC_WORD;
+                                        bram_addr <= 0;
                                     end
                                     else begin
                                         symbol_cnt <= 0;
                                         state <= IDLE;
+                                        bram_addr <= 0;
                                     end
                                 end
-                                else
+                                else begin
                                     symbol_cnt <= symbol_cnt + 1;
+                                    bram_addr <= 256;
+                                end
                             end
                         end
                         else
-                            subcarrier_cnt <= subcarrier_cnt + 4;
+                            bram_addr <= bram_addr + 1;
                     end
                 FIFO_AFULL: begin
                     if(~fifo_almost_full) begin
                         state <= last_state;
-                        if(bits_available > 0) begin
-                            m_axis_data_tvalid <= 1;
-                            subcarrier_cnt <= subcarrier_cnt + 4;
+                        if(s_axis_data_tvalid) begin
                         end
                     end
-                    else
-                        m_axis_data_tvalid <= 0;
                 end
             endcase
         end
     end
-    
-    assign current_map_slice = (state == DATA) ? map[subcarrier_cnt +: 4] : 4'h0000;
-    assign s_axis_data_tready = (bits_available - bits_consumed < 64) && sync_word_ready
-            && (state != FIFO_AFULL);
-            
-    assign current_bits_per_mod = bits_per_mod[modulation];
-    
-    assign ones_past[0] = 0;
-    assign ones_past[1] = ones_lut[current_map_slice[0 : 0]];
-    assign ones_past[2] = ones_lut[current_map_slice[1 : 0]];
-    assign ones_past[3] = ones_lut[current_map_slice[2 : 0]];
     
     always @(posedge s_axis_data_aclk) begin
         if(sync_word_ready && m_axis_data_tready && ~(state == FIFO_AFULL)) begin
@@ -214,29 +202,34 @@ module data_module #
     end
     
     always @(posedge s_axis_data_aclk) begin 
-        for(i = 0; i < 4 ; i = i + 1) begin
-            if(m_axis_data_tready && ~(state == FIFO_AFULL) && m_axis_data_tvalid) begin
-                case(state)
-                    SYNC_WORD:
-                        m_axis_data_tdata[i*32 +: 32] <= sync_word[subcarrier_cnt + i];
-                    DATA: begin
-                        if(current_map_slice[i]) begin
-                            case(modulation)
-                                    BPSK: m_axis_data_tdata[i*32 +: 32] <= mods[BPSK][shift_reg[ones_past[i]]];
-                                    QPSK: m_axis_data_tdata[i*32 +: 32] <= mods[QPSK][shift_reg[ones_past[i] * 2 +: 2]];
-                                    QAM16: m_axis_data_tdata[i*32 +: 32] <= mods[QAM16][shift_reg[ones_past[i] * 4 +: 4]];
-                                    QAM64: m_axis_data_tdata[i*32 +: 32] <= mods[QAM64][shift_reg[ones_past[i] * 6 +: 6]];
-                                    QAM256: m_axis_data_tdata[i*32 +: 32] <= mods[QAM256][shift_reg[ones_past[i] * 8 +: 8]];
-                             endcase
-                        end
-                        else begin
-                            m_axis_data_tdata[i*32 +: 32] <= template[subcarrier_cnt + i];
-                        end
+        if(m_axis_data_tready && (state == SYNC_WORD) && valid_shift_reg[0]) begin
+            m_axis_data_tdata <= sync_temp_dout;
+            m_axis_data_tvalid <= 1;
+        end
+        else begin
+            if(m_axis_data_tready && valid_shift_reg[0]) begin
+                m_axis_data_tvalid <= 1;
+                for(i = 0; i < 4 ; i = i + 1) begin
+                    if(current_map_slice[i]) begin
+                        case(modulation)
+                                BPSK: m_axis_data_tdata[i*32 +: 32] <= mods[BPSK][shift_reg[ones_past[i]]];
+                                QPSK: m_axis_data_tdata[i*32 +: 32] <= mods[QPSK][shift_reg[ones_past[i] * 2 +: 2]];
+                                QAM16: m_axis_data_tdata[i*32 +: 32] <= mods[QAM16][shift_reg[ones_past[i] * 4 +: 4]];
+                                QAM64: m_axis_data_tdata[i*32 +: 32] <= mods[QAM64][shift_reg[ones_past[i] * 6 +: 6]];
+                                QAM256: m_axis_data_tdata[i*32 +: 32] <= mods[QAM256][shift_reg[ones_past[i] * 8 +: 8]];
+                         endcase
                     end
-                 endcase   
-             end
+                    else begin
+                        m_axis_data_tdata[i*32 +: 32] <= sync_temp_dout[i*32 +: 32];
+                    end 
+                end
+            end
+            else
+                m_axis_data_tvalid <= 0;
         end
     end
+    
+    /* CODE ASSERTIONS */
     
     // There should always be at least as many bits available as we need to output
     // THis practically means that the input to this block must be enough to populate
@@ -317,5 +310,15 @@ module data_module #
     assert property (@(posedge s_axis_data_aclk)
 	   $fell(m_axis_data_tvalid) |=> 
 	               (count_m_valid == 0)); 
+	               
+	// The address input to the BRAM should not change
+	// without the enable signal asserted.
+    assert property (@(posedge s_axis_data_aclk)
+	   (!bram_en) |=> $stable(bram_addr));
+	
+	// The data output from the BRAMs should not change
+	// if tvalid is not asserted.
+	assert property (@(posedge s_axis_data_aclk)
+	   (!m_axis_data_tvalid) |=>  $stable(sync_temp_dout) && $stable(map_dout));
 	
 endmodule

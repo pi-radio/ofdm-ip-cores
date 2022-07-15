@@ -1,16 +1,16 @@
 `timescale 1ns / 1ps
 
-`define QAM16
+`define BPSK
 
 module framer_tb #(
         parameter integer BPSK_INPUT_SAMPLES = 9000,
         parameter integer QPSK_INPUT_SAMPLES = 18000,
         parameter integer QAM16_INPUT_SAMPLES = 36000,
-        parameter integer INPUT_SAMPLES = QAM16_INPUT_SAMPLES,
+        parameter integer INPUT_SAMPLES = BPSK_INPUT_SAMPLES,
     
         parameter integer BPSK_OUTPUT_SAMPLES = 51200,
         parameter integer QPSK_OUTPUT_SAMPLES = 51200,
-        parameter integer OUTPUT_SAMPLES = QPSK_OUTPUT_SAMPLES
+        parameter integer OUTPUT_SAMPLES = BPSK_OUTPUT_SAMPLES
     )
     ();
     
@@ -29,7 +29,7 @@ module framer_tb #(
     wire  m_axis_data_tlast;
     reg  m_axis_data_tready;
     wire  s_axis_config_tready;
-    reg [31 : 0] s_axis_config_tdata;
+    reg [127 : 0] s_axis_config_tdata;
     wire [(32/8)-1 : 0] s_axis_config_tstrb;
     reg s_axis_config_tlast = 0;
     wire  s_axis_config_tvalid;
@@ -47,7 +47,7 @@ module framer_tb #(
     
     `ifdef BPSK
         initial begin
-            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, BPSK_INTPUT_SAMPLES - 1);
+            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, BPSK_INPUT_SAMPLES - 1);
         end
         
         initial begin
@@ -92,9 +92,12 @@ module framer_tb #(
         
     reg [31 : 0] cnt = 0;
     
-    assign s_axis_config_tdata = (state == SYNC_WORD) ? output_samples[sw_counter] :
-                                  (state == TEMPLATE) ? template[sw_counter] :
-                                  (state == MAP) ? map[sw_counter] : 32'h00000000 ;
+    assign s_axis_config_tdata = (state == SYNC_WORD) ? {output_samples[sw_counter + 3], output_samples[sw_counter + 2],
+                                    output_samples[sw_counter + 1], output_samples[sw_counter]} :
+                                  (state == TEMPLATE) ? {template[sw_counter + 3],template[sw_counter + 2],
+                                                         template[sw_counter + 1],template[sw_counter] }:
+                                  (state == MAP) ? {map[sw_counter + 3], map[sw_counter + 2],
+                                                     map[sw_counter + 1], map[sw_counter]} : 32'h00000000 ;
     
     
     always@ (posedge axis_aclk) begin
@@ -107,47 +110,47 @@ module framer_tb #(
                 state <= SYNC_WORD;
             end
             SYNC_WORD: begin
-                if(sw_counter <= 1023) begin
-                    if(sw_counter == 1023) begin
+                if(sw_counter <= 1020) begin
+                    if(sw_counter == 1020) begin
                         state <= TEMPLATE;
                         sw_counter <= 0;
                     end
-                    else if(sw_counter == 1022) begin
+                    else if(sw_counter == 1016) begin
                         s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 1;
+                        sw_counter <= sw_counter + 4;
                     end
                     else
-                        sw_counter <= sw_counter + 1;
+                        sw_counter <= sw_counter + 4;
                 end 
             end
             TEMPLATE: begin
-                if(sw_counter <= 1023) begin
+                if(sw_counter <= 1020) begin
                    // s_axis_config_tdata <= template[sw_counter];
-                    if(sw_counter == 1023) begin
+                    if(sw_counter == 1020) begin
                         state <= MAP;
                         sw_counter <= 0;
                     end
-                    else if(sw_counter == 1022) begin
+                    else if(sw_counter == 1016) begin
                         s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 1;
+                        sw_counter <= sw_counter + 4;
                     end
                     else
-                        sw_counter <= sw_counter + 1;
+                        sw_counter <= sw_counter + 4;
                 end
             end
             MAP: begin
                 if(sw_counter < 32) begin
                    // s_axis_config_tdata <= map[sw_counter];
-                    if(sw_counter == 31) begin
+                    if(sw_counter == 28) begin
                         state <= FIN;
                         sw_counter <= 0;
                     end
-                    else if(sw_counter == 30) begin
+                    else if(sw_counter == 24) begin
                         s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 1;
+                        sw_counter <= sw_counter + 4;
                     end
                     else
-                        sw_counter <= sw_counter + 1;
+                        sw_counter <= sw_counter + 4;
                 end
             end
         endcase
@@ -165,12 +168,10 @@ module framer_tb #(
 		axis_aresetn,
 		s_axis_data_tready,
 		s_axis_data_tdata,
-		s_axis_data_tstrb,
 		s_axis_data_tlast,
 		s_axis_data_tvalid,
 		m_axis_data_tvalid,
 		m_axis_data_tdata,
-		m_axis_data_tstrb,
 		m_axis_data_tlast,
 		m_axis_data_tready,
 		s_axis_config_tready,
@@ -182,7 +183,7 @@ module framer_tb #(
     
     always@(posedge axis_aclk) begin
         if(axis_aresetn) begin
-            if(rand_int[5 : 0] == 1 && input_counter <= 2322)
+            if(rand_int[5 : 0] == 1 && input_counter <= 30000)
                 m_axis_data_tready <= ~m_axis_data_tready;
         end
     end
