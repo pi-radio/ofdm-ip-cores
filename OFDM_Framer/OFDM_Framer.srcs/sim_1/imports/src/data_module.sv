@@ -82,20 +82,23 @@ module data_module #
         valid_shift_reg <= {bram_en, valid_shift_reg[1]};
     end
     
-    /* Create arrays with constellation points for each modulation */
+    // Create arrays with constellation points for each modulation */
+    // The system generated FFT cores require the 2 MSBs of the real and
+    // imaginary parts of the input to be indentical in order to avoid internal
+    // overflows 
     always@(posedge s_axis_data_aclk) begin
         if(~s_axis_data_aresetn) begin
             bits_per_mod = '{1,2,4,6,8};
-            mods = '{'{32'h00008000, 32'h00007fff, 32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00
+            mods = '{'{32'h0000c000, 32'h00003fff, 32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00
                         ,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00},
-                        '{32'h80008000, 32'h80007fff,
-                         32'h7fff8000, 32'h7fff7fff,32'h00, 32'h00,32'h00, 32'h00
+                        '{32'hc000c000, 32'hc0003fff,
+                         32'h3fffc000, 32'h3fff3fff,32'h00, 32'h00,32'h00, 32'h00
                          ,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00},
-                         '{32'h7fff8000, 32'h7fffc000, 32'h7fff7fff, 32'h7fff3fff,
-                            32'h3fff8000, 32'h3fffc000, 32'h3fff7fff, 32'h3fff3fff,
-                            32'h80008000, 32'h8000c000, 32'h80007fff, 32'h80003fff,
-                            32'hc0008000, 32'hc000c000, 32'hc0007fff, 32'hc0003fff},
-                         '{32'h00,32'h00,32'h00008000, 32'h00007fff,32'h00, 32'h00,32'h00, 32'h00
+                         '{32'h3fffc000, 32'h3fffeaaa, 32'h3fff3fff, 32'h3fff1555,
+                            32'h1555c000, 32'h1555eaaa, 32'h15553fff, 32'h15551555,
+                            32'hc000c000, 32'hc000eaaa, 32'hc0003fff, 32'hc0001555,
+                            32'heaaac000, 32'heaaaeaaa, 32'heaaa3fff, 32'heaaa1555},
+                         '{32'h00,32'h00,32'h00008000, 32'h00003fff,32'h00, 32'h00,32'h00, 32'h00
                          ,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00},
                          '{32'h00,32'h00,32'h00008000, 32'h00007fff,32'h00, 32'h00,32'h00, 32'h00
                          ,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00,32'h00, 32'h00}};
@@ -276,10 +279,10 @@ module data_module #
 	 	
 	// Assert SYNC_WORD state transition
     assert property (@(posedge s_axis_data_aclk)
-	   (state == SYNC_WORD) && (subcarrier_cnt == 1020) && (!fifo_almost_full)|=> (state == DATA)); 
+	   (state == SYNC_WORD) && (subcarrier_cnt == 1020) && (!fifo_almost_full) |=> (state == DATA)); 
 	   
     assert property (@(posedge s_axis_data_aclk)
-	   (state == SYNC_WORD) && (subcarrier_cnt == 1020) && (fifo_almost_full)|=> (state == FIFO_AFULL));  
+	   (state == SYNC_WORD) && (subcarrier_cnt == 1020) && (fifo_almost_full) |=> (state == FIFO_AFULL));  
     
     // Assert DATA state transition
     assert property (@(posedge s_axis_data_aclk)

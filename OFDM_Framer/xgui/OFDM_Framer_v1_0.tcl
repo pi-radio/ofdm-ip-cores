@@ -27,6 +27,15 @@ proc validate_PARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH { PARAM_VALUE.C_S_AXIS_DATA_
 	return true
 }
 
+proc update_PARAM_VALUE.MODULATION { PARAM_VALUE.MODULATION } {
+	# Procedure called to update MODULATION when any of the dependent parameters in the arguments change
+}
+
+proc validate_PARAM_VALUE.MODULATION { PARAM_VALUE.MODULATION } {
+	# Procedure called to validate MODULATION
+	return true
+}
+
 
 proc update_MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH { MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH PARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
@@ -36,5 +45,10 @@ proc update_MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH { MODELPARAM_VALUE.C_S_AX
 proc update_MODELPARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH { MODELPARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH PARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH } {
 	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
 	set_property value [get_property value ${PARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH}] ${MODELPARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH}
+}
+
+proc update_MODELPARAM_VALUE.MODULATION { MODELPARAM_VALUE.MODULATION PARAM_VALUE.MODULATION } {
+	# Procedure called to set VHDL generic/Verilog parameter value(s) based on TCL parameter value
+	set_property value [get_property value ${PARAM_VALUE.MODULATION}] ${MODELPARAM_VALUE.MODULATION}
 }
 
