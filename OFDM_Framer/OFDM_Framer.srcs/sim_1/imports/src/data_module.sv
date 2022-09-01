@@ -4,7 +4,8 @@ module data_module #
         (
         parameter integer M_AXIS_TDATA_WIDTH = 128,
         parameter integer S_AXIS_TDATA_WIDTH = 32,
-        parameter integer MODULATION = 0
+        parameter integer MODULATION = 0,
+        parameter integer SAMPS_PER_FRAME = 180
         )
         (
     	input wire  s_axis_data_aclk,
@@ -29,25 +30,8 @@ module data_module #
 		input wire [3 : 0] map_dout,
 		output reg [8 : 0] bram_addr
     );
-       // `define	CVG
-   `ifdef CVG
-    covergroup cg @(posedge s_axis_data_aclk);
-        coverpoint state{   bins b1 = (IDLE => SYNC_WORD);
-                            bins b2 = (SYNC_WORD => DATA);
-                            bins b3 = (DATA => SYNC_WORD);
-                            bins b4 = (DATA => IDLE);
-                            bins b5 = (DATA => FIFO_AFULL);
-                            bins b6 = (SYNC_WORD => FIFO_AFULL);
-                            illegal_bins ib1 = (SYNC_WORD => IDLE);
-                            bins b7 = default;
-                            }
-    endgroup
-    
-    cg cg_inst;
-    
-    `endif
     typedef enum {BPSK, QPSK, QAM16, QAM64, QAM256} mod_t;
-    typedef enum {IDLE, SYNC_WORD, DATA, FIFO_AFULL} state_t;
+    typedef enum {IDLE, SYNC_WORD,MOD_SAMPLE_ON, DATA, FIFO_AFULL} state_t;
     state_t state = IDLE;
     state_t last_state = IDLE;
     mod_t modulation = BPSK;
@@ -64,17 +48,44 @@ module data_module #
     wire [4 : 0] current_bits_per_mod;
     wire [2 : 0] ones_past[0 : 3];
     reg [1 : 0] valid_shift_reg = 0;
+    reg [20 : 0] input_counter;
+    wire [20 : 0] input_samps_per_frame;
 
+    assign input_samps_per_frame = SAMPS_PER_FRAME * current_bits_per_mod;
     assign bits_consumed = (state == DATA) ? (ones_lut[current_map_slice] * current_bits_per_mod) : 32'h00000000;
     assign bram_en = (s_axis_data_tvalid || (bram_addr != 0 && (bram_addr != 256))) && (state != FIFO_AFULL) && sync_word_ready;
     assign current_map_slice = map_dout;
     assign s_axis_data_tready = (bits_available - bits_consumed < 64) && sync_word_ready
             && (state != FIFO_AFULL);
     assign current_bits_per_mod = bits_per_mod[modulation];
+    
+    // The ones_past bus contains information about how many 1's exist in current_map_slice[0 : N - 1]
+    // for the index N of current_map_slice. For example, if the current_map_slice is 0101, the ones_past
+    // of the LSB is 0 as no other bits are in lower position than it. ones_past for bit index 1 is 1,
+    // as the LSB (index 0) is 1, ones_past[2] is also 1 (bit 0 is 1 and bit 1 is 0, so 1 ace), and 
+    // ones_past[3] is 2 as there are 2 1's in the bits that precede it. We need this bus to calculate
+    // the correct position to put the modulated sample on the output bus in the for loop below.
+    
     assign ones_past[0] = 0;
     assign ones_past[1] = ones_lut[current_map_slice[0 : 0]];
     assign ones_past[2] = ones_lut[current_map_slice[1 : 0]];
     assign ones_past[3] = ones_lut[current_map_slice[2 : 0]];
+    
+    //Count the input samples so that we know when the modulation
+    //sample is present in the stream
+    always@(posedge s_axis_data_aclk) begin
+        if(~s_axis_data_aresetn) 
+            input_counter <= 0;
+        else begin
+            if(s_axis_data_tvalid && s_axis_data_tready && sync_word_ready) begin
+                if(input_counter == 0)
+                    modulation = mod_t'(s_axis_data_tdata);
+                input_counter <= input_counter + 1;
+                if(input_counter == input_samps_per_frame)
+                    input_counter <= 0;
+            end
+        end
+    end
     
     // Keep a shift register of two positions for the bram enabe signal,
     // since there's a 2 cycle latency when requesting data
@@ -118,7 +129,7 @@ module data_module #
         end
         else begin
             case(state)
-                IDLE: begin
+                 IDLE: begin
                 `ifdef	CVG
                     $display("Coverage = %0.2f %%", cg_inst.get_inst_coverage());
                  `endif
@@ -191,9 +202,10 @@ module data_module #
         end
     end
     
+    // Calculate how many bits we have available in the shift register and fill it in
     always @(posedge s_axis_data_aclk) begin
         if(sync_word_ready && m_axis_data_tready && ~(state == FIFO_AFULL)) begin
-            if(((bits_available - bits_consumed) < 64) && s_axis_data_tvalid) begin
+            if(((bits_available - bits_consumed) < 64) && s_axis_data_tvalid && (input_counter != 0)) begin
                 bits_available <= bits_available - bits_consumed + 32 ; 
                 shift_reg <= (shift_reg >> bits_consumed) | s_axis_data_tdata << (bits_available - bits_consumed);
             end
@@ -232,7 +244,7 @@ module data_module #
         end
     end
     
-    /* CODE ASSERTIONS */
+     /* CODE ASSERTIONS */
     
     // There should always be at least as many bits available as we need to output
     // THis practically means that the input to this block must be enough to populate
@@ -324,4 +336,21 @@ module data_module #
 	assert property (@(posedge s_axis_data_aclk)
 	   (!m_axis_data_tvalid) |=>  $stable(sync_temp_dout) && $stable(map_dout));
 	
+   // `define	CVG
+   `ifdef CVG
+    covergroup cg @(posedge s_axis_data_aclk);
+        coverpoint state{   bins b1 = (IDLE => SYNC_WORD);
+                            bins b2 = (SYNC_WORD => DATA);
+                            bins b3 = (DATA => SYNC_WORD);
+                            bins b4 = (DATA => IDLE);
+                            bins b5 = (DATA => FIFO_AFULL);
+                            bins b6 = (SYNC_WORD => FIFO_AFULL);
+                            illegal_bins ib1 = (SYNC_WORD => IDLE);
+                            bins b7 = default;
+                            }
+    endgroup
+    
+    cg cg_inst;
+    
+    `endif
 endmodule

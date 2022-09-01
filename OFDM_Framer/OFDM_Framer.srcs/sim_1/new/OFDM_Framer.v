@@ -39,8 +39,6 @@
     
     assign wea = 1;
     
-
-
 	sync_word_module #(
        .TOTAL_CARRIERS(1024),
        .S_AXIS_TDATA_WIDTH(128)
