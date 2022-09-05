@@ -2,27 +2,18 @@
 
 
  // To run the simulation and change the modulated output of the
- // Framer, change the define to either BPSK, QPSK or QAM16, and
- // change also the parameter INPUT_SAMPLES to BPSK_INPUT_SAMPLES,
- // QPSK_INPUT_SAMPLES or QAM16_INPUT_SAMPLES respectively
+ // Framer, change the define to either BPSK, QPSK or QAM16.
  
-`define BPSK
+`define QAM16
 
-module framer_tb #(
-        parameter integer BPSK_INPUT_SAMPLES = 9000,
-        parameter integer QPSK_INPUT_SAMPLES = 18000,
-        parameter integer QAM16_INPUT_SAMPLES = 36000,
-        parameter integer INPUT_SAMPLES = BPSK_INPUT_SAMPLES,
-    
-        parameter integer BPSK_OUTPUT_SAMPLES = 51200,
-        parameter integer QPSK_OUTPUT_SAMPLES = 51200,
-        parameter integer OUTPUT_SAMPLES = BPSK_OUTPUT_SAMPLES
-    )
+module framer_tb
     ();
     
     typedef enum {IDLE, SYNC_WORD, TEMPLATE, MAP, FIN} state_t;
+    localparam OUTPUT_SAMPLES = 51200;
+    localparam S_AXIS_DATA_WIDTH = 32;
     state_t state = IDLE;
-    wire [2 : 0] mod_t;
+    wire [2 : 0] mod_index;
     reg  axis_aclk = 0;
     reg  axis_aresetn = 0;
     wire  s_axis_data_tready;
@@ -36,15 +27,15 @@ module framer_tb #(
     wire  m_axis_data_tlast;
     reg  m_axis_data_tready;
     wire  s_axis_config_tready;
-    reg [127 : 0] s_axis_config_tdata;
-    wire [(32/8)-1 : 0] s_axis_config_tstrb;
+    reg [S_AXIS_DATA_WIDTH - 1 : 0] s_axis_config_tdata;
+    wire [(S_AXIS_DATA_WIDTH/8)-1 : 0] s_axis_config_tstrb;
     reg s_axis_config_tlast = 0;
     wire  s_axis_config_tvalid;
     wire [31 : 0] sync_word [0 : 1023];
     wire [31 : 0] template [0 : 1023];
     reg [20 : 0] count = 0; 
     reg [20 : 0] sw_counter = 0;
-    reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
+    
     reg [31 : 0] output_samples[0 : OUTPUT_SAMPLES - 1];
     reg [31 : 0] map[0 : 31];
     reg [20 : 0] input_counter, output_counter;
@@ -55,27 +46,33 @@ module framer_tb #(
     reg [4 : 0] bits_per_mod [0 : 4];
     
     `ifdef BPSK
-        assign mod_t = 0;
+        assign mod_index = 0;
+        localparam INPUT_SAMPLES = 9000;
+        reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
         initial begin
-            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, BPSK_INPUT_SAMPLES - 1);
+            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, INPUT_SAMPLES - 1);
         end
         
         initial begin
             $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/output.txt", output_samples, 0, OUTPUT_SAMPLES - 1);
         end
     `elsif QPSK
-        assign mod_t = 1;
+        assign mod_index = 1;
+        localparam INPUT_SAMPLES = 18000;
+        reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
         initial begin
-            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input_qpsk.txt", input_samples, 0, QPSK_INPUT_SAMPLES - 1);
+            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input_qpsk.txt", input_samples, 0, INPUT_SAMPLES - 1);
         end
 
         initial begin
             $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/output_qpsk.txt", output_samples, 0, OUTPUT_SAMPLES - 1);
         end
     `elsif QAM16
-        assign mod_t = 2;
+        assign mod_index = 2;
+        localparam INPUT_SAMPLES = 36000;
+        reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
         initial begin
-            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input_qam16.txt", input_samples, 0, QAM16_INPUT_SAMPLES - 1);
+            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input_qam16.txt", input_samples, 0, INPUT_SAMPLES - 1);
         end
 
         initial begin
@@ -95,7 +92,7 @@ module framer_tb #(
     assign exp_output[2 * 32 +: 32] = output_samples[output_counter + 2];
     assign exp_output[3 * 32 +: 32] = output_samples[output_counter + 3];
     
-    assign s_axis_data_tdata = (modulation_samp_insert) ? mod_t : input_samples[input_counter];
+    assign s_axis_data_tdata = (modulation_samp_insert) ? mod_index : input_samples[input_counter];
     assign s_axis_config_tvalid = ((state == SYNC_WORD)) || (state == TEMPLATE) || (state == MAP);
     
     always@(posedge axis_aclk)
@@ -103,65 +100,61 @@ module framer_tb #(
         
     reg [31 : 0] cnt = 0;
     
-    assign s_axis_config_tdata = (state == SYNC_WORD) ? {output_samples[sw_counter + 3], output_samples[sw_counter + 2],
-                                    output_samples[sw_counter + 1], output_samples[sw_counter]} :
-                                  (state == TEMPLATE) ? {template[sw_counter + 3],template[sw_counter + 2],
-                                                         template[sw_counter + 1],template[sw_counter] }:
-                                  (state == MAP) ? {map[sw_counter + 3], map[sw_counter + 2],
-                                                     map[sw_counter + 1], map[sw_counter]} : 32'h00000000 ;
+    assign s_axis_config_tdata = (state == SYNC_WORD) ? output_samples[sw_counter] :
+                                  (state == TEMPLATE) ? template[sw_counter]:
+                                  (state == MAP) ? map[sw_counter] : 32'h00000000 ;
     
     
     always@ (posedge axis_aclk) begin
       cnt <= cnt + 1;
       if(s_axis_config_tready && axis_aresetn) begin
-        if(s_axis_config_tlast)
-             s_axis_config_tlast <= 0;
+        if(s_axis_config_tlast) s_axis_config_tlast <= 0;
         case(state) 
             IDLE: begin
                 state <= SYNC_WORD;
             end
             SYNC_WORD: begin
-                if(sw_counter <= 1020) begin
-                    if(sw_counter == 1020) begin
+                if(sw_counter <= 1023) begin
+                    if(sw_counter == 1023) begin
                         state <= TEMPLATE;
                         sw_counter <= 0;
                     end
                     else if(sw_counter == 1016) begin
                         s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 4;
+                        sw_counter <= sw_counter + 1;
                     end
                     else
-                        sw_counter <= sw_counter + 4;
+                        sw_counter <= sw_counter + 1;
                 end 
             end
             TEMPLATE: begin
-                if(sw_counter <= 1020) begin
+                if(sw_counter <= 1023) begin
                    // s_axis_config_tdata <= template[sw_counter];
-                    if(sw_counter == 1020) begin
+                    if(sw_counter == 1023) begin
                         state <= MAP;
                         sw_counter <= 0;
                     end
-                    else if(sw_counter == 1016) begin
+                    else if(sw_counter == 1022) begin
                         s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 4;
+                        sw_counter <= sw_counter + 1;
                     end
                     else
-                        sw_counter <= sw_counter + 4;
+                        sw_counter <= sw_counter + 1;
                 end
             end
             MAP: begin
                 if(sw_counter < 32) begin
                    // s_axis_config_tdata <= map[sw_counter];
-                    if(sw_counter == 28) begin
+                    if(sw_counter == 31) begin
                         state <= FIN;
                         sw_counter <= 0;
                     end
-                    else if(sw_counter == 24) begin
+                    else if(sw_counter == 30) begin
                         s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 4;
+                        sw_counter <= sw_counter + 1;
                     end
                     else
-                        sw_counter <= sw_counter + 4;
+                        sw_counter <= sw_counter + 1;
                 end
             end
         endcase
@@ -221,7 +214,7 @@ module framer_tb #(
     reg [20 : 0] valid_idle_duration = 1000;
     
     initial begin
-        bits_per_mod = '{1,2,4,6,8};
+        bits_per_mod <= '{1,2,4,6,8};
         input_counter <= 0;
         output_counter <= 0;
         #100 
@@ -244,7 +237,7 @@ module framer_tb #(
                     end
                     else begin
                         input_counter <= input_counter + 1;
-                        if((input_counter % (180 * bits_per_mod[mod_t])) == 180 * bits_per_mod[mod_t] - 1)
+                        if((input_counter % (180 * bits_per_mod[mod_index])) == 180 * bits_per_mod[mod_index] - 1)
                             modulation_samp_insert <= 1;
                     end
                 end
@@ -253,12 +246,12 @@ module framer_tb #(
             if(output_counter == OUTPUT_SAMPLES) 
                     $finish;
             if(s_axis_data_tready && s_axis_data_tvalid) begin
-                if(input_counter == ((180 * bits_per_mod[mod_t])  - 1)) begin
+                if(input_counter == ((180 * bits_per_mod[mod_index])  - 1)) begin
                     s_axis_data_tvalid <= 0;
                     modulation_samp_insert <= 1;
                     halted <= ii;
                 end
-                else if(input_counter == (((180 * bits_per_mod[mod_t]) * 4) - 1)) begin
+                else if(input_counter == (((180 * bits_per_mod[mod_index]) * 4) - 1)) begin
                     s_axis_data_tvalid <= 0;
                     modulation_samp_insert <= 1;
                     halted <= ii;
@@ -269,7 +262,7 @@ module framer_tb #(
                     end
                     else begin
                         input_counter <= input_counter + 1;
-                        if((input_counter % (180 * bits_per_mod[mod_t])) == 180 * bits_per_mod[mod_t] - 1)
+                        if((input_counter % (180 * bits_per_mod[mod_index])) == 180 * bits_per_mod[mod_index] - 1)
                             modulation_samp_insert <= 1;
                     end
                 end

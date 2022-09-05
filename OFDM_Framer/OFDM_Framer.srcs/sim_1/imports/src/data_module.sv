@@ -5,7 +5,10 @@ module data_module #
         parameter integer M_AXIS_TDATA_WIDTH = 128,
         parameter integer S_AXIS_TDATA_WIDTH = 32,
         parameter integer MODULATION = 0,
-        parameter integer SAMPS_PER_FRAME = 180
+        parameter integer SAMPS_PER_FRAME = 180,
+        parameter integer MAP_WIDTH = 4,
+        parameter integer TEMPLATE_WIDTH = 128,
+        parameter integer BRAM_ADDR_WIDTH = 9
         )
         (
     	input wire  s_axis_data_aclk,
@@ -15,9 +18,6 @@ module data_module #
 		input wire [(S_AXIS_TDATA_WIDTH/8)-1 : 0] s_axis_data_tstrb,
 		input wire  s_axis_data_tlast,
 		input wire  s_axis_data_tvalid,
-        input wire [31 : 0] sync_word [0 : 1023],
-        input wire [31 : 0] template [0 : 1023],
-        input wire [1023 : 0] map,
         input wire sync_word_ready,
 		output reg  m_axis_data_tvalid = 0,
 		output reg [M_AXIS_TDATA_WIDTH-1 : 0] m_axis_data_tdata,
@@ -26,20 +26,23 @@ module data_module #
 		input wire  m_axis_data_tready,
 		input wire fifo_almost_full,
 		output wire bram_en,
-		input wire [127 : 0] sync_temp_dout,
-		input wire [3 : 0] map_dout,
-		output reg [8 : 0] bram_addr
+		input wire [TEMPLATE_WIDTH - 1 : 0] sync_temp_dout,
+		input wire [MAP_WIDTH - 1 : 0] map_dout,
+		output reg [BRAM_ADDR_WIDTH - 1 : 0] bram_addr
     );
     typedef enum {BPSK, QPSK, QAM16, QAM64, QAM256} mod_t;
     typedef enum {IDLE, SYNC_WORD,MOD_SAMPLE_ON, DATA, FIFO_AFULL} state_t;
     state_t state = IDLE;
     state_t last_state = IDLE;
     mod_t modulation = BPSK;
-    reg [127 : 0] shift_reg = 0;
+    localparam sym_per_frame = 10;
+    localparam bram_size = 512;
+    localparam shift_reg_width = 128;
+    
+    reg [shift_reg_width - 1 : 0] shift_reg = 0;
     reg [7 : 0] bits_available = 0;
     wire [7 : 0] bits_consumed;
     reg [4 : 0] bits_per_mod [0 : 4];
-    reg [10 : 0] subcarrier_cnt = 0;
     reg [9 : 0] symbol_cnt = 0;
     reg [3 : 0] ones_lut[0 : 15];
     wire [3 : 0] current_map_slice;
@@ -53,9 +56,9 @@ module data_module #
 
     assign input_samps_per_frame = SAMPS_PER_FRAME * current_bits_per_mod;
     assign bits_consumed = (state == DATA) ? (ones_lut[current_map_slice] * current_bits_per_mod) : 32'h00000000;
-    assign bram_en = (s_axis_data_tvalid || (bram_addr != 0 && (bram_addr != 256))) && (state != FIFO_AFULL) && sync_word_ready;
+    assign bram_en = (s_axis_data_tvalid || (bram_addr != 0 && (bram_addr != bram_size/2))) && (state != FIFO_AFULL) && sync_word_ready;
     assign current_map_slice = map_dout;
-    assign s_axis_data_tready = (bits_available - bits_consumed < 64) && sync_word_ready
+    assign s_axis_data_tready = (bits_available - bits_consumed < (shift_reg_width/2) ) && sync_word_ready
             && (state != FIFO_AFULL);
     assign current_bits_per_mod = bits_per_mod[modulation];
     
@@ -79,7 +82,7 @@ module data_module #
         else begin
             if(s_axis_data_tvalid && s_axis_data_tready && sync_word_ready) begin
                 if(input_counter == 0)
-                    modulation = mod_t'(s_axis_data_tdata);
+                    modulation <= mod_t'(s_axis_data_tdata);
                 input_counter <= input_counter + 1;
                 if(input_counter == input_samps_per_frame)
                     input_counter <= 0;
@@ -120,7 +123,6 @@ module data_module #
     always@(posedge s_axis_data_aclk) begin
         if(~s_axis_data_aresetn) begin
             state <= IDLE;
-            subcarrier_cnt <= 0;
             bram_addr <= 0;
             symbol_cnt <= 0;
             `ifdef	CVG
@@ -140,7 +142,7 @@ module data_module #
                 end
                 SYNC_WORD: begin
                         bram_addr <= bram_addr + 1;
-                        if(bram_addr == 255) begin
+                        if(bram_addr == (bram_size/2 - 1)) begin
                             state <= DATA;
                             symbol_cnt <= symbol_cnt + 1;
                             if(fifo_almost_full) begin
@@ -150,15 +152,15 @@ module data_module #
                         end
                 end
                 DATA: begin
-                        if(bram_addr == 511) begin
+                        if(bram_addr == (bram_size - 1)) begin
                             if(fifo_almost_full) begin
                                 state <= FIFO_AFULL;
-                                if(symbol_cnt == 9 && s_axis_data_tvalid) begin
+                                if(symbol_cnt == (sym_per_frame - 1) && s_axis_data_tvalid) begin
                                     last_state <= SYNC_WORD;
                                     symbol_cnt <= 0;
                                     bram_addr <= 0;
                                 end
-                                else if((symbol_cnt == 9) && (!s_axis_data_tvalid)) begin
+                                else if((symbol_cnt == (sym_per_frame - 1)) && (!s_axis_data_tvalid)) begin
                                     last_state <= IDLE;
                                     symbol_cnt <= 0;
                                     bram_addr <= 0;
@@ -166,11 +168,11 @@ module data_module #
                                 else begin
                                     last_state <= DATA;
                                     symbol_cnt <= symbol_cnt + 1;
-                                    bram_addr <= 256;
+                                    bram_addr <= bram_size/2;
                                 end
                             end
                             else begin
-                                if(symbol_cnt == 9) begin
+                                if(symbol_cnt == (sym_per_frame - 1)) begin
                                     if(s_axis_data_tvalid)begin
                                         symbol_cnt <= 0;
                                         state <= SYNC_WORD;
@@ -184,7 +186,7 @@ module data_module #
                                 end
                                 else begin
                                     symbol_cnt <= symbol_cnt + 1;
-                                    bram_addr <= 256;
+                                    bram_addr <= bram_size/2;
                                 end
                             end
                         end
@@ -194,8 +196,6 @@ module data_module #
                 FIFO_AFULL: begin
                     if(~fifo_almost_full) begin
                         state <= last_state;
-                        if(s_axis_data_tvalid) begin
-                        end
                     end
                 end
             endcase
@@ -205,7 +205,7 @@ module data_module #
     // Calculate how many bits we have available in the shift register and fill it in
     always @(posedge s_axis_data_aclk) begin
         if(sync_word_ready && m_axis_data_tready && ~(state == FIFO_AFULL)) begin
-            if(((bits_available - bits_consumed) < 64) && s_axis_data_tvalid && (input_counter != 0)) begin
+            if(((bits_available - bits_consumed) < shift_reg_width/2 ) && s_axis_data_tvalid && (input_counter != 0)) begin
                 bits_available <= bits_available - bits_consumed + 32 ; 
                 shift_reg <= (shift_reg >> bits_consumed) | s_axis_data_tdata << (bits_available - bits_consumed);
             end
@@ -254,12 +254,12 @@ module data_module #
     end
     
     assume property (@(posedge s_axis_data_aclk)
-	   ((state != IDLE) && (state != FIFO_AFULL) && (symbol_cnt < 9)) |=> (bits_available > 0));
+	   ((state != IDLE) && (state != FIFO_AFULL) && (symbol_cnt < (sym_per_frame - 1))) |=> (bits_available > 0));
 	   
 	// Assert ranges
 	always@(posedge s_axis_data_aclk) begin
-        assert(symbol_cnt <= 9);
-        assert(subcarrier_cnt <= 1020);
+        assert(symbol_cnt <= (sym_per_frame - 1));
+        assert(bram_addr < bram_size);
         assert((state == IDLE) || (state == SYNC_WORD) || (state == DATA) || (state == FIFO_AFULL));
         assert(bits_available <= 128);
         assert((modulation == BPSK) || (modulation == QPSK) 
@@ -274,11 +274,11 @@ module data_module #
 	 
 	// Only go int FIFO_AFULL state at the end of the symbol 
 	assert property (@(posedge s_axis_data_aclk)
-	   (state == FIFO_AFULL) |-> (subcarrier_cnt == 0));
+	   (state == FIFO_AFULL) |-> (bram_addr == 0) || (bram_addr == 256));
     
     // Subcariier count should increase by 4 or be 0	   
 	assert property (@(posedge s_axis_data_aclk)
-	   ($past(subcarrier_cnt) == (subcarrier_cnt - 4)) || (subcarrier_cnt == 0));
+	   ($past(bram_addr) == (bram_addr - 1)) || ($past(bram_addr) == 511) || $stable(bram_addr));
 
 	// If output FIFO is almost full, don't output more than 256 samples before going
 	// into FIFO_AFULL state
@@ -291,18 +291,18 @@ module data_module #
 	 	
 	// Assert SYNC_WORD state transition
     assert property (@(posedge s_axis_data_aclk)
-	   (state == SYNC_WORD) && (subcarrier_cnt == 1020) && (!fifo_almost_full) |=> (state == DATA)); 
+	   (state == SYNC_WORD) && (bram_addr == 255) && (!fifo_almost_full) |=> (state == DATA)); 
 	   
     assert property (@(posedge s_axis_data_aclk)
-	   (state == SYNC_WORD) && (subcarrier_cnt == 1020) && (fifo_almost_full) |=> (state == FIFO_AFULL));  
+	   (state == SYNC_WORD) && ((bram_addr == 255) || (bram_addr == 511)) && (fifo_almost_full) |=> (state == FIFO_AFULL));  
     
     // Assert DATA state transition
     assert property (@(posedge s_axis_data_aclk)
-	   (state == DATA) && (subcarrier_cnt == 1020) && (symbol_cnt == 9) && (!fifo_almost_full) |=> 
+	   (state == DATA) && (bram_addr == 511) && (symbol_cnt == (sym_per_frame - 1)) && (!fifo_almost_full) |=> 
 	               ((state == SYNC_WORD) && (bits_available > 0)) ||
 	                  (state == IDLE) && (bits_available == 0));    
 	assert property (@(posedge s_axis_data_aclk)
-	   (state == DATA) && (subcarrier_cnt == 1020) && (symbol_cnt == 9) && (fifo_almost_full) |=> 
+	   (state == DATA) && (bram_addr == 511) && (symbol_cnt == (sym_per_frame - 1)) && (fifo_almost_full) |=> 
 	               (state == FIFO_AFULL)); 
 	               
 	// Assert FIFO_AFULL state transition
@@ -314,7 +314,7 @@ module data_module #
 	               (state != FIFO_AFULL)); 
 	// s_tready is asserted only when the available bits in the shift register are below a threshold 
 	assert property (@(posedge s_axis_data_aclk)
-	   ((bits_available - bits_consumed) < 64) && sync_word_ready && (state != FIFO_AFULL) |-> s_axis_data_tready); 
+	   ((bits_available - bits_consumed) < shift_reg_width/2 ) && sync_word_ready && (state != FIFO_AFULL) |-> s_axis_data_tready); 
 	   
 	// Make sure m_tvalid is always asserted for at least 256 cycles               
     reg [7 : 0] count_m_valid = 0;

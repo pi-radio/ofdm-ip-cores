@@ -19,8 +19,8 @@
 		output wire  m_axis_data_tlast,
 		input wire  m_axis_data_tready,
 		output wire  s_axis_config_tready,
-		input wire [127 : 0] s_axis_config_tdata,
-		input wire [(32/8)-1 : 0] s_axis_config_tstrb,
+		input wire [C_S_AXIS_DATA_TDATA_WIDTH - 1 : 0] s_axis_config_tdata,
+		input wire [(C_S_AXIS_DATA_TDATA_WIDTH/8)-1 : 0] s_axis_config_tstrb,
 		input wire  s_axis_config_tlast,
 		input wire  s_axis_config_tvalid
 	);
@@ -41,7 +41,7 @@
     
 	sync_word_module #(
        .TOTAL_CARRIERS(1024),
-       .S_AXIS_TDATA_WIDTH(128)
+       .S_AXIS_TDATA_WIDTH(C_S_AXIS_DATA_TDATA_WIDTH)
        ) sync_word_mod_inst (
         .s_axis_config_aclk(axis_aclk),
 		.s_axis_config_aresetn(axis_aresetn),
