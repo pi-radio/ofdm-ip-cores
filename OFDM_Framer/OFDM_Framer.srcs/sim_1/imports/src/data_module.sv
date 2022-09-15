@@ -227,11 +227,11 @@ module data_module #
                 for(i = 0; i < 4 ; i = i + 1) begin
                     if(current_map_slice[i]) begin
                         case(modulation)
-                                BPSK: m_axis_data_tdata[i*32 +: 32] <= mods[BPSK][shift_reg[ones_past[i]]];
-                                QPSK: m_axis_data_tdata[i*32 +: 32] <= mods[QPSK][shift_reg[ones_past[i] * 2 +: 2]];
-                                QAM16: m_axis_data_tdata[i*32 +: 32] <= mods[QAM16][shift_reg[ones_past[i] * 4 +: 4]];
-                                QAM64: m_axis_data_tdata[i*32 +: 32] <= mods[QAM64][shift_reg[ones_past[i] * 6 +: 6]];
-                                QAM256: m_axis_data_tdata[i*32 +: 32] <= mods[QAM256][shift_reg[ones_past[i] * 8 +: 8]];
+                               BPSK: m_axis_data_tdata[i*32 +: 32] <= mods[BPSK][shift_reg[ones_past[i]]];
+                               QPSK: m_axis_data_tdata[i*32 +: 32] <= mods[QPSK][shift_reg[ones_past[i] * 2 +: 2]];
+                               QAM16: m_axis_data_tdata[i*32 +: 32] <= mods[QAM16][shift_reg[ones_past[i] * 4 +: 4]];
+                               QAM64: m_axis_data_tdata[i*32 +: 32] <= mods[QAM64][shift_reg[ones_past[i] * 6 +: 6]];
+                               QAM256: m_axis_data_tdata[i*32 +: 32] <= mods[QAM256][shift_reg[ones_past[i] * 8 +: 8]];
                          endcase
                     end
                     else begin

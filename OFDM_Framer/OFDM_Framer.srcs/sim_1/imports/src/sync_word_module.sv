@@ -1,7 +1,7 @@
 module sync_word_module#
         ( 
         parameter integer TOTAL_CARRIERS = 1024,
-        parameter integer S_AXIS_TDATA_WIDTH = 128,
+        parameter integer S_AXIS_TDATA_WIDTH = 32,
         parameter integer OUT_WIDTH = 128
         )
         (
@@ -21,6 +21,8 @@ module sync_word_module#
     localparam map_byte_width = 4;
     reg sync_temp_en = 0;
     wire map_en;
+    reg ending = 0;
+    wire signed [7 : 0] subtracted_avail;
     typedef enum {IDLE, SYNC_WORD, TEMPLATE, MAP, FIN} config_state_t;
     config_state_t state = IDLE;
     reg [10 : 0] word_count = 0;
@@ -28,9 +30,10 @@ module sync_word_module#
     reg [7 : 0] bits_available = 0;
     reg [OUT_WIDTH - 1 : 0] sync_temp_reg = 0;
     
-    assign s_axis_config_tready = (state == MAP) ? (((bits_available - 4 == 0) || (bits_available == 0)) && s_axis_config_tvalid) :
+    assign  subtracted_avail = bits_available - 4;
+    assign s_axis_config_tready = (state == MAP) ? (((bits_available - 4 == 0) || 
+                        (bits_available == 0)) && !(ending && (word_count == 0))) :
                                      (!(state == FIN) && s_axis_config_aresetn);
-    //assign sync_temp_en = (s_axis_config_tvalid && s_axis_config_tready) && ((state != MAP));
     assign map_en = (bits_available > 0) && (state == MAP);
     
     always @(posedge s_axis_config_aclk) begin
@@ -70,26 +73,31 @@ module sync_word_module#
                     end
                 end
                 MAP: begin
-                    if(bits_available - 4 > 0 && bits_available != 0) begin
-                        word_count <= word_count + 1;
-                        bits_available <= bits_available - 4;
-                        map_shift_reg <= {4'h0, map_shift_reg[127 : 4]};
-                    end
-                    else if(bits_available == 0) begin
-                        map_shift_reg <= s_axis_config_tdata;
-                        bits_available <= S_AXIS_TDATA_WIDTH;
-                    end
-                    else begin
-                        if(s_axis_config_tvalid) begin
+                    if(s_axis_config_tvalid) begin
+                        if(subtracted_avail > 0) begin
+                            word_count <= word_count + 1;
+                            bits_available <= bits_available - 4;
+                            map_shift_reg <= {4'h0, map_shift_reg[127 : 4]};
+                        end
+                        else begin
                             map_shift_reg <= s_axis_config_tdata;
                             bits_available <= S_AXIS_TDATA_WIDTH;
+                            if(word_count != 0) word_count <= word_count + 1;
+                        end
+                        if(s_axis_config_tlast) ending <= 1;
+                    end
+                    else begin
+                        if(subtracted_avail > 0) begin
+                            bits_available <= bits_available - 4;
+                            map_shift_reg <= {4'h0, map_shift_reg[127 : 4]};
                             word_count <= word_count + 1;
                         end
                         else begin
-                            bits_available <= bits_available - 4;
-                            state <= FIN;
-                            structs_ready <= 1;
-                            word_count <= 0;
+                            if(ending) begin
+                                state <= FIN;
+                                word_count <= 0;
+                                structs_ready <= 1;
+                            end
                         end
                     end
                 end
