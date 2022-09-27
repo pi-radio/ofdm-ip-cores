@@ -24,6 +24,13 @@ Using Vivado batch mode
 4. After project creation is completed, add the sysgenssrfft folder to the Repositories of the project
 from the project settings.
 
+### Scaling
+
+The system generator FFT core provides the output as 26-bit I and 26-bit Q samples. For implementations that require 16 bit I and Q,
+there is a scaling switch available. In that case, the output width should be 32 * 4 = 128 bits. In case the scaling switch is set to
+0, the full scale I and Q samples are provided at the output of the ssr_FFT core, thus the output width should be set to (32 + 32) * 4 = 256
+bits.
+
 ### Limitations
 
 Due to a limitation of the system generated FFT core, the TVALID input to the ssrFFT core must be asserted every time for
