@@ -11,88 +11,125 @@ module framer_tb
     typedef enum {TB_IDLE, TB_SYNC_WORD, TB_TEMPLATE, TB_MAP, TB_FIN, TB_NOSTATE} state_tb_t;
     localparam OUTPUT_SAMPLES = 51200;
     localparam S_AXIS_DATA_WIDTH = 32;
-    localparam fft_size = 1024;
+    localparam integer fft_size = 1024;
     state_tb_t state = TB_IDLE;
-    wire [2 : 0] mod_index;
-    reg  axis_aclk = 0;
-    reg  axis_aresetn = 0;
-    wire  s_axis_data_tready;
-    wire [31 : 0] s_axis_data_tdata;
-    wire [3 : 0] s_axis_data_tstrb;
-    wire  s_axis_data_tlast;
-    reg  s_axis_data_tvalid = 0;
-    wire  m_axis_data_tvalid;
-    wire [127 : 0] m_axis_data_tdata;
-    wire [3 : 0] m_axis_data_tstrb;
-    wire  m_axis_data_tlast;
-    reg  m_axis_data_tready;
-    wire  m_axis_log_tvalid;
-    wire [31 : 0] m_axis_log_tdata;
-    wire [3 : 0] m_axis_log_tstrb;
-    wire  m_axis_log_tlast;
-    reg  m_axis_log_tready;
+    logic [2 : 0] mod_index;
+    logic  axis_aclk = 0;
+    logic  axis_aresetn = 0;
+    logic  s_axis_data_tready;
+    logic [31 : 0] s_axis_data_tdata;
+    logic [3 : 0] s_axis_data_tstrb;
+    logic  s_axis_data_tlast;
+    logic  s_axis_data_tvalid = 0;
+    logic  m_axis_data_tvalid;
+    logic [127 : 0] m_axis_data_tdata;
+    logic [3 : 0] m_axis_data_tstrb;
+    logic  m_axis_data_tlast;
+    logic  m_axis_data_tready;
+    logic  m_axis_log_tvalid;
+    logic [31 : 0] m_axis_log_tdata;
+    logic [3 : 0] m_axis_log_tstrb;
+    logic  m_axis_log_tlast;
+    logic  m_axis_log_tready;
     
-    wire  s_axis_config_tready;
-    reg [S_AXIS_DATA_WIDTH - 1 : 0] s_axis_config_tdata;
-    wire [(S_AXIS_DATA_WIDTH/8)-1 : 0] s_axis_config_tstrb;
-    reg s_axis_config_tlast = 0;
-    wire  s_axis_config_tvalid;
-    wire [31 : 0] sync_word [0 : 1023];
-    wire [31 : 0] template [0 : 1023];
-    reg [20 : 0] count = 0; 
-    reg [20 : 0] sw_counter = 0;
+    logic  s_axis_config_tready;
+    logic [S_AXIS_DATA_WIDTH - 1 : 0] s_axis_config_tdata;
+    logic [(S_AXIS_DATA_WIDTH/8)-1 : 0] s_axis_config_tstrb;
+    logic s_axis_config_tlast = 0;
+    logic [31 : 0] sync_word [0 : 1023];
+    logic [31 : 0] template [0 : 1023];
+    logic [20 : 0] count = 0; 
     
-    reg [31 : 0] output_samples[0 : OUTPUT_SAMPLES - 1];
-    reg [31 : 0] map[0 : 31];
-    reg [20 : 0] input_counter, output_counter;
+    logic [31 : 0] output_samples[0 : OUTPUT_SAMPLES - 1];
+    logic [31 : 0] map[0 : 31];
+    logic [20 : 0] input_counter, output_counter;
     logic [127 : 0] exp_output;
-    reg [31 : 0] rand_int;
-    reg i;
-    reg modulation_samp_insert = 1;
-    reg [4 : 0] bits_per_mod [0 : 4];
-    reg [20 : 0] count_m_valid = 0;
-    reg [20 : 0] count_delay = 0;
+    logic [31 : 0] rand_int;
+    logic i;
+    logic modulation_samp_insert = 1;
+    logic [4 : 0] bits_per_mod [0 : 4];
+    logic [20 : 0] count_m_valid = 0;
+    logic [20 : 0] count_delay = 0;
     logic [31 : 0] output_array[0 : 3];
     
+    logic s_axis_config_tvalid;
+    
+    event map_loaded;
+    
+    localparam string path =  "../../../../../../OFDM_Framer.srcs/sim_1/new/";
+
     assign sync_word = output_samples[0 : 1023];
     assign template = output_samples[1024 : 2047];
+    
+    localparam map_filename = { path, "map.txt" };
+    
+    `ifdef BPSK
+    localparam INPUT_SAMPLES = 900;
+    assign mod_index = 0;
+    
+    localparam string input_filename = { path, "input.txt" };    
+    localparam string output_filename = { path, "output.txt" };    
+    `endif
+    
+    /*
     `ifdef BPSK
         assign mod_index = 0;
         localparam INPUT_SAMPLES = 900;
-        reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
+        logic [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
         initial begin
-            $readmemh("../../../../../OFDM_Framer.srcs/sim_1/new/input.txt", input_samples, 0, INPUT_SAMPLES - 1);
+            filename = { path, "input.txt" };
+            $display("Reading %s", filename);
+            $readmemh(filename, input_samples, 0, INPUT_SAMPLES - 1);
         end     
         initial begin
-            $readmemh("../../../../../OFDM_Framer.srcs/sim_1/new/output.txt", output_samples, 0, OUTPUT_SAMPLES - 1);
+            $readmemh({ path, "output.txt" }, output_samples, 0, OUTPUT_SAMPLES - 1);
         end
     `elsif QPSK
         assign mod_index = 1;
         localparam INPUT_SAMPLES = 1800;
-        reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
+        logic [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
         initial begin
-            $readmemh("../../../../../OFDM_Framer.srcs/sim_1/new/input_qpsk.txt", input_samples, 0, INPUT_SAMPLES - 1);
+            $readmemh({ path, "input_qpsk.txt" }, input_samples, 0, INPUT_SAMPLES - 1);
         end
 
         initial begin
-            $readmemh("../../../../../OFDM_Framer.srcs/sim_1/new/output_qpsk.txt", output_samples, 0, OUTPUT_SAMPLES - 1);
+            $readmemh({ path, "output_qpsk.txt" }, output_samples, 0, OUTPUT_SAMPLES - 1);
         end
     `elsif QAM16
         assign mod_index = 2;
         localparam INPUT_SAMPLES = 3600;
-        reg [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
+        logic [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
         initial begin
-            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/input_qam16.txt", input_samples, 0, INPUT_SAMPLES - 1);
+            $readmemh({ path, "input_qam16.txt" }, input_samples, 0, INPUT_SAMPLES - 1);
         end
 
         initial begin
-            $readmemh("../../../../OFDM_Framer.srcs/sim_1/new/output_qam16.txt", output_samples, 0, OUTPUT_SAMPLES - 1);
+            $readmemh({ path, "output_qam16.txt" }, output_samples, 0, OUTPUT_SAMPLES - 1);
         end
     `endif
+    */
     
-    initial begin
-        $readmemh("../../../../../OFDM_Framer.srcs/sim_1/new/map.txt", map, 0, 31);
-    end
+    logic [31 : 0] input_samples[0 : INPUT_SAMPLES - 1];
+    
+    task read_files();
+        int i = 0;
+        
+        $display("Reading input data from: %s", input_filename);
+        $readmemh(input_filename, input_samples, 0, INPUT_SAMPLES - 1);
+        
+        $display("Reading output data from: %s", output_filename);  
+        $readmemh(output_filename, output_samples, 0, OUTPUT_SAMPLES - 1);
+              
+        $display("Reading map from: %s", map_filename);
+        $readmemh(map_filename, map, 0, 31);
+    
+        @(posedge axis_aclk);
+    
+        for (i = 0; i < 1024; i += 4) begin
+            $display("Template %x: %0x %0x", i / 4, map[i/32][(i%32)+:4], { template[i+3], template[i+2], template[i+1], template[i] });
+        end
+        
+    endtask
     
     assign exp_output[0 * 32 +: 32] = output_samples[output_counter];
     assign exp_output[1 * 32 +: 32] = output_samples[output_counter + 1];
@@ -104,70 +141,128 @@ module framer_tb
     assign output_array[2] = output_samples[output_counter + 2];
     assign output_array[3] = output_samples[output_counter + 3];
     
-    assign s_axis_data_tdata = (modulation_samp_insert) ? (mod_index + 1) : input_samples[input_counter];
-    assign s_axis_config_tvalid = ((state == TB_SYNC_WORD)) || (state == TB_TEMPLATE) || (state == TB_MAP);
-    
+
     always@(posedge axis_aclk)
         rand_int = $random;
         
-    reg [31 : 0] cnt = 0;
+    logic [31 : 0] cnt = 0;
     
-    assign s_axis_config_tdata = (state == TB_SYNC_WORD) ? output_samples[sw_counter] :
-                                  (state == TB_TEMPLATE) ? template[sw_counter]:
-                                  (state == TB_MAP) ? ((map[sw_counter / 32] & (1 << sw_counter % 32))
-                                                 ? {31'h0000000, 1'b1} : 32'h00000000) : 32'h00000000 ;
+    integer j;
     
-    always@ (posedge axis_aclk) begin
-      
-      if(s_axis_config_tready && axis_aresetn) begin
-        if(s_axis_config_tlast) s_axis_config_tlast <= 0;
-        case(state) 
-            TB_IDLE: begin
-                state <= TB_SYNC_WORD;
-            end
-            TB_SYNC_WORD: begin
-                if(sw_counter <= 1023) begin
-                    if(sw_counter == 1023) begin
-                        state <= TB_TEMPLATE;
-                        sw_counter <= 0;
+    initial
+    begin
+        m_axis_data_tready <= 0;
+        s_axis_config_tdata <= 0;
+        s_axis_config_tvalid <= 0;
+        s_axis_config_tstrb <= 4'hf;
+        bits_per_mod <= '{1,2,4,6,8};
+        input_counter <= 0;
+        output_counter <= 0;
+        m_axis_data_tready <= 0;
+        s_axis_data_tlast <= 0;
+        s_axis_data_tstrb <= 0;
+        s_axis_data_tdata <= 0;
+
+        read_files();
+
+
+        repeat (10)  @(posedge axis_aclk); // Let BRAMs boot
+
+        axis_aresetn <= 1;
+
+        wait(axis_aresetn);
+        
+        // Let the BRAMs come out of reset
+        repeat (30) @(posedge axis_aclk);
+        
+        for (j = 0; j < 1024; j++) begin
+            @(posedge axis_aclk);
+            s_axis_config_tdata <= sync_word[j];
+            s_axis_config_tvalid <= 1;
+            s_axis_config_tlast <= (j == 1023);
+        end
+        
+        for (j = 0; j < 1024; j++) begin
+            @(posedge axis_aclk);
+            s_axis_config_tdata <= template[j];
+            s_axis_config_tvalid <= 1;
+            s_axis_config_tlast <= 0; 
+            @(posedge axis_aclk);
+            s_axis_config_tdata <=  ((map[j / 32] & (1 << j % 32)) ? {31'h0, 1'b1} : 32'h0);
+            s_axis_config_tvalid <= 1;            
+            s_axis_config_tlast <= (j == fft_size - 1); 
+        end
+        
+        @(posedge axis_aclk);
+        s_axis_config_tvalid <= 0;            
+        s_axis_config_tlast <= 0; 
+        
+        ->map_loaded;
+        
+        fork
+            begin
+                m_axis_data_tready <= 1;
+
+                if (0) begin
+                    while (1) begin
+                        wait(count_m_valid % 256 == 255);
+                        m_axis_data_tready <= 0;
+                        repeat (64) @(posedge axis_aclk);
+                        m_axis_data_tready <= 1;
                     end
-                    else if(sw_counter == 1022) begin
-                        s_axis_config_tlast <= 1;
-                        sw_counter <= sw_counter + 1;
-                    end
-                    else
-                        sw_counter <= sw_counter + 1;
-                end 
-            end
-            TB_TEMPLATE: begin
-                state <= TB_MAP;
-                if(sw_counter == fft_size - 1) s_axis_config_tlast <= 1;
-            end
-            TB_MAP: begin
-                if(sw_counter < fft_size - 1) begin
-                    sw_counter <= sw_counter + 1;
-                    state <= TB_TEMPLATE;
-                end
-                else begin
-                    state <= TB_FIN;
-                    sw_counter <= 0;
                 end
             end
-            TB_NOSTATE: begin
-                cnt <= cnt + 1;
-                if(cnt > 2000) begin
-                    state <= TB_MAP;
-                    sw_counter <= 0;
+        join_none;
+        
+        @(posedge axis_aclk);
+        
+        for (repetitions = 0; repetitions < rep_limit; repetitions++) begin
+            while (input_counter < INPUT_SAMPLES) begin
+                s_axis_data_tvalid <= 1;
+                s_axis_data_tdata <= mod_index + 1;
+                do @(posedge axis_aclk); while(~s_axis_data_tready);
+            
+                for (k = 0; k < 180 * bits_per_mod[mod_index]; k++) begin
+                    s_axis_data_tdata <= input_samples[input_counter];
+                    input_counter <= input_counter + 1;
+                    do @(posedge axis_aclk); while(~s_axis_data_tready);
                 end
             end
-        endcase
-      end
+        end
+        
+    end
+    
+    integer mismatches = 0;
+    integer k;
+    
+    logic [31:0] recv_samples[0:3];
+    
+    always_comb begin
+        recv_samples[0] = m_axis_data_tdata[0+:32];
+        recv_samples[1] = m_axis_data_tdata[32+:32];
+        recv_samples[2] = m_axis_data_tdata[64+:32];
+        recv_samples[3] = m_axis_data_tdata[96+:32];
     end
     
     always@(posedge axis_aclk) begin
-        if(m_axis_data_tvalid && m_axis_data_tready)
-            if(exp_output != m_axis_data_tdata)
-                $display("Data Missmatch at count 0x%0h", output_counter);
+        if(m_axis_data_tvalid && m_axis_data_tready) begin
+            if(exp_output != m_axis_data_tdata) begin
+                $display("Data Missmatch at count 0x%0h exp: 0x%0h got: 0x%0h", output_counter, exp_output, m_axis_data_tdata);
+                mismatches += 1;
+                
+                for (k = -12; k < 12; k += 4) begin
+                    $display("%x: 0x%0h", (output_counter + k) / 4, 
+                             { output_samples[output_counter + k + 3], output_samples[output_counter + k + 2],
+                               output_samples[output_counter + k + 1], output_samples[output_counter + k + 0]  }); 
+                end
+                
+                $stop;
+            end else begin
+                $display("Match (count 0x%0h): 0x%0h", output_counter, m_axis_data_tdata); 
+            end
+            
+            output_counter += 4;
+        end
     end
     
     OFDM_Framer dut(
@@ -187,24 +282,11 @@ module framer_tb
 		s_axis_config_tlast,
 		s_axis_config_tvalid
     );
+    
+    
+    
     assign m_axis_log_tready = 1;
-    always@(posedge axis_aclk) begin
-        if(axis_aresetn) begin
-            if(m_axis_data_tvalid) begin
-                if(count_m_valid % 256 == 255) begin
-                    m_axis_data_tready <= 0;
-                    count_delay <= count_delay + 1;
-                    if(count_delay == 63) begin
-                        m_axis_data_tready <= 1;
-                        count_delay <= 0;
-                        count_m_valid <= count_m_valid + 1;
-                    end
-                end
-                else
-                    count_m_valid <= count_m_valid + 1;
-            end
-        end
-    end
+
     
     initial begin
         forever #5 axis_aclk = ~axis_aclk;
@@ -222,75 +304,20 @@ module framer_tb
 	   m_axis_data_tvalid && !m_axis_data_tready && axis_aresetn
 	       |=> m_axis_data_tvalid && $stable(m_axis_data_tdata));
 	       
-    reg [20 : 0] ii;
-    reg [20 : 0] init_cnt = 0;
-    reg [20 : 0] halted = 0;
-    reg [20 : 0] valid_idle_duration = 7000;
+    logic [20 : 0] ii;
+    logic [20 : 0] init_cnt = 0;
+    logic [20 : 0] halted = 0;
+    logic [20 : 0] valid_idle_duration = 7000;
     logic [3 : 0] repetitions = 0;
     localparam rep_limit = 10;
     
-    initial begin
-        bits_per_mod <= '{1,2,4,6,8};
-        input_counter <= 0;
-        output_counter <= 0;
-        #100 
-        @(posedge axis_aclk);
-        axis_aresetn <= 1;
-        
-        #61000
-        @(posedge axis_aclk);
-        s_axis_data_tvalid <= 1;
-        m_axis_data_tready <= 1;
-        
-        for(ii = 0 ; ii< OUTPUT_SAMPLES * 10; ii++) begin
-            @(posedge axis_aclk)
-            if(halted + valid_idle_duration < ii) begin
-                if(halted != 0) begin
-                    halted <= 0;
-                    s_axis_data_tvalid <= 1;
-                    if(input_counter % 180 == 20'h0000 && modulation_samp_insert) begin
-                        modulation_samp_insert <= 0;
-                    end
-                    else begin
-                        input_counter <= (input_counter < INPUT_SAMPLES - 1) ? input_counter + 1 : 0;
-                        if((input_counter % (180 * bits_per_mod[mod_index])) == 180 * bits_per_mod[mod_index] - 1)
-                            modulation_samp_insert <= 1;
-                    end
-                end
-            end
-                
-            if(repetitions == rep_limit) 
-                    $finish;
-            if(s_axis_data_tready && s_axis_data_tvalid) begin
-                if(input_counter == ((180 * bits_per_mod[mod_index]) - 1 )) begin
-                    s_axis_data_tvalid <= 0;
-                    modulation_samp_insert <= 1;
-                    halted <= ii;
-                    valid_idle_duration = rand_int[13 : 0];
-                end
-                else if(input_counter == (((180 * bits_per_mod[mod_index]) * 4 - 1))) begin
-                    s_axis_data_tvalid <= 0;
-                    modulation_samp_insert <= 1;
-                    halted <= ii;
-                    valid_idle_duration = rand_int[13 : 0];
-                end
-                else begin
-                    if(input_counter % 180 == 20'h0000 && modulation_samp_insert) begin
-                        modulation_samp_insert <= 0;
-                    end
-                    else begin
-                        input_counter <= (input_counter < INPUT_SAMPLES - 1) ? input_counter + 1 : 0;
-                        if((input_counter % (180 * bits_per_mod[mod_index])) == 180 * bits_per_mod[mod_index] - 1)
-                            modulation_samp_insert <= 1;
-                    end
-                end
-            end
-            if(m_axis_data_tready && m_axis_data_tvalid) begin
-                    output_counter <= (output_counter < OUTPUT_SAMPLES - 4) ? output_counter + 4 : 0;
-                    if(output_counter == OUTPUT_SAMPLES - 4)
-                        repetitions <= repetitions + 1;
-            end
-        end
-    end
+    integer k;
     
+    always @(posedge axis_aclk) begin
+        if (~axis_aresetn) begin
+            count_m_valid <= 0;
+        end else if (m_axis_data_tvalid & m_axis_data_tready) begin
+            count_m_valid <= count_m_valid + 1;
+        end
+    end 
 endmodule

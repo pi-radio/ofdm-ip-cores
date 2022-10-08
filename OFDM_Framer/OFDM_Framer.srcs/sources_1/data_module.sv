@@ -1,8 +1,9 @@
 `timescale 1ns / 1ps
-import piradio_ofdm::*;
 
-module data_module #
-        (
+
+module data_module
+        import piradio_ofdm::*;
+        #(
         parameter integer M_AXIS_TDATA_WIDTH = 128,
         parameter integer S_AXIS_TDATA_WIDTH = 32,
         parameter integer TOTAL_CARRIERS = 1024,
@@ -13,20 +14,20 @@ module data_module #
         parameter integer BRAM_FIFO_LATENCY = 3
         )
         (
-    	input wire  s_axis_data_aclk,
-		input wire  s_axis_data_aresetn,
-		output wire  s_axis_data_tready,
-		input wire [S_AXIS_TDATA_WIDTH-1 : 0] s_axis_data_tdata,
-		input wire [(S_AXIS_TDATA_WIDTH/8)-1 : 0] s_axis_data_tstrb,
-		input wire  s_axis_data_tlast,
-		input wire  s_axis_data_tvalid,
-		output wire  m_axis_data_tvalid,
-		output reg [M_AXIS_TDATA_WIDTH-1 : 0] m_axis_data_tdata,
-		output reg [M_AXIS_TDATA_WIDTH-1 : 0] m_axis_data_tstrb,
-		output wire  m_axis_data_tlast,
-		input wire  m_axis_data_tready,
-		input wire fifo_almost_full,
-		input wire structs_ready,
+    	input logic  s_axis_data_aclk,
+		input logic  s_axis_data_aresetn,
+		output logic  s_axis_data_tready,
+		input logic [S_AXIS_TDATA_WIDTH-1 : 0] s_axis_data_tdata,
+		input logic [(S_AXIS_TDATA_WIDTH/8)-1 : 0] s_axis_data_tstrb,
+		input logic  s_axis_data_tlast,
+		input logic  s_axis_data_tvalid,
+		output logic  m_axis_data_tvalid,
+		output logic [M_AXIS_TDATA_WIDTH-1 : 0] m_axis_data_tdata,
+		output logic [M_AXIS_TDATA_WIDTH-1 : 0] m_axis_data_tstrb,
+		output logic  m_axis_data_tlast,
+		input logic  m_axis_data_tready,
+		input logic fifo_almost_full,
+		input logic structs_ready,
 		bram_fifo_in_iface.master bram_syncw_bus,
 		bram_fifo_in_iface.master bram_temp_bus
     );
@@ -40,7 +41,7 @@ module data_module #
     logic [S_AXIS_TDATA_WIDTH - 1 : 0] samples_out[0 : MAP_WIDTH - 1];
     state_t state, last_state;
     localparam sym_per_frame = 10;
-    logic [BRAM_FIFO_LATENCY - 1 : 0] fifo_afull_shift_reg = 0;
+    logic [BRAM_FIFO_LATENCY - 1 : 0] fifo_afull_shift_logic = 0;
     
     // Create interfaces
     bram_fifo_out_iface #(.WIDTH(128)) bram_fifo_syncw_out();
@@ -49,13 +50,13 @@ module data_module #
     parser_to_mod_iface parser_to_mod_bus(s_axis_data_aclk, s_axis_data_aresetn);
     piradio_framer_data_modulator_out_iface#(.SRC_DATA_WIDTH(32)) fdm_bus();
     
-    assign s_axis_data_tready = frame_parser_bus.src_rdy;
+    always_comb
+        s_axis_data_tready = frame_parser_bus.src_rdy & structs_ready;
     
     piradio_bram_fifo syncw_bram_fifo
     (
         .clk(s_axis_data_aclk),
         .resetn(s_axis_data_aresetn),
-        .enable(enable_syncw),
         .bram_fifo_in(bram_syncw_bus),
         .bram_fifo_out(bram_fifo_syncw_out)
     );
@@ -64,21 +65,22 @@ module data_module #
     (
         .clk(s_axis_data_aclk),
         .resetn(s_axis_data_aresetn),
-        .enable(enable_temp),
         .bram_fifo_in(bram_temp_bus),
         .bram_fifo_out(bram_fifo_temp_out)
     );
     
-    assign frame_parser_bus.src_valid = s_axis_data_tvalid;
-    assign frame_parser_bus.src_data = s_axis_data_tdata;
-    assign samples_out_rdy = m_axis_data_tready && structs_ready && !fifo_afull_shift_reg[0];
+    always_comb
+        frame_parser_bus.src_valid = s_axis_data_tvalid;
+    always_comb 
+        frame_parser_bus.src_data = s_axis_data_tdata;
+    always_comb 
+        samples_out_rdy = m_axis_data_tready && structs_ready && !fifo_afull_shift_logic[0];
     
-    assign m_axis_data_tdata = {samples_out[3], samples_out[2], samples_out[1], samples_out[0]};
-    assign m_axis_data_tvalid = samples_out_valid;
-    
-    always@(posedge s_axis_data_aclk)
-        fifo_afull_shift_reg <= {(state == FIFO_AFULL), fifo_afull_shift_reg[BRAM_FIFO_LATENCY - 1 : 1]};
-    
+    always_comb 
+        m_axis_data_tdata = {samples_out[3], samples_out[2], samples_out[1], samples_out[0]};
+    always_comb 
+        m_axis_data_tvalid = samples_out_valid;
+        
     piradio_frame_parser frame_parser(
         .frame_parser_bus(frame_parser_bus),
         .parser_to_mod_bus(parser_to_mod_bus.master)
@@ -101,6 +103,11 @@ module data_module #
         .samples_out(samples_out)
     );
     
+
+    `ifdef OLD_CODE
+    always@(posedge s_axis_data_aclk)
+        fifo_afull_shift_logic <= {(state == FIFO_AFULL), fifo_afull_shift_logic[BRAM_FIFO_LATENCY - 1 : 1]};
+
 
     always@(posedge s_axis_data_aclk) begin
         if(~s_axis_data_aresetn) begin
@@ -207,11 +214,11 @@ module data_module #
     
     // Do not request next symbol if FIFO doesnt have enough space available
 	assert property (@(posedge s_axis_data_aclk)
-	   (fifo_afull_shift_reg[0]) |=> (!samples_out_valid));
+	   (fifo_afull_shift_logic[0]) |=> (!samples_out_valid));
 	 
 //	// Only go int FIFO_AFULL state at the end of the symbol 
 //	assert property (@(posedge s_axis_data_aclk)
-//	   (fifo_afull_shift_reg[0]) |=> (enable_syncw && bram_syncw_bus.bram_addr == 0) || (enable_temp && bram_temp_bus.bram_addr == 0));
+//	   (fifo_afull_shift_logic[0]) |=> (enable_syncw && bram_syncw_bus.bram_addr == 0) || (enable_temp && bram_temp_bus.bram_addr == 0));
     
     // Addresses should increase by 1 or be 0	   
 	assert property (@(posedge s_axis_data_aclk)
@@ -253,7 +260,7 @@ module data_module #
  
 	   
 	// Make sure m_tvalid is always asserted for at least 256 cycles               
-    reg [7 : 0] count_m_valid = 0;
+    logic [7 : 0] count_m_valid = 0;
 	always @(posedge s_axis_data_aclk) begin
         if(m_axis_data_tvalid && m_axis_data_tready)
             count_m_valid <= count_m_valid + 1;
@@ -288,6 +295,8 @@ module data_module #
     endgroup
     
     cg cg_inst;
+    
+    `endif
     
     `endif
 endmodule

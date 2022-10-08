@@ -1,9 +1,8 @@
-import piradio_ofdm::*;
-
-module piradio_bram_fifo(
+module piradio_bram_fifo
+    import piradio_ofdm::*;
+    (
         input wire clk,
         input wire resetn,
-        input wire enable,
         bram_fifo_in_iface.master bram_fifo_in,
         bram_fifo_out_iface.master bram_fifo_out
     );
@@ -30,16 +29,16 @@ module piradio_bram_fifo(
             bram_last <= {bram_fifo_in.BRAM_LATENCY{1'b0}};
         end else begin
             bram_valid <= { bram_fifo_in.bram_rd_en, bram_valid[bram_fifo_in.BRAM_LATENCY-1:1] };
-            bram_last <= { bram_fifo_in.bram_addr == {bram_fifo_in.BRAM_ADDR_WIDTH{1'b1}} - bram_fifo_in.N_BEFORE_LAST,
+            bram_last <= { bram_fifo_in.bram_addr == {bram_fifo_in.BRAM_ADDR_WIDTH{1'b1}},
                                  bram_last[bram_fifo_in.BRAM_LATENCY-1:1] };
         end
     end
     
-    assign bram_fifo_in.bram_rd_en = ((cache_valid_cnt + inflight_cnt) < CACHE_DEPTH) && bram_fifo_out.fifo_rdy && enable;
+    assign bram_fifo_in.bram_rd_en = ((cache_valid_cnt + inflight_cnt) < CACHE_DEPTH); //  && bram_fifo_out.fifo_rdy
 
     always @(posedge clk)
     begin
-        if (~resetn) begin
+        if (~resetn || bram_fifo_in.fifo_restart || bram_fifo_out.fifo_restart) begin
             bram_fifo_in.bram_addr <= 0;
         end else if (bram_fifo_in.bram_rd_en) begin
             bram_fifo_in.bram_addr <= bram_fifo_in.bram_addr + 1;
@@ -55,7 +54,7 @@ module piradio_bram_fifo(
     
     always @(posedge clk)
     begin
-        if (~resetn) begin
+        if (~resetn || bram_fifo_in.fifo_restart || bram_fifo_out.fifo_restart) begin
             inflight_cnt <= 0;            
             cache_valid_cnt <= 0;
             cache_shift_reg <= 0;

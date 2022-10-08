@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
-import piradio_ofdm::*;
 
 module piradio_framer_data_modulator 
+    import piradio_ofdm::*;
     (
         parser_to_mod_iface.slave parser_to_mod_bus,
         piradio_framer_data_modulator_out_iface.master fdm_bus
@@ -9,9 +9,9 @@ module piradio_framer_data_modulator
     
     integer bits_available, bits_consumed, space_avail;
     
-    localparam SHIFT_REG_WIDTH = fdm_bus.SRC_DATA_WIDTH * 2;
+    localparam SHIFT_REG_WIDTH = $bits(fdm_bus.samples) * 2;
     
-    logic [SHIFT_REG_WIDTH - 1:0] 	  shift_reg;
+    (* mark_debug = "true" *) logic [SHIFT_REG_WIDTH - 1:0] 	  shift_reg;
     
     assign space_avail = SHIFT_REG_WIDTH - bits_available;
    
@@ -22,6 +22,8 @@ module piradio_framer_data_modulator
     assign parser_to_mod_bus.dst_rdy = (space_avail >= fdm_bus.SRC_DATA_WIDTH);
     
     genvar i;
+    
+    
     
     ofdm_symbol_t symbols[0:3];
     
@@ -34,36 +36,48 @@ module piradio_framer_data_modulator
                             (modulation == QAM256) ? shift_reg[i * 8 +: 8] :
                             8'b0;
                             
-        assign fdm_bus.samples[i] = modulations[parser_to_mod_bus.modulation].constellation[symbols[i]];
+        assign fdm_bus.samples[i] = cur_mod.constellation[symbols[i]];
     end
 
     integer total_samples_valid;
+   
+   
+    modulation_t cur_mod;
     
-    always_comb
-        total_samples_valid = bits_available / modulations[parser_to_mod_bus.modulation].bits_per_symbol;
+    always_comb cur_mod = modulations[modulation];
         
-    
+    always_comb
+        total_samples_valid = (modulation != MOD_NONE) ? bits_available / cur_mod.bits_per_symbol : 0;
 
-    assign fdm_bus.samples_valid = (total_samples_valid > fdm_bus.MAX_SYMBOLS) ? fdm_bus.MAX_SYMBOLS : total_samples_valid;
+    always_comb fdm_bus.samples_valid = (total_samples_valid > fdm_bus.MAX_SYMBOLS) ? fdm_bus.MAX_SYMBOLS : total_samples_valid;
     
-    assign bits_consumed = fdm_bus.samples_rdy * modulations[parser_to_mod_bus.modulation].bits_per_symbol;
+    always_comb bits_consumed = fdm_bus.samples_rdy * cur_mod.bits_per_symbol;
    
     // Using a temporary here to make the code easier to read
     // but still use a non-blocking assignment at the end so synthesis
     // doesn't cock it up.
     integer new_bits_available;
     logic [SHIFT_REG_WIDTH - 1:0] new_shift_reg;
+    
+    
+    logic [7:0] samples_last_cnt, new_samples_last_cnt;
+
+    always_comb fdm_bus.samples_last = ((samples_last_cnt > 0) && (fdm_bus.samples_rdy == samples_last_cnt));
 
     always @(posedge parser_to_mod_bus.clk) begin
         if (~parser_to_mod_bus.rstn) begin
-            bits_available = 0;
+            new_bits_available = 0;
+            new_shift_reg = 0;
+            new_samples_last_cnt = 0;
         end else begin
             new_bits_available = bits_available;
             new_shift_reg = shift_reg;
+            new_samples_last_cnt = samples_last_cnt;
             
             if(fdm_bus.samples_rdy && fdm_bus.samples_rdy <= fdm_bus.samples_valid) begin
                 new_bits_available = new_bits_available - bits_consumed;
                 new_shift_reg = new_shift_reg >> bits_consumed;
+                new_samples_last_cnt = (new_samples_last_cnt > fdm_bus.samples_rdy) ? new_samples_last_cnt - fdm_bus.samples_rdy : 0;
             end
     
             if(parser_to_mod_bus.dst_rdy && parser_to_mod_bus.dst_valid) begin
@@ -72,16 +86,19 @@ module piradio_framer_data_modulator
                     if (parser_to_mod_bus.modulation == modulation) begin
                         new_shift_reg |= parser_to_mod_bus.dst_data << new_bits_available;
                         new_bits_available += fdm_bus.SRC_DATA_WIDTH;
+                        new_samples_last_cnt += parser_to_mod_bus.dst_last ? new_bits_available / cur_mod.bits_per_symbol : 0;
                     end
                 end else begin
                     modulation <= parser_to_mod_bus.modulation;
                     new_shift_reg = parser_to_mod_bus.dst_data;
                     new_bits_available = fdm_bus.SRC_DATA_WIDTH;        
+                    new_samples_last_cnt += parser_to_mod_bus.dst_last ? new_bits_available / cur_mod.bits_per_symbol : 0;
                 end 
             end
-            bits_available <= new_bits_available;
-            shift_reg <= new_shift_reg;
         end
+        bits_available <= new_bits_available;
+        shift_reg <= new_shift_reg;
+        samples_last_cnt <= new_samples_last_cnt;
     end
     
 	// s_tready is asserted only when the available bits in the shift register are below a threshold 
@@ -90,6 +107,9 @@ module piradio_framer_data_modulator
 	            (fdm_bus.samples_rdy && fdm_bus.samples_rdy <= fdm_bus.samples_valid) |-> parser_to_mod_bus.dst_rdy);
 	
 	always@(posedge parser_to_mod_bus.clk) begin
-        assume(bits_available >= bits_consumed);
+        assert(bits_available >= bits_consumed) else begin
+            $display("Bits available (%d) < Bits consumed (%d)", bits_available, bits_consumed);
+            $stop;
+        end
     end
 endmodule

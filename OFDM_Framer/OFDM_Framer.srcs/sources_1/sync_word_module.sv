@@ -36,8 +36,9 @@ module sync_word_module#
         if ( s_axis_config_aresetn == 1'b0 ) begin
             word_count <= 0;
             structs_ready <= 0;
-        end
-        else begin
+            bram_syncw_bus.fifo_restart <= 0;
+            bram_temp_bus.fifo_restart <= 0;
+        end else begin
             if(syncw_in_en) syncw_in_en <= 0;
             if(temp_in_en) temp_in_en <= 0;
             case(state)
@@ -46,6 +47,8 @@ module sync_word_module#
                         state <= SYNC_WORD;
                         word_count <= word_count + 1;
                         sync_word_reg <= {s_axis_config_tdata, sync_word_reg[S_AXIS_TDATA_WIDTH +: (OUT_WIDTH - S_AXIS_TDATA_WIDTH)]};
+                        bram_syncw_bus.fifo_restart <= 0;
+                        bram_temp_bus.fifo_restart <= 0; 
                     end
                 end
                 SYNC_WORD: begin
@@ -54,12 +57,16 @@ module sync_word_module#
                         sync_word_reg <= {s_axis_config_tdata, sync_word_reg[S_AXIS_TDATA_WIDTH +: (OUT_WIDTH - S_AXIS_TDATA_WIDTH)]};
                         if((word_count + 1) % 4 == 0) syncw_in_en <= 1;
                         if(s_axis_config_tlast) state <= TEMPLATE;
+                        bram_syncw_bus.fifo_restart <= 0;
+                        bram_temp_bus.fifo_restart <= 0; 
                     end
                 end
                 TEMPLATE: begin
                     if(s_axis_config_tvalid && s_axis_config_tready) begin
                         temp_map_reg <= {s_axis_config_tdata, temp_map_reg[S_AXIS_TDATA_WIDTH +: (OUT_WIDTH - S_AXIS_TDATA_WIDTH)]};
                         state <= MAP;
+                        bram_syncw_bus.fifo_restart <= 0;
+                        bram_temp_bus.fifo_restart <= 0; 
                     end
                 end
                 MAP: begin
@@ -69,6 +76,8 @@ module sync_word_module#
                             map_shift_reg[MAP_WIDTH - 1 : 1]};
                         if(s_axis_config_tlast) begin
                             state <= FIN;
+                            bram_syncw_bus.fifo_restart <= 1;
+                            bram_temp_bus.fifo_restart <= 1;                            
                             word_count <= 0;
                             structs_ready <= 1;
                         end
@@ -77,6 +86,10 @@ module sync_word_module#
                             word_count <= word_count + 1;
                         end
                     end
+                end
+                FIN: begin
+                    bram_syncw_bus.fifo_restart <= 0;
+                    bram_temp_bus.fifo_restart <= 0; 
                 end
             endcase
         end
