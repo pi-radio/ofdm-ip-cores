@@ -9,11 +9,12 @@ interface bram_fifo_in_iface
         logic [BRAM_ADDR_WIDTH-1:0] bram_addr;
         logic [WIDTH-1:0] bram_data;
         logic bram_rd_en;
+        logic fifo_restart;
         
         modport master(output bram_addr,
-            input bram_data, output bram_rd_en);
+            input bram_data, output bram_rd_en, output fifo_restart);
         modport slave(input bram_addr,
-            output bram_data, input bram_rd_en);
+            output bram_data, input bram_rd_en, input fifo_restart);
 endinterface
 
 interface bram_fifo_out_iface
@@ -22,9 +23,10 @@ interface bram_fifo_out_iface
         logic fifo_valid;
         logic fifo_last;
         logic fifo_rdy;
+        logic fifo_restart;
         
-        modport master(output fifo_data, output fifo_valid, output fifo_last, input fifo_rdy);
-        modport slave(input fifo_data, input fifo_valid, input fifo_last, output fifo_rdy);
+        modport master(output fifo_data, output fifo_valid, output fifo_last, input fifo_rdy, output fifo_restart);
+        modport slave(input fifo_data, input fifo_valid, input fifo_last, output fifo_rdy, input fifo_restart);
 endinterface
 
 interface frame_parser_in_iface #(

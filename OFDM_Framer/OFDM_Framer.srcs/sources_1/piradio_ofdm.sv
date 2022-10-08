@@ -3,10 +3,10 @@ package piradio_ofdm;
    typedef logic [7:0] ofdm_symbol_t;
    typedef logic [31:0] ofdm_sample_t;
    
-   typedef struct {
+   typedef struct packed {
       logic [7:0] bits_per_symbol;
 
-      ofdm_sample_t constellation[0:15];
+      ofdm_sample_t [0:15] constellation;
    } modulation_t;
    
    const modulation_t mod_none = { 8'd0, { 32'hADADADAD, 32'hADADADAD, 32'hADADADAD, 32'hADADADAD,
