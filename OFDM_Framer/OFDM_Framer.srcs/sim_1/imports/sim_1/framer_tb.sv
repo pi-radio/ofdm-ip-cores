@@ -206,6 +206,7 @@ module framer_tb
                 if (0) begin
                     while (1) begin
                         wait(count_m_valid % 256 == 255);
+                        @(posedge axis_aclk)
                         m_axis_data_tready <= 0;
                         repeat (64) @(posedge axis_aclk);
                         m_axis_data_tready <= 1;

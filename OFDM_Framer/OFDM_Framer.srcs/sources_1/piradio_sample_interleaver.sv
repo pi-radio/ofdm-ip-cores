@@ -54,7 +54,6 @@ module piradio_sample_interleaver
         bram_temp_out.fifo_restart = 0;
         
     
-    
     always @(posedge clk)
     begin
         if (~resetn) begin
@@ -106,7 +105,7 @@ module piradio_sample_interleaver
     always_comb bram_temp_out.fifo_rdy = (state == DATA || state == TRAILER) ? samples_out_rdy : 0;
 
     for (i = 0; i < fdm_out.MAX_SYMBOLS; i++) begin
-        always_comb begin
+        always@(posedge clk) begin
             if (~resetn) begin
                 samples_out[i] <= 32'hBCBCBCBC;
             end else if (state == IDLE) begin
@@ -146,7 +145,7 @@ module piradio_sample_interleaver
         end 
     end    
     
-    always_comb begin
+    always@(posedge clk) begin
         if (~resetn) begin
             samples_out_valid <= 0;
         end else if (state == IDLE) begin
