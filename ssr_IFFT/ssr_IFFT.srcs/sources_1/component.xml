@@ -1,0 +1,1290 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>ssr_IFFT</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>m00_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s00_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_aresetn</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ARESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_aclk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ACLK.ASSOCIATED_RESET">s_axis_aresetn</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ACLK.ASSOCIATED_BUSIF">m00_axis:s00_axis</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>Verilog</spirit:language>
+        <spirit:modelName>ssr_IFFT_v1_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_User_Company_SysGen_sysgenssrifft_1_0__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>14c0eb68</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>Verilog</spirit:language>
+        <spirit:modelName>ssr_IFFT_v1_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_User_Company_SysGen_sysgenssrifft_1_0__ref_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>14c0eb68</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f5e6bc44</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_testbench</spirit:name>
+        <spirit:displayName>Test Bench</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:modelName>ifft_tb</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>e4fcf031</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>s_axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXIS_TDATA_WIDTH&apos;)) - 1)">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH&apos;)) - 1)">255</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>C_S00_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C S00 Axis Tdata Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S00_AXIS_TDATA_WIDTH">128</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M00_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C M00 Axis Tdata Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH">256</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>insert_cp</spirit:name>
+        <spirit:displayName>Insert Cp</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.insert_cp">0</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>scaled</spirit:name>
+        <spirit:displayName>Scaled</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.scaled">0</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_8af5a703</spirit:name>
+      <spirit:enumeration>0</spirit:enumeration>
+      <spirit:enumeration>1</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>ip/sysgenssrifft_0_1/sysgenssrifft_0.xci</spirit:name>
+        <spirit:userFileType>xci</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_ssr_ifft_inst</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>new/ssr_IFFT.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_e8c2bc6a</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="fifo_generator" xilinx:version="13.2">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_User_Company_SysGen_sysgenssrifft_1_0__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="User_Company" xilinx:library="SysGen" xilinx:name="sysgenssrifft" xilinx:version="1.0">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>ip/sysgenssrifft_0_1/sysgenssrifft_0.xci</spirit:name>
+        <spirit:userFileType>xci</spirit:userFileType>
+        <spirit:userFileType>CELL_NAME_ssr_ifft_inst</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>new/ssr_IFFT.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_xilinx_com_ip_fifo_generator_13_2__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="xilinx.com" xilinx:library="ip" xilinx:name="fifo_generator" xilinx:version="13.2">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_User_Company_SysGen_sysgenssrifft_1_0__ref_view_fileset</spirit:name>
+      <spirit:vendorExtensions>
+        <xilinx:subCoreRef>
+          <xilinx:componentRef xilinx:vendor="User_Company" xilinx:library="SysGen" xilinx:name="sysgenssrifft" xilinx:version="1.0">
+            <xilinx:mode xilinx:name="create_mode"/>
+          </xilinx:componentRef>
+        </xilinx:subCoreRef>
+      </spirit:vendorExtensions>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/ssr_IFFT_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_f5e6bc44</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>../sim_1/new/ifft_tb.v</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../ifft_tb_behav.wcfg</spirit:name>
+        <spirit:fileType>unknown</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>Super Sampling Rate IFFT</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>C_S00_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C S00 Axis Tdata Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S00_AXIS_TDATA_WIDTH">128</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M00_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C M00 Axis Tdata Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M00_AXIS_TDATA_WIDTH">256</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>insert_cp</spirit:name>
+      <spirit:displayName>Insert Cp</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.insert_cp" spirit:choiceRef="choice_list_8af5a703">0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">par_fft_v1_0_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>scaled</spirit:name>
+      <spirit:displayName>Scaled</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.scaled">0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>ssr_IFFT</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_CDC</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
+      </xilinx:xpmLibraries>
+      <xilinx:coreRevision>61</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-08-29T12:56:43Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@593c3d0b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@510a4ff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16f36bc4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@299fe2ea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@321558fb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1692d746_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bc6dd80_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d86c24_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@355ff481_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e8ffa8c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4179748f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34c2d8ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14c7d463_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3dc50933_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47fdfa73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bec327d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30a877d4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d0f8160_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47076af7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@afd5849_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c2c1163_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d63b9bb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e8ca418_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@146c7f7e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c63a1be_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4666a59a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f16c3d6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65218fb9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16d6602e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f5b5be2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19a6b668_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61d56df1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12cf900a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18be7024_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4660edf3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3968b291_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3272a1e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cea7972_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b44750f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ff6e620_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7aff5b91_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@456a7b23_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@425b9b63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71a6a4bd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@354dfe73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28711cdd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5425b176_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@659c6817_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@be1219_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5496713b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d719d56_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4bf84825_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45435ea4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@766b7de3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@669f9f7d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c0b6119_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@569a4ddc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@390f0a35_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c19227_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@781eeb7a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e7c9273_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@218658ea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3580cdd6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56aa9e8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37d40147_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ea30c9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41275924_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ea5d35f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63d6e76d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c72e6e5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34300a4d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47aab53f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63a5347c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@563bb794_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ba578ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45405f3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@473f41c1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b0e9387_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@977612_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46a9a12b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2635868b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1dd72eac_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3cd8ddcb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1614f624_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@79936502_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36bbd5fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4142b3fd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72b85aa5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3082ec5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15e374ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60e7655b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@130ee1e1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b27f05e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c9ff660_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@acb6ab1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2a75e40e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a2420ce_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6cc0366a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54c625b3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60db1d81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65f1be6e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8622391_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2512bca6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b7e0f00_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ae0283d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3545ddc4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b61a5bb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2618421_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4231c726_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fb49ac7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75e7ef45_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74264dda_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5447508f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1dc54d26_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d97f0b5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f26eccd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d2a877f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ed1cc7d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2a9c7034_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a07ad3b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d6f4a8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@652c71da_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@656a4d51_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d7569d3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77fac23a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ff3267c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59489e8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@390a4902_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58ac29a4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4fb3672e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1da75ccb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46007013_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3cb3dc9c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36545c2b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56da14bf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ce08489_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@698a0df6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2629f43a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@476229ae_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e43128f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e05bc62_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29f121ef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13c8c484_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ea8be0b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d058730_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@692e211b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15bc4437_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@eb27a51_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e3a67ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13e2e63d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6509b5ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@501e4e20_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4cb0ca50_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ad1d0b6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3422d011_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c86689a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5979d902_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50fdcfe0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e975430_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28bd1a42_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4502364f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6cf95a43_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7099e529_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c61231f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@473e3f49_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39894a7a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fd93ced_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5b9d75e9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c2524c1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30c43348_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@78888e7c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a97ee52_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37420d7a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bbeb6f2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69e31982_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e1cbe81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@caf8c0b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e6ead73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58ec9b99_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@173d92a5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65e982f3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a364c38_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42fd35de_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d7305fa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63382291_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31940e6b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7df32c3e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e851e48_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f7733dc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c6e33d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@788874e9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@639b9de4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f306797_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e293104_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11490f1f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@279e421c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67c88e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c72b2b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59f0b035_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53f5b4c9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@147b67f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f819aa7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46f2ace9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@165adc8d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5bf360ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2138382a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6258de19_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c06091d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7aabac5f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d55aced_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4141fc8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@613a014d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fc6c4d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4fc93b96_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@22626ac7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39a92f5f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57302ea0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41fdb67_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21665d39_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f15752_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47bca54b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66a67e28_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43b632db_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36fc9073_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@739fb3b9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3098a2e4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26986c0c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2638dd2a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7cdc9904_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bdb3476_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b78c23b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b1a5919_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28c984c6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5cea13c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44d212f2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@209e1796_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5305abad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74b2ef0e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@377df5c8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e165870_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44a722c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@20731cf5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@173b5ed9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68fcaec9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2beed132_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ed08368_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fdaa8a7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53ca149_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@529e4c5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@101e03b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27c9525b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@563c3dae_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4971fa39_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62d50763_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1859529e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@449c6468_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43cac980_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ca8fb8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b1ef63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@675e09c2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31f76c7c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2df599e8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5dfb7036_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2100f0fc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@417c9458_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e24f779_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6fb3e347_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@614c4f92_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a1ab9ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bfe2619_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@347ed1af_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9e00688_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43c99780_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c3e386_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75abad17_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d414524_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12d9bb31_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e4b331f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@520160cc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5991af3b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34fc785b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5deb6a73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5da310e2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4276e4ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52ac8696_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56617881_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e8f70c6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@366b5481_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77ca4485_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5af0cab4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bc82e7f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@377b1c81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31cf5ad4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@614e25bc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2cbf5471_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4355651d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c8f2171_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@633bf34e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3889f524_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e7752ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46957cb8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69768395_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52dc6d81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7878ba23_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77c416af_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ff29ef5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@208e753_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b65789b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d30d600_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@205fad54_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@55f0af06_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31c8be9e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f0be046_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18043ace_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@791c3a43_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33e11423_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a65003f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50634de2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d4c0821_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d76727e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c19c657_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@582839f7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ca19aee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40fb41ae_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56a4ee0c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bad0db1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63356ba7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b320f80_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15340556_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10f5753f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f37b9e0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47270fdd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c249fa6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@167c5f39_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@756a96ed_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6042ce92_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1cf7e71a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c6cc21d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@208a2445_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70140ba8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b750579_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@330086ce_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@880ffe4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@192492b0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2cdf66d6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@856bf33_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39bab684_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@558aa480_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52017684_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f124432_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b6d648e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c88bb46_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f23dbc4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d757cb1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a1a1319_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60322c29_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7232030a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4fd7475c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ba0a362_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f0621c2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21aacaef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6dc7632e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42aa4b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e76b7bd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b90f79e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@79e68d0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47992c96_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42115c8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bed6036_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@a270c09_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@571e02d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1ff52ac7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18673e90_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@284c7c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@687f5485_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30e44756_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b22bd21_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15178acf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4207c115_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@228f2fc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69814140_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@235387ff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b747110_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47a813b5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@257caf8a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65d171e5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43b3d65f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63c55079_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@226bacc7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5eab7d71_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7576718f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@bb41aa4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@474207eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c7415c5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@550e69bf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48c1a3cf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@24fcc02a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5df251aa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@585feffc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37a9678c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47969807_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5856d373_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e61d266_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d466143_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f98d86b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c151e61_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@534f4de_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7764aff9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d1ba320_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@735683b0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@423c29d7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36ed9f2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7db951a2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c4ebb2f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d32c326_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@169b6a4d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@399c2cc0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c37eae9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e4f9eb9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c6d0136_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31f22f0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c1ff45f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4117ab35_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@515907ec_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b9c1bb2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d3715f6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@297572f9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1680321b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9adc52_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@358b43d8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3eaefa42_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51a8b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2502d54c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46640b28_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29a7d269_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7248e354_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c790c0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fbb85b0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c06a122_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33f8e3b5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c4d1351_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@341e9f0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@782aa113_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ea3de64_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c9722ff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c68e50c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@522c3e2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@24c8a31b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3992789d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46d0450e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40c2dce9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@593aa50a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d51ef13_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4cf6ba8c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11078c2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7190564d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2bdfa3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f8f14a7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@755915b4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35f423ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48483332_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b082fe5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@79f58828_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34781a57_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62ddf567_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ef31eb0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47dcfb11_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c089167_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@414c9ecc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62ae6a9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f640aec_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60746a0c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18b89247_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@768672f9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@276f2178_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68719acb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38f70c4c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e4656db_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@252bc449_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4faf18c9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d270a4d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1cb9b0ad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6dc9e397_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fcda7d6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3635f1b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60d00ee6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b435fb0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36cb92d4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13bb8e89_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56946d51_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d253291_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d3c330f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7aab78aa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45cd877_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@499da3e5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b9a2265_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35c564c6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6591c8a3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a2af921_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@359d548d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8c84848_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ed4ba36_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40cbef64_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1efc9b9b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3883c252_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c62fefe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d66acf8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10f732f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c053f63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56af47cd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5578188a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@365a4d6e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1aa9c9f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34ab3244_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d358d9b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54651401_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@484e84c7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6447fce8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66e8411a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@217f3c3d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f20c2c9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13b5ab07_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36812682_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4553010a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a37a9e2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d026eb6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ea5eb17_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b5c6820_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52ec3eb4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4035de13_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ccfb798_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@477be956_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d44eac0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@585fd213_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f6811a3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c476eb7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29609c8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28b9da1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@32eaee7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69770677_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@672c2a5c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@173ae76c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1af95c11_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47cd9fb6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74a4bef0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9ff9136_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b2caeef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62d33335_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@151692c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37931413_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7cd26a27_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3491422a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b60e75e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60e48a35_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3901e24_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34c6fd34_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7bfec71c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fb290_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2aaed126_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5eeba525_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16bffb8c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b3f18e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1df91800_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4564e215_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ee73eb3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66546406_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ec84d73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ab06b9c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@55fe50d3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11fe906b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e35fbce_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5388f3d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@471ce27a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6876b2a3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cce5e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35892b87_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7eff6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a5d8e84_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74b22194_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51026c51_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f814afc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4873732_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d8c024a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1710ffe1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2cba1378_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6488b5d7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@769ecf47_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75b995f4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5265f4a6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a26083c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4cb4b652_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27b1c6a9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2878a5fc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45ccf648_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@486f1c8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b0d5aad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e99f068_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e3a5fa1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@123ae478_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e4e8165_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e2c15_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7765ccb8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f6495e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@84b75f1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58483157_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@995e29b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12f79f83_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b7aec12_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ce4aa91_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@795a361_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@723d4007_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4052d11c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@387f1756_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@73fecd34_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f3c4c8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14a308c4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d14fe0c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@195a30af_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3afd505_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2aac4bad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19d4c147_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a7a89c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ec2f230_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29d2515f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@480e515b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41cb45eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@485d889e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62fa1a89_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f7fad28_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5da57ae6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56d67a72_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67209e08_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19abe962_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b8bae14_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c633f2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e826c70_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5fdde0fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@303fcb5a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70ada5e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72fd896_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29c9b8bb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@fdc6110_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6dda0ea8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@492d1ca8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5506a069_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35a524d5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@106d7ac1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@761dd2c8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c02eab1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@356bdbd5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52b20e7f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6374f405_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e1e2709_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12cb3c2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35eb2677_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16b6c8cf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@334f8a00_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c25be7a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@89c89ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57fffc56_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cbd1594_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26652d29_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10fb1e93_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3580bf52_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2dfb7dcd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@a526667_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4fdcd62e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@219c60d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a7880b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@a23b52b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@fc9bd9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c91d156_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7298ba99_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d27cfeb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c8c71a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bc749b5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@334d655a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4fadb9c2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@448b88f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77266c5f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41345332_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a7c9295_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7500ea23_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66374da7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29dfc8fb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ae5cd9e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a1c7fc4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4bf49056_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41245e9a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@236afa23_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f767ee9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c3e56e0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59c0cead_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d3972d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42bc4d44_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@dadc2fb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ad2a3f4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16a612ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@25485a15_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@88a8210_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42dc350d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cabe86c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46edbb9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36185a9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72aa5965_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69c31882_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e7fcd8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@775de546_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11457e8e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6056b4d3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f3c3ed0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f73d1e3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@23ded4a0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7904fc1e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@524cf95_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e054bce_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b20ef0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@133f50d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61d29693_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c3be216_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48f87392_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f34f2ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a33b9fa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/ssr_IFFT/ssr_IFFT.srcs/sources_1</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="d9930c0a"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="b9dad6a9"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="3285d520"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="9eac7a7d"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="5d65ecbf"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

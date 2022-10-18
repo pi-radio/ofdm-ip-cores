@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>pilot_zero_remover</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>m00_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s00_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>axis_aresetn</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.AXIS_ARESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>axis_aclk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.AXIS_ACLK.ASSOCIATED_BUSIF">m00_axis:s00_axis:m00_axis_log</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.AXIS_ACLK.ASSOCIATED_RESET">axis_aresetn</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>m00_axis_log</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_log_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_log_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_log_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_log_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>pilot_zero_remover</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>5f17ab11</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>pilot_zero_remover</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>5f17ab11</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f92e9879</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_testbench</spirit:name>
+        <spirit:displayName>Test Bench</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:modelName>pilot_zero_rem_tb</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>ea82c011</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>reg</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_log_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>reg</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_log_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_log_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_log_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>pilot_zero_remover.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_5f17ab11</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>pilot_zero_remover.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/pilot_zero_remover_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_f92e9879</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>../../sim_1/new/pilot_zero_rem_tb.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../../../pilot_zero_rem_tb_behav.wcfg</spirit:name>
+        <spirit:fileType>unknown</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>pilot_zero_remover_v1_0</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">pilot_zero_remover_v1_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>pilot_zero_remover_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>19</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-09-30T08:48:14Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7496f32e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41f9fd30_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4329fcb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4091546e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45be0178_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@127437d1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@664a737a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@790554eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@161bc7d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b83a13c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d25326d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f6116fc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ee97147_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@283fc44e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39791d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d392cc6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@84e4e8d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6498fc42_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@587f3c9b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31f3550a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e70a27c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35874128_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15aefb7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3209bf35_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11697631_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c2ac21e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b87e55e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d1001e2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3413d1c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5279303b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@79d76d2e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34520b84_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c3b0686_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a9ab74_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33083e8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21957ec6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42c1d983_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75fd6db0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@20798fc4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e08434_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@22776802_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5661324d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d78f731_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53ed207f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ecc10bc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12b96204_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15895506_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@266cfd24_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@704d0d99_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d8c8e20_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e6ceaa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@700a8eb9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c0b83b5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@78ed628_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d645d80_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10d4a7db_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d0734a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@171625f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d8bb927_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@689cc735_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e11db02_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a4ee9ce_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b884298_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3fb9eb9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50db5ef1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d2ed91_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2709036e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ded144e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bf468ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c3647d1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61ce0fa7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59f36e43_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62bda71f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28fb50a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21c4f4b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1df91fc3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66c79b5f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c5441d5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67371775_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d3beb15_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@23369c89_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50c70349_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c9c6be7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42e79052_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7df37018_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@390d43c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44f7fca4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e4a202f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70834b38_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2dc2a002_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57c553d7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3661b517_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16358955_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3248017d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6cc68266_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bd87216_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@bb0ccb0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e43f9d2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a274756_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@234dcc0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ec1e51e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f15b63b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77dd87be_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65c50dd6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5db28bb7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@472b37bb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cac2503_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@630ef84c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f8dcc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@721e6b42_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64b154ba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b8f5ab4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fe652fc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71db5a57_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68dcc38e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f04ea06_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8841637_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b974c32_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8f1ffea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@22282a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c11f52e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70a37e93_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2eb3c715_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@204d6ab8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b944c13_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40337ce8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e2029a0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33fea189_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5039f932_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2883c060_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d91338_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4508aecc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72913038_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@729d824a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bb959f4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@256f41dd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@297fe05c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16668c3e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b4bbe81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34df4ebd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d464ff3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40ba0d36_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7615e1e6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e5cc6a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5fe4b263_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4bb02ce9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ba7dc0b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f10b893_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3834ce97_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@176d7e54_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@500528d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fc9f3a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@106dd3f9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c62b957_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17f760f5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50cbfafe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46f26bda_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c22f62e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b22b3e8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36aeab1a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36d93320_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7dc516d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@afd8227_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58bb0c9f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10d76e9c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@73e014b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@152e4a27_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67cc142a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f8e6cb5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30abdde3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43d32e89_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47b75170_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f8eb0ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15fa0517_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a4c1d7b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@bb493f9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6eebf5db_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12953ed4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6be38c61_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71ecb39f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a58aa67_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a8670a0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ff3d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c1c09a2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54103eae_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58dcca06_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@633d7575_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@126d72f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3cbbd0f7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@697251aa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@147da03b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6dcd58e8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b93182b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72bfb792_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3de33dcf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@476a805a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13a1ca62_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@195c20c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1587b30d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7be0a6fb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39bdd048_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@69c4b5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b98b696_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@270ee42c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65482338_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@103733a2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2619b127_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58a46184_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@268be84f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77190aca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64de4bc0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7761f02c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f9fdb3e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@243d51d8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@622ca034_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60e79127_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@25a18797_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67248e79_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e56e622_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1643cc04_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fe6eabc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44701c26_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5efb72e0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4899780d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a842fda_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54d56180_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@23392ff1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@516e9f61_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@240478ba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c1dfd3f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1de4bc59_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fe114a7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fc487e3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e2d2586_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5558a4c8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f78aafd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@589e416a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30f6b0fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8d9a0b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@95ccc57_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@282a6462_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e1f6134_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b541fab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1ac1c96a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c839801_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5867b368_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a89c0d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a001f2f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2da75fd3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34da66dc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57768a40_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d41742b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4688d859_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fd5d2f6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@788dafde_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@737ed00e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59667ee0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@183896f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45a121f7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44438d8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b2fc969_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@540f8dd5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31a99671_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21ed09a0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c0670a7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c3caef9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a7bb234_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a20ef3c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4212d171_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21841276_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21d78a72_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74791c15_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6443a5d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33da49f6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@653a5558_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4de2dd96_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/pilot_zero_remover/pilot_zero_remover.srcs/sources_1/new</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="c191c4ff"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="f1f4ef45"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="a79dc9fc"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="955e3759"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
