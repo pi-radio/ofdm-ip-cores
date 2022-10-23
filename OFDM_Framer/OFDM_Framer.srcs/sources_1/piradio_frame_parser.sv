@@ -27,12 +27,12 @@ module piradio_frame_parser
     begin
         if (~parser_to_mod_bus.rstn) begin
             word_count <= 0;
-            parser_to_mod_bus.modulation <= BPSK;
+            parser_to_mod_bus.modulation <= MOD_NONE;
             state <= HEADER;
         end else if (frame_parser_bus.src_valid && frame_parser_bus.src_rdy) begin
             if (state == HEADER) begin
                 parser_to_mod_bus.modulation <= (frame_parser_bus.src_data <= MAX_MOD_INDEX) ? mod_t'(frame_parser_bus.src_data)
-                                        : BPSK;
+                                        : MOD_NONE;
                 word_count <= 0;
                 state <= DATA;            
             end else begin

@@ -56,7 +56,7 @@ module framer_tb
     
     event map_loaded;
     
-    localparam string path =  "../../../../../../OFDM_Framer.srcs/sim_1/new/";
+    localparam string path =  "../../../../../OFDM_Framer.srcs/sim_1/new/";
 
     assign sync_word = output_samples[0 : 1023];
     assign template = output_samples[1024 : 2047];
@@ -206,7 +206,6 @@ module framer_tb
                 if (0) begin
                     while (1) begin
                         wait(count_m_valid % 256 == 255);
-                        @(posedge axis_aclk)
                         m_axis_data_tready <= 0;
                         repeat (64) @(posedge axis_aclk);
                         m_axis_data_tready <= 1;
@@ -258,8 +257,6 @@ module framer_tb
                 end
                 
                 $stop;
-            end else begin
-                $display("Match (count 0x%0h): 0x%0h", output_counter, m_axis_data_tdata); 
             end
             
             output_counter += 4;
