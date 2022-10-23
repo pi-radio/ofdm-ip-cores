@@ -54,6 +54,7 @@ module piradio_sample_interleaver
         bram_temp_out.fifo_restart = 0;
         
     
+    
     always @(posedge clk)
     begin
         if (~resetn) begin
@@ -105,7 +106,7 @@ module piradio_sample_interleaver
     always_comb bram_temp_out.fifo_rdy = (state == DATA || state == TRAILER) ? samples_out_rdy : 0;
 
     for (i = 0; i < fdm_out.MAX_SYMBOLS; i++) begin
-        always@(posedge clk) begin
+        always_comb begin
             if (~resetn) begin
                 samples_out[i] <= 32'hBCBCBCBC;
             end else if (state == IDLE) begin
@@ -124,16 +125,12 @@ module piradio_sample_interleaver
     
     always @(posedge clk)
     begin
-        if (state != IDLE) begin
-            $display("Time: %0t: State: %d", $time(), state);
-        end
-        
-        for (j = 0; j < fdm_out.MAX_SYMBOLS; j++) begin
-            if (samples_out_rdy & samples_out_valid) begin
-                $display("Time: %0t: channel %d map: %d sample: %0x sync: %0x template: %0x output: %0x", 
-                         $time(), j, current_map[j], fdm_out.samples[count_ones[j]], 
-                         bram_syncw_out.fifo_data[j * 32+:32], bram_temp_out.fifo_data[j * 32+:32], samples_out[j]);
-            end
+        if (state == DATA) begin
+            $display("Time: %0t: State: %d map: %0x samples: %0x", 
+                     $time(), state, current_map, fdm_out.samples);
+            $display("    count_ones: %d %d %d %d syncw: %0x template: %0x", 
+                     count_ones[0], count_ones[1], count_ones[2], count_ones[3], 
+                     bram_syncw_out.fifo_data, bram_temp_out.fifo_data);
         end
     end
     
@@ -145,7 +142,7 @@ module piradio_sample_interleaver
         end 
     end    
     
-    always@(posedge clk) begin
+    always_comb begin
         if (~resetn) begin
             samples_out_valid <= 0;
         end else if (state == IDLE) begin
