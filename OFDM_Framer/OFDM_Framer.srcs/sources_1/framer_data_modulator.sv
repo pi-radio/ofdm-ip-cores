@@ -6,87 +6,108 @@ module piradio_data_shift_reg
     import piradio_ofdm::*;
     #(
         DATA_WIDTH = 32,
-        COUNT_WDITH = 7
+        COUNT_WDITH = 7,
+        SYMBOL_WIDTH = 4
     )
     (
         input logic clk,
         input logic aresetn,
         
+        input mod_t modulation_in,
         input logic [DATA_WIDTH-1:0] data_words,
         output logic data_words_ready,
         input logic data_words_valid,
         input logic data_words_last,
 
+        input mod_t modulation_sr2e,
         output logic [DATA_WIDTH-1:0] data_bits,
-        output logic [COUNT_WDITH-1:0] data_bits_valid,
-        input logic [COUNT_WDITH-1:0] data_bits_desired,
+        output logic data_bits_valid,
+        input logic data_bits_rdy,
         output logic data_bits_last
     );
     
     localparam SHIFT_REG_WIDTH = 2 * DATA_WIDTH;
-    
+       
+    mod_t shift_reg_mod, new_shift_reg_mod;
+    modulation_t cur_mod;
+    integer modulation_bits;
     logic [SHIFT_REG_WIDTH - 1:0] shift_reg;
     logic [SHIFT_REG_WIDTH - 1:0] new_shift_reg;
+   
+    always_comb cur_mod = modulations[shift_reg_mod];    
+    always_comb modulation_bits = SYMBOL_WIDTH * cur_mod.bits_per_symbol;   
     
-    integer last_count;
-    integer new_last_count;
+    integer bits_available, new_bits_available;
+    integer last_count, new_last_count;
     
-    integer bits_available;
-    integer new_bits_available;
-    integer bits_consumed;  
-    
-    always_comb bits_consumed = (data_bits_valid >= data_bits_desired) ? data_bits_desired : 0;
-    
-    always_comb data_words_ready = ((SHIFT_REG_WIDTH - (bits_available - bits_consumed)) >= DATA_WIDTH) ? 1'b1 : 1'b0;
-    
-    always_comb data_bits_valid = (bits_available > DATA_WIDTH) ? DATA_WIDTH : bits_available;
-    always_comb data_bits = shift_reg[DATA_WIDTH-1:0];
-    always_comb data_bits_last = last_count ? (bits_consumed == last_count) : 0;
+    always_comb
+    begin
+        new_bits_available = bits_available;
+        new_shift_reg = shift_reg;
+        new_last_count = last_count;
+        
+        if ((bits_available >= modulation_bits) && (data_bits_rdy & data_bits_valid)) begin
+            new_shift_reg = new_shift_reg >> modulation_bits;
+            new_bits_available -= modulation_bits;
+            new_last_count = new_last_count ? new_last_count - modulation_bits : 0;
+        end
+        
+        if ((SHIFT_REG_WIDTH - new_bits_available >= DATA_WIDTH) &&
+            (shift_reg_mod == modulation_in || new_bits_available == 0)) begin
+            data_words_ready = 1;
+            if (data_words_valid) begin
+                new_shift_reg |= data_words << new_bits_available;
+                new_bits_available += DATA_WIDTH;
+                new_last_count = data_words_last ? new_bits_available : new_last_count;
+                new_shift_reg_mod = modulation_in;
+            end
+        end else begin
+            data_words_ready = 0;
+        end
+    end
+
     
     always @(posedge clk)
     begin
         if (~aresetn) begin
-            new_bits_available = 0;
-            new_shift_reg = 0;
-            new_last_count = 0;
-        end else begin
-            new_bits_available = bits_available;
-            new_shift_reg = shift_reg;
-            new_last_count = last_count;
-            
-            if (bits_consumed) begin
-                new_bits_available -= bits_consumed;
-                new_shift_reg = new_shift_reg >> bits_consumed;
-                
-                if (new_last_count)
-                    new_last_count = new_last_count - bits_consumed;    
+            data_bits <= 0;
+            data_bits_valid <= 0;
+            data_bits_last <= 0;
+            shift_reg_mod <= MOD_NONE;
+            bits_available <= 0;
+            shift_reg <= 0;
+            last_count <= 0;
+        end else begin        
+            if ((shift_reg_mod != MOD_NONE) && (bits_available >= modulation_bits)) begin
+                if (~data_bits_valid | (data_bits_rdy & data_bits_valid)) begin
+                    modulation_sr2e <= shift_reg_mod;
+                    data_bits <= new_shift_reg[DATA_WIDTH-1:0];
+                    data_bits_last <= new_last_count ? new_last_count == modulation_bits : 0;
+                    data_bits_valid <= 1'b1;
+                 end
+            end else if (data_bits_rdy & data_bits_valid) begin
+                data_bits_valid <= 1'b0;
             end
-            
-            if (data_words_ready && data_words_valid) begin
-                new_shift_reg = new_shift_reg | (data_words << new_bits_available);
-                new_bits_available += DATA_WIDTH;
-                
-                if (data_words_last) begin
-                    new_last_count = new_bits_available;
-                end
-            end
+
+            bits_available <= new_bits_available;
+            shift_reg <= new_shift_reg;
+            last_count <= new_last_count;
+            shift_reg_mod = new_shift_reg_mod;
         end
-        
-        bits_available <= new_bits_available;
-        shift_reg <= new_shift_reg;
-        last_count <= new_last_count;
     end
-    
+        
     property no_back_to_back_tlast;
         @(posedge clk) data_words_last |-> (last_count == 0);
     endproperty
     
+    /*
     property no_last_span;
-        @(posedge clk) (new_last_count != 0) |-> (new_last_count == bits_available) && (bits_consumed >= new_last_count);
+        @(posedge clk) (last_count == 0) && (new_last_count != 0) |-> (new_last_count == bits_available) && (new_last_count >= modulation_bits);
     endproperty
+    */
     
     a1: assert property(no_back_to_back_tlast);
-    a2: assert property(no_last_span);
+    //a2: assert property(no_last_span);
             
 endmodule
 
@@ -103,13 +124,13 @@ module piradio_symbol_extractor
         input logic clk,
         input logic aresetn,
         
-        input mod_t modulation_in,
+        input mod_t modulation_sr2e,
         input logic [DATA_WIDTH-1:0] data_bits,
-        input logic [COUNT_WIDTH-1:0] data_bits_valid,
-        output logic [COUNT_WIDTH-1:0] data_bits_desired,
+        input logic data_bits_valid,
+        output logic data_bits_rdy,
         input logic data_bits_last,        
         
-        output mod_t modulation_se2m,
+        output mod_t modulation_se2gb,
         input logic mod_symbols_rdy,
         output ofdm_symbol_t mod_symbols[0:3],
         output logic mod_symbols_valid,
@@ -119,30 +140,30 @@ module piradio_symbol_extractor
     logic advance;
     
     modulation_t cur_mod;
-    assign cur_mod = modulations[modulation_in]; 
+    assign cur_mod = modulations[modulation_sr2e]; 
     
     always_comb
     begin
-        if (~aresetn || modulation_in == MOD_NONE) begin
-            data_bits_desired <= 0;
+        if (~aresetn || modulation_sr2e == MOD_NONE) begin
+            data_bits_rdy <= 0;
         end else if (mod_symbols_rdy) begin
-            data_bits_desired <= SYMBOL_WIDTH * cur_mod.bits_per_symbol;
+            data_bits_rdy <= 1;
         end else begin
-            data_bits_desired <= 0;
+            data_bits_rdy <= 0;
         end
     end
     
-    always_comb advance = data_bits_desired && (data_bits_valid >= data_bits_desired);
+    always_comb advance = data_bits_rdy & data_bits_valid;
     
     always @(posedge clk)
     begin
         if (~aresetn) begin
-            modulation_se2m <= MOD_NONE;
+            modulation_se2gb <= MOD_NONE;
             mod_symbols_valid <= 0;
             mod_symbols_last <= 0;
         end else if (advance) begin
             mod_symbols_valid <= 1'b1;
-            modulation_se2m <= modulation_in;
+            modulation_se2gb <= modulation_sr2e;
             mod_symbols_last <= data_bits_last;
         end else if (mod_symbols_rdy) begin
             mod_symbols_valid <= 1'b0;
@@ -151,22 +172,99 @@ module piradio_symbol_extractor
         end
     end
 
-    for (i = 0; i < fdm_bus.MAX_SYMBOLS; i++) begin
+    for (i = 0; i < SYMBOL_WIDTH; i++) begin
         always @(posedge clk)
         begin
             if (~aresetn) begin
                 mod_symbols[i] <= 0;
             end else if (advance) begin 
-                mod_symbols[i] <= (modulation_in == BPSK) ? data_bits[i] :
-                              (modulation_in == QPSK) ? data_bits[i * 2 +: 2] :
-                              (modulation_in == QAM16) ? data_bits[i * 4 +: 4] :
-                              (modulation_in == QAM64) ? data_bits[i * 6 +: 6] :
-                              (modulation_in == QAM256) ? data_bits[i * 8 +: 8] :
+                mod_symbols[i] <= (modulation_sr2e == BPSK) ? data_bits[i] :
+                              (modulation_sr2e == QPSK) ? data_bits[i * 2 +: 2] :
+                              (modulation_sr2e == QAM16) ? data_bits[i * 4 +: 4] :
+                              (modulation_sr2e == QAM64) ? data_bits[i * 6 +: 6] :
+                              (modulation_sr2e == QAM256) ? data_bits[i * 8 +: 8] :
                               8'b0;
             end 
         end
     end    
 endmodule
+
+module piradio_symbol_gearbox
+    import piradio_ofdm::*;
+    #(
+        parameter integer DATA_WIDTH = 32,
+        parameter integer COUNT_WIDTH = 7,
+        parameter integer SYMBOL_WIDTH = 4
+    )
+    (
+        input logic clk,
+        input logic aresetn,
+        
+        input mod_t modulation_se2gb,
+        output logic mod_symbols_rdy,
+        input ofdm_symbol_t mod_symbols[0:3],
+        input logic mod_symbols_valid,
+        input logic mod_symbols_last,        
+        
+        output mod_t modulation_gb2m,
+        input logic mod_gb_symbols_rdy,
+        output ofdm_symbol_t mod_gb_symbols[0:3],
+        output logic mod_gb_symbols_valid,
+        output logic mod_gb_symbols_last
+    );
+
+    integer i;    
+    ofdm_symbol_t symbol_p[0:3];
+    ofdm_symbol_t symbol_e[0:3];
+    logic symbol_p_valid, symbol_e_valid;
+    logic symbol_p_last, symbol_e_last;
+    mod_t mod_p, mod_e;
+    
+    
+    always @(posedge clk)
+    begin
+        if (~aresetn) begin
+            for (i = 0; i < SYMBOL_WIDTH; i++) begin
+                symbol_p[i] = 0;
+                symbol_e[i] = 0;
+            end
+            symbol_p_valid <= 1'b0;
+            symbol_e_valid <= 1'b0;
+            symbol_p_last <= 1'b0;
+            symbol_e_last <= 1'b0;
+            mod_p <= MOD_NONE;
+            mod_e <= MOD_NONE;
+        end else begin
+            if (mod_symbols_rdy) begin
+                symbol_p <= mod_symbols;
+                symbol_p_valid <= mod_symbols_valid;
+                symbol_p_last <= mod_symbols_last;
+                mod_p <= modulation_se2gb;
+                if (mod_gb_symbols_rdy == 0) begin
+                    symbol_e <= symbol_p;
+                    symbol_e_valid <= symbol_p_valid;
+                    symbol_e_last <= symbol_p_last;
+                    mod_e <= mod_p;
+                end
+            end
+
+            if (mod_gb_symbols_rdy == 1) begin
+                symbol_e_valid <= 0;
+            end        
+        end
+    end
+    
+    always_comb
+    begin
+        mod_symbols_rdy = ~symbol_e_valid;
+        
+        mod_gb_symbols_valid = symbol_p_valid | symbol_e_valid;
+        mod_gb_symbols = symbol_e_valid ? symbol_e : symbol_p;
+        mod_gb_symbols_last = symbol_e_valid ? symbol_e_last : symbol_p_last;
+        modulation_gb2m = symbol_e_valid ? mod_e : mod_p;
+    end
+endmodule
+
 
 module piradio_modulator
     import piradio_ofdm::*;
@@ -179,11 +277,11 @@ module piradio_modulator
         input logic clk,
         input logic aresetn,
         
-        input mod_t modulation_se2m,
-        output logic mod_symbols_rdy,
-        input ofdm_symbol_t mod_symbols[0:3],
-        input logic mod_symbols_valid,
-        input logic mod_symbols_last,        
+        input mod_t modulation_gb2m,
+        output logic mod_gb_symbols_rdy,
+        input ofdm_symbol_t mod_gb_symbols[0:3],
+        input logic mod_gb_symbols_valid,
+        input logic mod_gb_symbols_last,        
         
         output ofdm_sample_t mod_samples[0:3],
         input logic mod_samples_rdy,
@@ -196,11 +294,11 @@ module piradio_modulator
     
     modulation_t cur_mod;
     
-    assign cur_mod = modulations[modulation_se2m]; 
+    assign cur_mod = modulations[modulation_gb2m]; 
 
-    always_comb advance = mod_symbols_rdy & mod_symbols_valid;
+    always_comb advance = mod_gb_symbols_rdy & mod_gb_symbols_valid;
 
-    always_comb mod_symbols_rdy = ((mod_samples_rdy & mod_samples_valid) | ~mod_samples_valid);
+    always_comb mod_gb_symbols_rdy = ((mod_samples_rdy & mod_samples_valid) | ~mod_samples_valid);
    
     always @(posedge clk)
     begin
@@ -208,9 +306,9 @@ module piradio_modulator
             mod_samples_valid <= 0;
             mod_samples_last <= 0;
         end else begin
-            if (mod_symbols_rdy & mod_symbols_valid) begin
+            if (mod_gb_symbols_rdy & mod_gb_symbols_valid) begin
                 mod_samples_valid <= 1'b1;
-                mod_samples_last <= mod_symbols_last;
+                mod_samples_last <= mod_gb_symbols_last;
             end else if (mod_samples_rdy) begin
                 mod_samples_valid <= 1'b0;
             end else begin
@@ -226,7 +324,7 @@ module piradio_modulator
             if (~aresetn) begin
                 mod_samples[i] <= 0;            
             end else if (advance) begin
-                mod_samples[i] <= cur_mod.constellation[mod_symbols[i]];
+                mod_samples[i] <= cur_mod.constellation[mod_gb_symbols[i]];
             end
         end
     end    
@@ -373,7 +471,12 @@ module piradio_framer_data_modulator
     logic mod_symbols_rdy;
     ofdm_symbol_t mod_symbols[0:3];
     logic mod_symbols_valid, mod_symbols_last;
-    mod_t modulation_in, modulation_se2m;
+    mod_t modulation_in, modulation_sr2e, modulation_se2gb;
+
+    logic mod_gb_symbols_rdy;
+    ofdm_symbol_t mod_gb_symbols[0:3];
+    logic mod_gb_symbols_valid, mod_gb_symbols_last;
+    mod_t modulation_gb2m;
 
     ofdm_sample_t mod_samples[0:3];
     logic mod_samples_rdy;
@@ -382,8 +485,8 @@ module piradio_framer_data_modulator
 
 
     logic [DATA_WIDTH-1:0] data_bits;
-    logic [COUNT_WIDTH-1:0] data_bits_valid;
-    logic [COUNT_WIDTH-1:0] data_bits_desired;
+    logic data_bits_valid;
+    logic data_bits_rdy;
     logic data_bits_last;
         
          
@@ -403,6 +506,8 @@ module piradio_framer_data_modulator
     
     piradio_symbol_extractor #(.DATA_WIDTH(DATA_WIDTH))
         symbol_extractor(.*);
+    
+    piradio_symbol_gearbox gearbox(.*);
     
     piradio_modulator #() modulator(.*);
     
