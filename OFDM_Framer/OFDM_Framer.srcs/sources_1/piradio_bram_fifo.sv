@@ -6,86 +6,100 @@ module piradio_bram_fifo
         bram_fifo_in_iface.master bram_fifo_in,
         bram_fifo_out_iface.master bram_fifo_out
     );
+    genvar i;
     
-    localparam CACHE_DEPTH = 4;
+    localparam QUEUE_DEPTH = 4;
     
-    logic [CACHE_DEPTH* bram_fifo_out.WIDTH-1:0] cache_shift_reg;
-    logic [CACHE_DEPTH-1:0] cache_last;
-    
-    logic [$clog2(CACHE_DEPTH):0] cache_valid_cnt;
-    logic [bram_fifo_in.BRAM_LATENCY-1:0] inflight_cnt;
-    
-    
+    logic [bram_fifo_out.WIDTH-1:0] cache_queue[0:QUEUE_DEPTH-1];
+    logic cache_last[0:QUEUE_DEPTH-1];
     logic [bram_fifo_in.BRAM_LATENCY-1:0] bram_valid;
     logic [bram_fifo_in.BRAM_LATENCY-1:0] bram_last;
     
-    assign bram_fifo_out.fifo_data = cache_shift_reg[bram_fifo_out.WIDTH-1:0];
-    assign bram_fifo_out.fifo_last = cache_last[0];
+    logic do_reset;
+    logic do_read;
+    logic do_write;
+    logic do_advance;
     
-    always @(posedge clk)
+    integer cnt;
+    integer valid_cnt;
+    integer read_ptr, next_read_ptr;
+    integer write_ptr, next_write_ptr;
+
+    always_comb bram_fifo_in.bram_rd_en = resetn;
+
+    /* Reset logic */
+    always_comb do_reset = ~resetn || bram_fifo_in.fifo_restart || bram_fifo_out.fifo_restart;
+    
+    /* Count logic */    
+    always @(posedge clk) cnt <= do_reset ? 0 : cnt + (do_read ? -1 : 0) + (do_advance ? 1 : 0);;
+    always @(posedge clk) valid_cnt <= do_reset ? 0 : valid_cnt + (do_read ? -1 : 0) + (do_write ? 1 : 0);;
+
+    /* Read logic */        
+    always_comb do_read = (valid_cnt > 0) && (~bram_fifo_out.fifo_valid | (bram_fifo_out.fifo_valid & bram_fifo_out.fifo_rdy));
+    
+    always @(posedge clk) write_ptr <= next_write_ptr;
+
+    always_comb
     begin
-        if (~resetn) begin
-            bram_valid <= {bram_fifo_in.BRAM_LATENCY{1'b0}};
-            bram_last <= {bram_fifo_in.BRAM_LATENCY{1'b0}};
+        if (do_reset) begin
+            next_read_ptr = 0;
+        end else if (do_read) begin
+            next_read_ptr = (read_ptr + 1) % QUEUE_DEPTH;
         end else begin
-            bram_valid <= { bram_fifo_in.bram_rd_en, bram_valid[bram_fifo_in.BRAM_LATENCY-1:1] };
-            bram_last <= { bram_fifo_in.bram_addr == {bram_fifo_in.BRAM_ADDR_WIDTH{1'b1}},
-                                 bram_last[bram_fifo_in.BRAM_LATENCY-1:1] };
+            next_read_ptr = read_ptr;
         end
     end
     
-    assign bram_fifo_in.bram_rd_en = ((cache_valid_cnt + inflight_cnt) < CACHE_DEPTH); //  && bram_fifo_out.fifo_rdy
-
+    always @(posedge clk) read_ptr <= next_read_ptr;
+    
     always @(posedge clk)
     begin
-        if (~resetn || bram_fifo_in.fifo_restart || bram_fifo_out.fifo_restart) begin
-            bram_fifo_in.bram_addr <= 0;
-        end else if (bram_fifo_in.bram_rd_en) begin
+        if (do_reset) begin
+            bram_fifo_out.fifo_valid <= 1'b0;
+            bram_fifo_out.fifo_data <= 0;
+            bram_fifo_out.fifo_last <= 1'b0;
+        end else if (do_read) begin
+            bram_fifo_out.fifo_valid <= 1'b1;
+            bram_fifo_out.fifo_data <= cache_queue[read_ptr];
+            bram_fifo_out.fifo_last <= cache_last[read_ptr];
+        end else if (bram_fifo_out.fifo_rdy) begin
+            bram_fifo_out.fifo_valid <= 1'b0;
+        end
+    end
+
+    /* Write logic */
+    always_comb next_write_ptr = do_reset ? 0 : do_write ? ((write_ptr + 1) % QUEUE_DEPTH) : write_ptr;
+    
+    always @(posedge clk) write_ptr <= next_write_ptr;
+    
+    always_comb do_write = bram_valid[0];
+    
+    for (i = 0; i < QUEUE_DEPTH; i++)
+    begin
+        always @(posedge clk)
+        begin
+            if (do_reset) begin
+                cache_queue[i] <= 1'b0;
+                cache_last[i] <= 1'b0;
+            end else if (do_write && write_ptr == i) begin
+                cache_queue[i] <= bram_fifo_in.bram_data;
+                cache_last[i] <= bram_last[0];
+            end
+        end
+    end
+    
+    /* Address logic */
+    always_comb do_advance = (cnt < QUEUE_DEPTH) || do_read;
+    
+    always @(posedge clk) bram_valid <= do_reset ? 0 : { do_advance, bram_valid[bram_fifo_in.BRAM_LATENCY-1:1] };
+    always @(posedge clk) bram_last <= do_reset ? 0 : { bram_fifo_in.bram_addr == {bram_fifo_in.BRAM_ADDR_WIDTH{1'b1}}, bram_last[bram_fifo_in.BRAM_LATENCY-1:1] };
+    
+    always @(posedge clk)
+    begin
+        if (do_reset) begin
+            bram_fifo_in.bram_addr <= 0;    
+        end else if (do_advance) begin
             bram_fifo_in.bram_addr <= bram_fifo_in.bram_addr + 1;
         end
-    end
-
-    assign bram_fifo_out.fifo_valid = cache_valid_cnt > 0; 
-    
-    logic [$clog2(CACHE_DEPTH):0] next_cache_valid_cnt;
-    logic [bram_fifo_in.BRAM_LATENCY-1:0] next_inflight_cnt;
-    logic [CACHE_DEPTH* bram_fifo_in.WIDTH-1:0] next_cache_shift_reg;
-    logic [CACHE_DEPTH-1:0] next_cache_last;
-    
-    always @(posedge clk)
-    begin
-        if (~resetn || bram_fifo_in.fifo_restart || bram_fifo_out.fifo_restart) begin
-            inflight_cnt <= 0;            
-            cache_valid_cnt <= 0;
-            cache_shift_reg <= 0;
-            cache_last <= 0;
-        end else begin
-            next_cache_valid_cnt = cache_valid_cnt;
-            next_inflight_cnt = inflight_cnt;
-            next_cache_shift_reg = cache_shift_reg;
-            next_cache_last = cache_last;
-            
-            if (bram_fifo_in.bram_rd_en) begin
-                next_inflight_cnt += 1;            
-            end
-        
-            if (bram_fifo_out.fifo_valid & bram_fifo_out.fifo_rdy) begin
-                next_cache_valid_cnt -= 1;
-                next_cache_shift_reg = next_cache_shift_reg >> bram_fifo_out.WIDTH;
-                next_cache_last = next_cache_last >> 1;
-            end
-            
-            if (bram_valid[0]) begin
-                next_inflight_cnt = next_inflight_cnt - 1;
-                next_cache_shift_reg[next_cache_valid_cnt* bram_fifo_out.WIDTH +: bram_fifo_out.WIDTH] = bram_fifo_in.bram_data;
-                next_cache_last[next_cache_valid_cnt] = bram_last[0];
-                next_cache_valid_cnt += 1;
-            end
-            
-            cache_valid_cnt <= next_cache_valid_cnt;
-            inflight_cnt <= next_inflight_cnt;
-            cache_shift_reg <= next_cache_shift_reg;
-            cache_last <= next_cache_last;
-        end
-    end
+    end   
 endmodule

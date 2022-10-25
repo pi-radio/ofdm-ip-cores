@@ -105,95 +105,6 @@ module data_module
     
 
     `ifdef OLD_CODE
-    always@(posedge s_axis_data_aclk)
-        fifo_afull_shift_logic <= {(state == FIFO_AFULL), fifo_afull_shift_logic[BRAM_FIFO_LATENCY - 1 : 1]};
-
-
-    always@(posedge s_axis_data_aclk) begin
-        if(~s_axis_data_aresetn) begin
-            state <= IDLE;
-            last_state <= IDLE;
-            symbol_cnt <= 0;
-            enable_syncw <= 0;
-            enable_temp <= 0;
-            `ifdef	CVG
-            cg_inst = new();
-            `endif
-        end
-        else begin
-            case(state)
-                 IDLE: begin
-                `ifdef	CVG
-                    $display("Coverage = %0.2f %%", cg_inst.get_inst_coverage());
-                 `endif
-                    if(s_axis_data_tvalid && structs_ready) begin
-                        enable_syncw <= 1;
-                        state <= SYNC_WORD;
-                    end
-                end
-                SYNC_WORD: begin
-                    if(bram_fifo_syncw_out.fifo_last) begin
-                        state <= DATA;
-                        symbol_cnt <= symbol_cnt + 1;
-                        enable_syncw <= 0;
-                        enable_temp <= 1;
-                        if(fifo_almost_full) begin
-                            state <= FIFO_AFULL;
-                            last_state <= DATA;
-                        end
-                    end
-                end
-                DATA: begin
-                    if(bram_fifo_temp_out.fifo_last) begin
-                        if(fifo_almost_full) begin
-                            state <= FIFO_AFULL;
-                            if(symbol_cnt == (sym_per_frame - 1) && s_axis_data_tvalid) begin
-                                last_state <= SYNC_WORD;
-                                enable_syncw <= 1;
-                                enable_temp <= 0;
-                                symbol_cnt <= 0;
-                            end
-                            else if((symbol_cnt == (sym_per_frame - 1)) && (!s_axis_data_tvalid)) begin
-                                last_state <= IDLE;
-                                symbol_cnt <= 0;
-                                enable_syncw <= 0;
-                                enable_temp <= 0;
-                            end
-                            else begin
-                                last_state <= DATA;
-                                symbol_cnt <= symbol_cnt + 1;
-                            end
-                        end
-                        else begin
-                            if(symbol_cnt == (sym_per_frame - 1)) begin
-                                if(s_axis_data_tvalid)begin
-                                    symbol_cnt <= 0;
-                                    state <= SYNC_WORD;
-                                    enable_syncw <= 1;
-                                    enable_temp <= 0;
-                                end
-                                else begin
-                                    symbol_cnt <= 0;
-                                    state <= IDLE;
-                                    enable_syncw <= 0;
-                                    enable_temp <= 0;
-                                end
-                            end
-                            else begin
-                                symbol_cnt <= symbol_cnt + 1;
-                            end
-                        end
-                    end
-                end
-                FIFO_AFULL: begin
-                    if(~fifo_almost_full) begin
-                        state <= last_state;
-                    end
-                end
-            endcase
-        end
-    end
-    
 
      /* CODE ASSERTIONS */
     
@@ -254,7 +165,7 @@ module data_module
 	assert property (@(posedge s_axis_data_aclk)
 	   (state == FIFO_AFULL) && (fifo_almost_full) |=> 
 	               (state == FIFO_AFULL));
-	assert property (@(posedge s_axis_data_aclk)
+	assert property (@(posQuick Accessedge s_axis_data_aclk)
 	   (state == FIFO_AFULL) && (!fifo_almost_full) |=> 
 	               (state != FIFO_AFULL)); 
  
