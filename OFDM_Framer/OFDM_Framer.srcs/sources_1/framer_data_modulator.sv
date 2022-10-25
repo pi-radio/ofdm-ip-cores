@@ -27,87 +27,70 @@ module piradio_data_shift_reg
     );
     
     localparam SHIFT_REG_WIDTH = 2 * DATA_WIDTH;
-       
-    mod_t shift_reg_mod, new_shift_reg_mod;
-    modulation_t cur_mod;
-    integer modulation_bits;
     logic [SHIFT_REG_WIDTH - 1:0] shift_reg;
-    logic [SHIFT_REG_WIDTH - 1:0] new_shift_reg;
-   
+    mod_t shift_reg_mod;
+    modulation_t cur_mod;
+    integer bits_available, ba2;
+    integer last_count;
+    integer modulation_bits;
+    
+    logic do_shift_in;
+    logic do_shift_out;
+    integer available_space;
+    
     always_comb cur_mod = modulations[shift_reg_mod];    
     always_comb modulation_bits = SYMBOL_WIDTH * cur_mod.bits_per_symbol;   
-    
-    integer bits_available, new_bits_available;
-    integer last_count, new_last_count;
-    
-    always_comb
-    begin
-        new_bits_available = bits_available;
-        new_shift_reg = shift_reg;
-        new_last_count = last_count;
-        
-        if ((bits_available >= modulation_bits) && (data_bits_rdy & data_bits_valid)) begin
-            new_shift_reg = new_shift_reg >> modulation_bits;
-            new_bits_available -= modulation_bits;
-            new_last_count = new_last_count ? new_last_count - modulation_bits : 0;
-        end
-        
-        if ((SHIFT_REG_WIDTH - new_bits_available >= DATA_WIDTH) &&
-            (shift_reg_mod == modulation_in || new_bits_available == 0)) begin
-            data_words_ready = 1;
-            if (data_words_valid) begin
-                new_shift_reg |= data_words << new_bits_available;
-                new_bits_available += DATA_WIDTH;
-                new_last_count = data_words_last ? new_bits_available : new_last_count;
-                new_shift_reg_mod = modulation_in;
-            end
-        end else begin
-            data_words_ready = 0;
-        end
-    end
+   
+    always_comb do_shift_out = aresetn && (shift_reg_mod != MOD_NONE) && (bits_available >= modulation_bits) && (~data_bits_valid | (data_bits_valid & data_bits_rdy));
 
+    always_comb ba2 = bits_available - (do_shift_out ? modulation_bits : 0);
+
+    always_comb available_space = SHIFT_REG_WIDTH - ba2;
+
+    always_comb data_words_ready = aresetn && (available_space >= DATA_WIDTH) && (modulation_in == shift_reg_mod || bits_available == 0);
+
+    always_comb do_shift_in = data_words_ready & data_words_valid;
+
+    always @(posedge clk)
+    begin
+        if (~aresetn) begin
+            data_bits <= 1'b0;
+            data_bits_valid <= 1'b0;
+            data_bits_last <= 1'b0;
+        end else if (do_shift_out) begin
+            data_bits <= shift_reg[DATA_WIDTH-1:0];
+            data_bits_valid <= 1'b1;
+            data_bits_last <= (last_count == modulation_bits);
+            modulation_sr2e <= shift_reg_mod;
+        end else if (data_bits_rdy) begin
+            data_bits_valid <= 1'b0;
+        end 
+    end
     
     always @(posedge clk)
     begin
         if (~aresetn) begin
-            data_bits <= 0;
-            data_bits_valid <= 0;
-            data_bits_last <= 0;
-            shift_reg_mod <= MOD_NONE;
-            bits_available <= 0;
             shift_reg <= 0;
-            last_count <= 0;
-        end else begin        
-            if ((shift_reg_mod != MOD_NONE) && (bits_available >= modulation_bits)) begin
-                if (~data_bits_valid | (data_bits_rdy & data_bits_valid)) begin
-                    modulation_sr2e <= shift_reg_mod;
-                    data_bits <= new_shift_reg[DATA_WIDTH-1:0];
-                    data_bits_last <= new_last_count ? new_last_count == modulation_bits : 0;
-                    data_bits_valid <= 1'b1;
-                 end
-            end else if (data_bits_rdy & data_bits_valid) begin
-                data_bits_valid <= 1'b0;
-            end
-
-            bits_available <= new_bits_available;
-            shift_reg <= new_shift_reg;
-            last_count <= new_last_count;
-            shift_reg_mod = new_shift_reg_mod;
+        end else begin
+            shift_reg <= ((do_shift_out ? (shift_reg >> modulation_bits) : shift_reg) |
+                          (do_shift_in ? (data_words << ba2) : 0));
         end
     end
-        
-    property no_back_to_back_tlast;
-        @(posedge clk) data_words_last |-> (last_count == 0);
-    endproperty
     
-    /*
-    property no_last_span;
-        @(posedge clk) (last_count == 0) && (new_last_count != 0) |-> (new_last_count == bits_available) && (new_last_count >= modulation_bits);
-    endproperty
-    */
-    
-    a1: assert property(no_back_to_back_tlast);
-    //a2: assert property(no_last_span);
+    always @(posedge clk)
+    begin
+        if (~aresetn) begin
+            last_count <= 0;
+        end else if (last_count) begin
+            last_count = do_shift_out ? last_count - modulation_bits : last_count;
+        end else if (do_shift_in && data_words_last) begin
+            last_count = ba2 + DATA_WIDTH;
+        end           
+    end
+
+    always @(posedge clk) shift_reg_mod <= ~aresetn ? MOD_NONE : do_shift_in ? modulation_in : shift_reg_mod;
+
+    always @(posedge clk) bits_available <= ~aresetn ? 0 : bits_available + (do_shift_in ? DATA_WIDTH : 0) - (do_shift_out ? modulation_bits : 0);
             
 endmodule
 

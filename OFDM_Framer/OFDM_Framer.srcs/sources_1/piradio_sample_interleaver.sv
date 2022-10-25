@@ -105,21 +105,6 @@ module piradio_sample_interleaver
     always_comb bram_syncw_out.fifo_rdy = (state == SYNC_WORD) ? samples_out_rdy : 0;
     always_comb bram_temp_out.fifo_rdy = (state == DATA || state == TRAILER) ? samples_out_rdy : 0;
 
-    for (i = 0; i < fdm_out.MAX_SYMBOLS; i++) begin
-        always_comb begin
-            if (~resetn) begin
-                samples_out[i] <= 32'hBCBCBCBC;
-            end else if (state == IDLE) begin
-                samples_out[i] <= 32'hADADADAD;
-            end else if (state == SYNC_WORD) begin
-                samples_out[i] = bram_syncw_out.fifo_data[i * 32 +: 32];
-            end else if (state == DATA) begin
-                samples_out[i] = current_map[i] ? fdm_out.samples[count_ones[i]] : bram_temp_out.fifo_data[i * 32 +: 32];
-            end else if (state == TRAILER) begin
-                samples_out[i] = bram_temp_out.fifo_data[i * 32 +: 32];
-            end
-        end
-    end
     
     integer j;
     
@@ -141,8 +126,25 @@ module piradio_sample_interleaver
             fdm_out.samples_rdy = 0;
         end 
     end    
+
+    for (i = 0; i < fdm_out.MAX_SYMBOLS; i++) begin
+        always @(posedge clk) begin
+            if (~resetn) begin
+                samples_out[i] <= 32'hBCBCBCBC;
+            end else if (state == IDLE) begin
+                samples_out[i] <= 32'hADADADAD;
+            end else if (state == SYNC_WORD) begin
+                samples_out[i] <= bram_syncw_out.fifo_data[i * 32 +: 32];
+            end else if (state == DATA) begin
+                samples_out[i] <= current_map[i] ? fdm_out.samples[count_ones[i]] : bram_temp_out.fifo_data[i * 32 +: 32];
+            end else if (state == TRAILER) begin
+                samples_out[i] <= bram_temp_out.fifo_data[i * 32 +: 32];
+            end
+        end
+    end
+
     
-    always_comb begin
+    always @(posedge clk) begin
         if (~resetn) begin
             samples_out_valid <= 0;
         end else if (state == IDLE) begin
