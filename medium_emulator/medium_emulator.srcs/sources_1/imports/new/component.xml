@@ -1,0 +1,711 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>medium_emulator_v1_0</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>m00_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s00_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s00_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_aresetn</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ARESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_aclk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ACLK.ASSOCIATED_RESET">s_axis_aresetn</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.S_AXIS_ACLK.ASSOCIATED_BUSIF">m00_axis:s00_axis</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>Verilog</spirit:language>
+        <spirit:modelName>medium_emulator_v1_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>dfc8db2a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>Verilog</spirit:language>
+        <spirit:modelName>medium_emulator_v1_0</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>dfc8db2a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>1304021a</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>s_axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXIS_TDATA_WIDTH&apos;)) - 1)">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_S00_AXIS_TDATA_WIDTH&apos;)) / 8) - 1)">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH&apos;)) - 1)">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH&apos;)) / 8) - 1)">15</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m00_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>C_S00_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C S00 Axis Tdata Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S00_AXIS_TDATA_WIDTH">128</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M00_AXIS_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C M00 Axis Tdata Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M00_AXIS_TDATA_WIDTH">128</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M00_AXIS_START_COUNT</spirit:name>
+        <spirit:displayName>C M00 Axis Start Count</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M00_AXIS_START_COUNT">32</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>medium_emulator.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_dfc8db2a</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>medium_emulator.v</spirit:name>
+        <spirit:fileType>verilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/medium_emulator_v1_0_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_1304021a</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>Medium Emulator</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>C_S00_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C S00 Axis Tdata Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S00_AXIS_TDATA_WIDTH">128</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M00_AXIS_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C M00 Axis Tdata Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M00_AXIS_TDATA_WIDTH">128</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M00_AXIS_START_COUNT</spirit:name>
+      <spirit:displayName>C M00 Axis Start Count</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M00_AXIS_START_COUNT">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">medium_emulator_v1_0_v1_0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>medium_emulator_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:coreRevision>19</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-10-26T15:16:03Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@370a730a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27fb61cf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50b5ddab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f217d1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1720caec_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16d7081d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e9f36a5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d05823d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27f25816_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47027c72_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7668a53d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1febe984_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9f3f011_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bdd2047_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6eaae7b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70a8b493_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1730c371_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3973510_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45553f7f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@418952c7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f5934cc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ca28979_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@476e34e9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74b98671_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1276100a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@624214c1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d70a488_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50633b49_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f7e6b79_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60bfb28f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77a78820_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5804be1c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51a30964_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fb35b0d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7cee5e11_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48d2c501_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@326b59b3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56186d1f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@784e9d20_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@157479c0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42a2d1ed_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65b62e8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ddcd598_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@405627d4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5738813a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@266807d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7adcb2ff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a72f1a3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c203a86_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@676f4b4a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36eec0de_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37b72b33_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a8690c5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37ae118d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@276369b9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2742cf1c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d5c252b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@148e42e9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18168fdb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8ac62b3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4318a9f6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@491c2264_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fe41244_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@c4c4bb7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@646b024c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66251a03_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7092a86_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42ed350c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40b56b4b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c09918c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f2a2191_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64c29211_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@106b639b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a55faeb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c6add42_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ac57c32_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@202bca2b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bb1c1a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39ebd362_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56beef1e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7504cc69_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4027014c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ae3b31f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43212b58_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57e5baf4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e218780_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9aa32bf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@231eaad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18618c4f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7347f754_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7011ad6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@451c46c0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@295183b0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@663c0f8d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74392722_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3fd72820_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36064251_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b7ef2e6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f78c34f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@396c0edd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15021641_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ba0f72c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ed44521_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5439451_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62885fdf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ff7208_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e1cc382_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b041430_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@274bc501_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28115e3f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@717b506d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56b63ba4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a6ea377_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71bf36d2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2bac3c63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b57b141_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e0197b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f4f2ce4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f670ca5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c5a88bb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5166439e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b870551_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@305d025e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6afe2ba0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@637460b3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d476a58_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e969eee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ba7591e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6390afe7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a1f0359_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34727f38_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@366efd3b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6badb2f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28f29135_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19ac225c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30348d89_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40647fd3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f70b9d2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@468fe8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54ae55cb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bc44d81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@535da843_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@76ae4dbe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@78176a2e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2bc4de0c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e9cb3fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f0d5ae0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@674c93e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@442d454e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b90a201_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@fb4bd22_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e89568f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57a5afef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d2c1c4c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e5215ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d457bc3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@144f4dd7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26e20809_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ff96eb4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@283905d5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e523734_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14ff879_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@440040a9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2591b48e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5b4efdf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56a3479d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50d16c81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@500e6614_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@329c306a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a82d097_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e63c9ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@526b1463_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75733744_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6911577a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66c81d7a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@272e7a33_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13174aef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f2fe370_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d964e5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@713d4d6d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f7a52a5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28c42ab1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50669768_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36367636_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59e26778_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1ef54798_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47f57be5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5358deb5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d31a63a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@73f06811_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4fb2dfcb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e495988_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@256d324_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bdce16_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f368b40_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@689269e3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47eda82a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c9bd25e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1afe797a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@373669cc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@96f7bd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d7f242b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75afb9a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/medium_emulator/medium_emulator/medium_emulator.srcs/sources_1/imports/new</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="b47e9729"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="212fdccb"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="3e2dab8b"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="a6c623f8"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="c39513ba"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

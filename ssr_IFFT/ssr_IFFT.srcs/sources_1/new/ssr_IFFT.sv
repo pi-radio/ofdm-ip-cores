@@ -1,7 +1,7 @@
 
 `timescale 1 ns / 1 ps
 
-	module ssr_IFFT_v1_0 #
+	module ssr_IFFT #
 	(
 		// Users to add parameters here
 

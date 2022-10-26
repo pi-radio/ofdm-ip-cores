@@ -1,4 +1,3 @@
-
 `timescale 1 ns / 1 ps
 
 	module OFDM_correlator #
@@ -96,59 +95,6 @@
        .wea(1)
     );
     
-    corr_cmpy_0 cmpy_0_inst (
-        .aclk(s_axis_aclk),                              // input wire aclk
-        .aresetn(s_axis_aresetn),
-        .s_axis_a_tvalid(s_cmpy_a_valid),        // input wire s_axis_a_tvalid
-        .s_axis_a_tready(s_cmpy_a_ready[0]),        // output wire s_axis_a_tready
-        .s_axis_a_tdata(input_conj[0]),          // input wire [31 : 0] s_axis_a_tdata
-        .s_axis_b_tvalid(s_cmpy_b_valid),        // input wire s_axis_b_tvalid
-        .s_axis_b_tready(s_cmpy_b_ready[0]),        // output wire s_axis_b_tready
-        .s_axis_b_tdata(sync_word_out[31 : 0]),          // input wire [31 : 0] s_axis_b_tdata
-        .m_axis_dout_tvalid(m_cmpy_valid[0]),  // output wire m_axis_dout_tvalid
-        .m_axis_dout_tready(m00_axis_tready),  // input wire m_axis_dout_tready
-        .m_axis_dout_tdata(m_cmpy_data[0])    // output wire [31 : 0] m_axis_dout_tdata
-    );
-    corr_cmpy_0 cmpy_1_inst (
-        .aclk(s_axis_aclk),                              // input wire aclk
-        .aresetn(s_axis_aresetn),
-        .s_axis_a_tvalid(s_cmpy_a_valid),        // input wire s_axis_a_tvalid
-        .s_axis_a_tready(s_cmpy_a_ready[1]),        // output wire s_axis_a_tready
-        .s_axis_a_tdata(input_conj[1]),          // input wire [31 : 0] s_axis_a_tdata
-        .s_axis_b_tvalid(s_cmpy_b_valid),        // input wire s_axis_b_tvalid
-        .s_axis_b_tready(s_cmpy_b_ready[1]),        // output wire s_axis_b_tready
-        .s_axis_b_tdata(sync_word_out[63 : 32]),          // input wire [31 : 0] s_axis_b_tdata
-        .m_axis_dout_tvalid(m_cmpy_valid[1]),  // output wire m_axis_dout_tvalid
-        .m_axis_dout_tready(m00_axis_tready),  // input wire m_axis_dout_tready
-        .m_axis_dout_tdata(m_cmpy_data[1])    // output wire [31 : 0] m_axis_dout_tdata
-    );
-    corr_cmpy_0 cmpy_2_inst (
-        .aclk(s_axis_aclk),                              // input wire aclk
-        .aresetn(s_axis_aresetn),
-        .s_axis_a_tvalid(s_cmpy_a_valid),        // input wire s_axis_a_tvalid
-        .s_axis_a_tready(s_cmpy_a_ready[2]),        // output wire s_axis_a_tready
-        .s_axis_a_tdata(input_conj[2]),          // input wire [31 : 0] s_axis_a_tdata
-        .s_axis_b_tvalid(s_cmpy_b_valid),        // input wire s_axis_b_tvalid
-        .s_axis_b_tready(s_cmpy_b_ready[2]),        // output wire s_axis_b_tready
-        .s_axis_b_tdata(sync_word_out[95 : 64]),          // input wire [31 : 0] s_axis_b_tdata
-        .m_axis_dout_tvalid(m_cmpy_valid[2]),  // output wire m_axis_dout_tvalid
-        .m_axis_dout_tready(m00_axis_tready),  // input wire m_axis_dout_tready
-        .m_axis_dout_tdata(m_cmpy_data[2])    // output wire [31 : 0] m_axis_dout_tdata
-    );
-    corr_cmpy_0 cmpy_3_inst (
-        .aclk(s_axis_aclk),                              // input wire aclk
-        .aresetn(s_axis_aresetn),
-        .s_axis_a_tvalid(s_cmpy_a_valid),        // input wire s_axis_a_tvalid
-        .s_axis_a_tready(s_cmpy_a_ready[3]),        // output wire s_axis_a_tready
-        .s_axis_a_tdata(input_conj[3]),          // input wire [31 : 0] s_axis_a_tdata
-        .s_axis_b_tvalid(s_cmpy_b_valid),        // input wire s_axis_b_tvalid
-        .s_axis_b_tready(s_cmpy_b_ready[3]),        // output wire s_axis_b_tready
-        .s_axis_b_tdata(sync_word_out[127 : 96]),          // input wire [31 : 0] s_axis_b_tdata
-        .m_axis_dout_tvalid(m_cmpy_valid[3]),  // output wire m_axis_dout_tvalid
-        .m_axis_dout_tready(m00_axis_tready),  // input wire m_axis_dout_tready
-        .m_axis_dout_tdata(m_cmpy_data[3])    // output wire [31 : 0] m_axis_dout_tdata
-    );
-    
     generate
         for(i = 0; i < 4; i = i + 1) begin
             assign sync_word_re_signed[i] = sync_word_out[i * 32 +: 16];
@@ -182,15 +128,6 @@
     assign s00_axis_config_tready = config_ready;
     //assign sync_word_in_en = config_ready && s00_axis_config_tvalid;
     assign s00_axis_tready = !s00_axis_config_tready; //!s00_axis_config_tready && s_cmpy_a_all_ready;
-    
-//    assign m00_axis_tdata[15 : 0] = (m_cmpy_data[0][32 : 0] >> 15);
-//    assign m00_axis_tdata[31 : 16] = (m_cmpy_data[0][72 : 40] >> 15);
-//    assign m00_axis_tdata[47 : 32] = (m_cmpy_data[1][32 : 0] >> 15);
-//    assign m00_axis_tdata[63 : 48] = (m_cmpy_data[1][72 : 40] >> 15);
-//    assign m00_axis_tdata[79 : 64] = (m_cmpy_data[2][32 : 0] >> 15);
-//    assign m00_axis_tdata[95 : 80] = (m_cmpy_data[2][72 : 40] >> 15);
-//    assign m00_axis_tdata[111 : 96] = (m_cmpy_data[3][32 : 0] >> 15);
-//    assign m00_axis_tdata[127 : 112] = (m_cmpy_data[3][72 : 40] >> 15);
     
     assign s_cmpy_b_valid = shift_reg[0] && s_axis_aresetn;//!s00_axis_config_tready;// && S_AXIS_TVALID && s_axis_a_tready && s_axis_b_tready && M_AXIS_TREADY;
     assign s_cmpy_a_valid = shift_reg[0] && s_axis_aresetn;
@@ -226,8 +163,7 @@
             end
         end
     end
-    
-    
+      
     always @(posedge s_axis_aclk) begin
         if(!s_axis_aresetn) begin
             sync_word_out_addr <= 0;

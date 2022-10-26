@@ -48,7 +48,7 @@ source project.tcl
 cd ../$origin_dir/pilot_zero_remover
 source project.tcl
 cd ../$origin_dir/ssr_FFT
-source fft_project.tcl
+source project.tcl
 cd ../$origin_dir/ssr_IFFT
 source project.tcl
 cd ..
