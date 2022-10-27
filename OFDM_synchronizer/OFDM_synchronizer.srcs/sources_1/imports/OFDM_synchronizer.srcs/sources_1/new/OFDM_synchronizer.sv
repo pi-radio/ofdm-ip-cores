@@ -26,13 +26,13 @@
 		output wire  m_axis_data_tvalid,
 		output wire [C_M_AXIS_DATA_TDATA_WIDTH-1 : 0] m_axis_data_tdata,
 		output wire [(C_M_AXIS_DATA_TDATA_WIDTH/8)-1 : 0] m_axis_data_tstrb,
-		output wire  m_axis_data_tlast,
+		output reg  m_axis_data_tlast,
 		input wire  m_axis_data_tready,
 		
 		output wire  m_axis_log_tvalid,
 		output wire [127 : 0] m_axis_log_tdata,
 		output wire [(128/8)-1 : 0] m_axis_log_tstrb,
-		output wire  m_axis_log_tlast,
+		output reg  m_axis_log_tlast,
 		input wire  m_axis_log_tready,
 
 		input wire [C_S00_AXI_ADDR_WIDTH-1 : 0] s00_axi_awaddr,
@@ -222,7 +222,7 @@
     assign buffer_read_idx = start_idx + samples_sent;
     
     assign m_axis_data_tdata =  (state_tx) ? buffer[buffer_read_idx] : 32'h00000000;
-    assign m_axis_data_tvalid = ((cp_rm_count >= cp_len) && samples_sent < total_samples_per_symb );
+    assign m_axis_data_tvalid = (state_tx && /*(cp_rm_count >= cp_len) &&*/ samples_sent < total_samples_per_symb );
     
     assign start_idx = active_correlator1 ? start_idx_c1 :
                         (active_correlator2 ? start_idx_c2 : 32'h00000000);
@@ -350,7 +350,9 @@
         if(state_tx) begin
             if(samples_sent < total_samples_per_symb - 1) begin
                 samples_sent <= samples_sent + 1;
-                if(symbol_counter == 319) begin // Reset cp counter for every symbol 
+                if(symbol_counter == 318) m_axis_data_tlast <= 1;
+                else m_axis_data_tlast <= 0;
+                if(symbol_counter == 319) begin // Reset cp counter for every symbol
                     cp_rm_count <= 0;
                     symbol_counter <= 0;
                 end
@@ -362,6 +364,7 @@
             else begin
                 cp_rm_count <= 0;
                 symbol_counter <= 0;
+                m_axis_data_tlast <= 0;
             end    
         end
         else begin

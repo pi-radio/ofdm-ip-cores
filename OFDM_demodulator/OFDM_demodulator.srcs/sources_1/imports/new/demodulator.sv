@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-import demodulator_package::*;
+
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
 // Engineer: 
@@ -22,7 +22,9 @@ import demodulator_package::*;
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module demodulator #(
+module demodulator 
+        import demodulator_package::*;
+    #(
         parameter integer C_M00_AXIS_TDATA_WIDTH = 32,
         parameter integer C_S00_AXIS_TDATA_WIDTH = 128
     )(

@@ -106,7 +106,7 @@ import demodulator_package::*;
 	//-- Signals for user logic register space example
 	//------------------------------------------------
 	//-- Number of Slave Registers 4
-	reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg0 = 32'd2;
+	reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg0 = 32'd1;
 	reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg1;
 	reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg2;
 	reg [C_S_AXI_DATA_WIDTH-1:0]	slv_reg3;
@@ -224,7 +224,7 @@ import demodulator_package::*;
 	begin
 	  if ( S_AXI_ARESETN == 1'b0 )
 	    begin
-	      slv_reg0 <= 32'd000002;
+	      slv_reg0 <= 32'd1;
 	      slv_reg1 <= 0;
 	      slv_reg2 <= 0;
 	      slv_reg3 <= 0;

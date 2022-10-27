@@ -338,7 +338,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>8b958a0b</spirit:value>
+            <spirit:value>f38a938e</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -354,7 +354,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>8b958a0b</spirit:value>
+            <spirit:value>f38a938e</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -383,7 +383,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>1ed72f93</spirit:value>
+            <spirit:value>561e6c71</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -1005,16 +1005,11 @@
     <spirit:fileSet>
       <spirit:name>xilinx_testbench_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>../../sim_1/new/demodulator_tb.v</spirit:name>
+        <spirit:name>../../../sim_1/imports/new/demodulator_tb.v</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
         <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
         <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
-      </spirit:file>
-      <spirit:file>
-        <spirit:name>../../../demodulator_tb_behav.wcfg</spirit:name>
-        <spirit:fileType>unknown</spirit:fileType>
-        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
   </spirit:fileSets>
@@ -1078,8 +1073,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>OFDM_demodulator</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>23</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2022-10-17T16:40:05Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>26</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-10-27T11:56:03Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@41993c93_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/new</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@752acc88_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/new</xilinx:tag>
@@ -1303,14 +1298,52 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@4784ed65_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/new</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@201886a6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/new</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@6939436a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3be272cb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7aaf9b83_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45a968c8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@581ed83a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@167b3a9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72ff09a5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1029be82_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70fce167_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ee93cbb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68f48442_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7bcfd3bd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53fb6ea3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e2c6d32_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29d8ec3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c053575_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a6d386e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11b9ecc8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e2b9007_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57fecc9a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d1f55e4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57f64010_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f5f6eed_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ea10e29_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@fef6407_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5730550d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5aaf373_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@456e22cc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13cd03c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48a7bbcd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@10fc9211_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31189be9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d73f47f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@32868c35_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@295b4ec7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@23e792dd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@700cf254_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@303cfeb4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21fffdbf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_demodulator/OFDM_demodulator.srcs/sources_1/imports/new</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="df0ba162"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="7a43b974"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="ae389129"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="7a1c3330"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="5bc1fd91"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="9b9d5913"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="28efca37"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="d2449df5"/>
     </xilinx:packagingInfo>

@@ -482,7 +482,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>865e09ba</spirit:value>
+            <spirit:value>a36b3910</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -498,7 +498,7 @@
         <spirit:parameters>
           <spirit:parameter>
             <spirit:name>viewChecksum</spirit:name>
-            <spirit:value>865e09ba</spirit:value>
+            <spirit:value>a36b3910</spirit:value>
           </spirit:parameter>
         </spirit:parameters>
       </spirit:view>
@@ -612,7 +612,7 @@
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
+              <spirit:typeName>reg</spirit:typeName>
               <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
               <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
             </spirit:wireTypeDef>
@@ -688,7 +688,7 @@
           <spirit:direction>out</spirit:direction>
           <spirit:wireTypeDefs>
             <spirit:wireTypeDef>
-              <spirit:typeName>wire</spirit:typeName>
+              <spirit:typeName>reg</spirit:typeName>
               <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
               <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
             </spirit:wireTypeDef>
@@ -1328,7 +1328,7 @@
       <spirit:file>
         <spirit:name>sources_1/new/OFDM_synchronizer.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
-        <spirit:userFileType>CHECKSUM_b3ca170a</spirit:userFileType>
+        <spirit:userFileType>CHECKSUM_0e01cfe4</spirit:userFileType>
       </spirit:file>
     </spirit:fileSet>
     <spirit:fileSet>
@@ -1349,7 +1349,7 @@
     <spirit:fileSet>
       <spirit:name>xilinx_testbench_view_fileset</spirit:name>
       <spirit:file>
-        <spirit:name>sim_1/new/synchronizer_tb.sv</spirit:name>
+        <spirit:name>../../../sim_1/imports/new/synchronizer_tb.sv</spirit:name>
         <spirit:fileType>systemVerilogSource</spirit:fileType>
         <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
         <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
@@ -1436,8 +1436,8 @@
       </xilinx:taxonomies>
       <xilinx:displayName>OFDM_synchronizer</xilinx:displayName>
       <xilinx:definitionSource>package_project</xilinx:definitionSource>
-      <xilinx:coreRevision>32</xilinx:coreRevision>
-      <xilinx:coreCreationDateTime>2022-09-25T16:36:00Z</xilinx:coreCreationDateTime>
+      <xilinx:coreRevision>35</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2022-10-27T12:49:15Z</xilinx:coreCreationDateTime>
       <xilinx:tags>
         <xilinx:tag xilinx:name="ui.data.coregen.df@7975b2ba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@39f389fd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs</xilinx:tag>
@@ -1786,14 +1786,47 @@
         <xilinx:tag xilinx:name="ui.data.coregen.df@37a38276_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@43a1e86e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs</xilinx:tag>
         <xilinx:tag xilinx:name="ui.data.coregen.df@9070f54_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59442c19_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1960ead_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d2868a6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@374ae7d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@566ef605_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@497e8f6d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@230f5774_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40283117_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@646574a9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d6c133c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@534fb948_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65150dd8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f0f9ca7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@495cb063_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1270daad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c1600a5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@52da3d2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@308aefc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e2da228_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16f5f7af_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14654b27_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47f78358_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@442d05eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@da5c7fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3baae4fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c704788_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3901a9df_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1cd67c9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34a57fb1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@530a6f70_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c0685ef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d18c6c9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66fcd123_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/imports/OFDM_synchronizer.srcs</xilinx:tag>
       </xilinx:tags>
     </xilinx:coreExtensions>
     <xilinx:packagingInfo>
       <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
       <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="1eef155f"/>
       <xilinx:checksum xilinx:scope="memoryMaps" xilinx:value="871c369d"/>
-      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="9264de83"/>
-      <xilinx:checksum xilinx:scope="ports" xilinx:value="e3a54ce6"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="f87e5b03"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="38bb1d54"/>
       <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="a512a3cd"/>
       <xilinx:checksum xilinx:scope="parameters" xilinx:value="6b21f01f"/>
     </xilinx:packagingInfo>
