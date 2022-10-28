@@ -223,7 +223,7 @@
 	begin
 	  if ( S_AXI_ARESETN == 1'b0 )
 	    begin
-	      slv_reg0 <= 32'd800000;;
+	      slv_reg0 <= 32'd000000;
 	      slv_reg1 <= 0;
 	      slv_reg2 <= 0;
 	      slv_reg3 <= 0;
