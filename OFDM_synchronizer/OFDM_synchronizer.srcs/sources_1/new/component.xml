@@ -1,0 +1,1110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>synchronizer</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>s_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_corr_1</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_1_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_1_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_1_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_1_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_corr_2</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_2_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_2_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_2_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_corr_2_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>resetn</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>resetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.RESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>clk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>clk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_BUSIF">s_axis:s_axis_corr_1:s_axis_corr_2:m_axis</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.CLK.ASSOCIATED_RESET">resetn</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>m_axis</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>synchronizer</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>18fd44ed</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>synchronizer</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>18fd44ed</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>f09f466c</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_testbench</spirit:name>
+        <spirit:displayName>Test Bench</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:modelName>synchronizer_tb</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>ed10ecde</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>clk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>resetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_1_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.CORR_DATA_WIDTH&apos;)) - 1)">255</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_1_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_1_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_1_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_2_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.CORR_DATA_WIDTH&apos;)) - 1)">255</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_2_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_2_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_corr_2_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.DATA_WIDTH&apos;)) - 1)">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.DATA_WIDTH&apos;)) - 1)">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>logic</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>CORR_DATA_WIDTH</spirit:name>
+        <spirit:displayName>Corr Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.CORR_DATA_WIDTH">256</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>DATA_WIDTH</spirit:name>
+        <spirit:displayName>Data Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.DATA_WIDTH">128</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>cp_rm_enable</spirit:name>
+        <spirit:displayName>Cp Rm Enable</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.cp_rm_enable">0</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_98b8ce5c</spirit:name>
+      <spirit:enumeration>0</spirit:enumeration>
+      <spirit:enumeration>1</spirit:enumeration>
+    </spirit:choice>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>sync_ifaces.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>stream_sync.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>synchronizer.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>peak_detector.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>bram_ctrl.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_1726e794</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>sync_ifaces.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>stream_sync.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>synchronizer.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>peak_detector.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>bram_ctrl.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/synchronizer_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_f09f466c</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>../../sim_1/new/synchronizer_tb.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>synchronizer_v1_0</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">synchronizer_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>CORR_DATA_WIDTH</spirit:name>
+      <spirit:displayName>Corr Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.CORR_DATA_WIDTH">256</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>DATA_WIDTH</spirit:name>
+      <spirit:displayName>Data Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.DATA_WIDTH">128</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>cp_rm_enable</spirit:name>
+      <spirit:displayName>CP Remove Enable</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.cp_rm_enable" spirit:choiceRef="choice_list_98b8ce5c">0</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>synchronizer_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
+      </xilinx:xpmLibraries>
+      <xilinx:coreRevision>32</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2023-01-20T10:52:42Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@93de3c0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a71674b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@258da04a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1795a5fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45410946_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@334a4d01_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16cf9fb5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c53a04e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f78ecc7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5881840a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5e341cd2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33594691_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3182949f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@763c468b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@79338a89_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a74d04e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@561be14a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46d035b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c32655e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@132e448d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61bfbc0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3fc55148_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@784c2a52_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62d592d7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7dd3e6f7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e2698b6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@50bfa4d3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e81bfff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cafb747_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@293bb55a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@503448b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8ec2e79_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@546d0ec8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2284760a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19fd2e5e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1ebfa3b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@612b9f44_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40bbb83a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c78c955_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6029694c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c878336_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19fac6c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@efa81a5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3248e07e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@24da91c2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18c7a74b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3057d2bc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65efbe0f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15b47c9c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75c08ce4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e5c8cb9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@79fa644_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bb58fd7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d0f1dff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bfc6c59_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@443ad5eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71aaea6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b92feed_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d3f1131_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7612ba58_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f65692_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@365afa91_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57ef16ef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@670af733_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@230e9007_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65e20281_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b66c65e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48cef8f0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71ab2464_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1daa484b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c354f79_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ff783e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66be182b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28e4ce6b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30a5ab8a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4eda314d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5adc034c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4bf96ad7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ecbd93a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@540767b2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1de0a0fe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6fb3db1d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17c2f2e5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59823441_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@28e9c618_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36106172_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19d7328f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f256fa2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21b16406_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4042acfc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4374075c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ca2d6ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1ff9cfe5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c0ceb8f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@275b97bb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c8077dc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a7b4a67_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15a7147c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3116be2d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6f42010c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27497ff8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@766f7849_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@190115aa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14ac59f9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@524efe15_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34377c62_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c86ac9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@375f9715_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d8c589c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@24e81975_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f8185a8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@635ebdf9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5cf69b0c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27c9c988_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3077ae66_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@115ec901_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3844319a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@fdc88aa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@201d5a5a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@666389f3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2a3c78d3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26c8bc2e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@561429a0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6fd4780_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e51956e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2cd2263c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57f8ade2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71d81199_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72a617e3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@32f478f2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56e3b986_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@612c2d24_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1cb23aa4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a9d5612_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f9eefa1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c2ceaaf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@40075200_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@327d5af0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@76f9636a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6de5bcb0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46d8d9d3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b9870f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e7d6ba5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3acd3ea8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d56b78b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@757ae159_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d9f2803_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@180fc35_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d66d4ca_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@472c9aeb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4eff8221_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5dd530fa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70941532_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d3d8b56_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37922487_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b8d1864_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@165806df_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d2e0587_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47bf95b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3553847d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6dc33a00_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67bc55c7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37ba26cd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3305837b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61681d06_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ce2ac9c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d5d3f18_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@228d5244_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ffa18e1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ee2493_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7131c41_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21abb9ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5eb0f7c0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@113eb35c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@59fb9c56_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@378fb57e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62044f69_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@424e026e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b0ff986_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e27b193_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38f4577b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41d05f5b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46ec60c9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5b535434_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@31d89699_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1afdda74_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@22a5729e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@216557cd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1004ed1c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56f4881e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@616d3bb1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66477b7e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b7b2dad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3ae64c36_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@164058e5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35644e77_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@49971df5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7079ca63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ea40dea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d579f53_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f89e773_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fee2e97_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@712c1eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c240d80_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@702d3292_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1085af51_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3cac32ff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@369937f3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@229b96e1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5466ed82_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@449fd4d6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@386ef297_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1033788d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@192ab6a8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f1e6f02_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17e1d5a1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@12e23a7f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2657f2ff_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47925612_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ebace2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6aa5eb8e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@235c494c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f929a9e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8d0310f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3072013d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f971475_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a68d191_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@484baeac_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41b1cf95_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a5a2c24_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f4fde85_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@453c4fe7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@516018b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a30054f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ffd171a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f676c16_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@677decc3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4f0597d1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d0eae95_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@730bb74d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2daa6bf0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@536c0ec8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1319b0ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1717e54b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@25846c63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4964cbd6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@442a2e73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b888eba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@825177e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@66e09c7c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@693cb1e6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e5cc4e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3cb05770_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@37f285e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@476e7aef_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15cf4514_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b43be16_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54c3a409_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4431ba96_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@557cb7b7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71571e65_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@20096383_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17ac4c87_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51bed973_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@77cc75ae_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@24273e0a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13c208a6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@656c5a81_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@eff0656_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@450c11c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@582627d6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a751cfa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@701a0314_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2172386c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@366c7db5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f02c455_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2191695f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@56627e47_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27dd6670_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@61b2f588_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6942b5fc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1fbe47cd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e145147_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68e62ac2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bda235d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14865e1d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a40cef3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5818ba36_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4d4afd61_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68e1682_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b6a7dd5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6166de60_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@25a374bc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6547936_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70f2b515_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29c69c7c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f37d09e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@302486ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ba5bde3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6807c2f7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@73d30457_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b039025_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@73c1ad66_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5423312c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5630ec5c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b4c5ecf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e85ee5e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@738ab1b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46ba368f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f984ba5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7967e4d1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5516c8a4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51146cd5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@159afe96_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27233631_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f79e9ea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e087237_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@431020a4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@738300eb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cb0dabf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@43931ff3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65b41972_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b492a63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@35ad1b2b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@51f87a21_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@293286d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15209f2e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64e2ce09_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@70fb27dd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e77ad20_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a680057_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26937fd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@11b06b48_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3701f4e9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38a833d5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33c826b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a885772_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f1873d9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@593d1089_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f234634_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c739cb1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1429f0df_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@227a062_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16af4367_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@13f5916c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4c0d19af_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2eeac755_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3b78eae5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29d4cc41_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f5a5ce5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f4c7172_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@710c37d2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3056a36a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a4e704_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33c3aa49_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1446c0b4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@47148a58_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54f0feb5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7723c448_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a31cfcc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6a715c19_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7a880035_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@99cf64f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42dc44e3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b22e49a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15cbe710_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7721d054_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ccf3998_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1250b2f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@48375c9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@55b37b4c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2571ed75_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6c7b4dc4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41709114_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7845a07c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@78918102_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42ff833b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@32b3382_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a1db27b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3a5273e0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4495a983_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ec81ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@513329a8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6019e6b8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@60ffef9c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@689e3aad_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@414f6a7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@26018b28_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@49cc108a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@de3799_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e527103_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_synchronizer_new/OFDM_synchronizer/OFDM_synchronizer.srcs/sources_1/new</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="7034ad79"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="51e4ac2e"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="9bad1ca0"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="cafbe7ec"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="69e85d75"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>
