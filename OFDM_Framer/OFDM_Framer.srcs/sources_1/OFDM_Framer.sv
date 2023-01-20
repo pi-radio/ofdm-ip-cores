@@ -1,11 +1,10 @@
+import piradio_ofdm::*;
 
 `timescale 1 ns / 1 ps
-
 	module OFDM_Framer #
 	(
 		parameter integer C_S_AXIS_DATA_TDATA_WIDTH	= 32,
-		parameter integer C_M_AXIS_DATA_TDATA_WIDTH	= 128,
-		parameter integer MODULATION = 0
+		parameter integer C_M_AXIS_DATA_TDATA_WIDTH	= 128
 	)
 	(
 		input wire  axis_aclk,
@@ -36,13 +35,12 @@
     wire [3 : 0] doutb_map;
     wire [8 : 0] addra, addrb;
     wire structs_ready;
+    bram_fifo_in_iface bram_syncw_bus();
+    bram_fifo_in_iface#(.WIDTH(132)) bram_temp_bus();
     
     assign wea = 1;
     
-	sync_word_module #(
-       .TOTAL_CARRIERS(1024),
-       .S_AXIS_TDATA_WIDTH(C_S_AXIS_DATA_TDATA_WIDTH)
-       ) sync_word_mod_inst (
+	sync_word_module sync_word_mod_inst (
         .s_axis_config_aclk(axis_aclk),
 		.s_axis_config_aresetn(axis_aresetn),
 		.s_axis_config_tready(s_axis_config_tready),
@@ -50,17 +48,14 @@
 		.s_axis_config_tstrb(s_axis_config_tstrb),
 		.s_axis_config_tlast(s_axis_config_tlast),
 		.s_axis_config_tvalid(s_axis_config_tvalid),
-		.bram_addr(addrb),
-		.sync_temp_dout(doutb),
-		.map_dout(doutb_map),
-		.bram_en(enb),
-		.structs_ready(structs_ready)
+		.structs_ready(structs_ready),
+		.bram_syncw_bus(bram_syncw_bus.slave),
+		.bram_temp_bus(bram_temp_bus.slave)
        );
             
        data_module #(
         .S_AXIS_TDATA_WIDTH(C_S_AXIS_DATA_TDATA_WIDTH),
-        .M_AXIS_TDATA_WIDTH(C_M_AXIS_DATA_TDATA_WIDTH),
-        .MODULATION(MODULATION)
+        .M_AXIS_TDATA_WIDTH(C_M_AXIS_DATA_TDATA_WIDTH)
        )
        data_module_inst 
        (
@@ -71,16 +66,14 @@
             .s_axis_data_tstrb(s_axis_data_tstrb),
             .s_axis_data_tlast(s_axis_data_tlast),
             .s_axis_data_tvalid(s_axis_data_tvalid),
-            .sync_word_ready(structs_ready),
             .m_axis_data_tvalid(s_axis_fifo_tvalid),
             .m_axis_data_tdata(s_axis_fifo_tdata),
             .m_axis_data_tlast(s_axis_fifo_tlast),
             .m_axis_data_tready(s_axis_fifo_tready),
+            .structs_ready(structs_ready),
             .fifo_almost_full(fifo_almost_full),
-            .bram_addr(addrb),
-		    .sync_temp_dout(doutb),
-		    .map_dout(doutb_map),
-		    .bram_en(enb)
+            .bram_syncw_bus(bram_syncw_bus.master),
+		    .bram_temp_bus(bram_temp_bus.master)
        );
        
      xpm_fifo_axis #(
@@ -91,7 +84,7 @@
      .FIFO_MEMORY_TYPE("auto"), // String
      .PACKET_FIFO("false"), // String
      .PROG_EMPTY_THRESH(10), // DECIMAL
-     .PROG_FULL_THRESH(257), // DECIMAL
+     .PROG_FULL_THRESH(254), // DECIMAL
      .RD_DATA_COUNT_WIDTH(1), // DECIMAL
      .RELATED_CLOCKS(0), // DECIMAL
      .SIM_ASSERT_CHK(0), // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
