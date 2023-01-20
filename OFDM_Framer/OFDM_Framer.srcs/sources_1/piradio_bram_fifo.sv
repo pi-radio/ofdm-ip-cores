@@ -4,7 +4,8 @@ module piradio_bram_fifo
         input wire clk,
         input wire resetn,
         bram_fifo_in_iface.master bram_fifo_in,
-        bram_fifo_out_iface.master bram_fifo_out
+        bram_fifo_out_iface.master bram_fifo_out,
+        input logic structs_ready
     );
     genvar i;
     
@@ -25,7 +26,7 @@ module piradio_bram_fifo
     integer read_ptr, next_read_ptr;
     integer write_ptr, next_write_ptr;
 
-    always_comb bram_fifo_in.bram_rd_en = resetn;
+    always_comb bram_fifo_in.bram_rd_en = structs_ready;//resetn;
 
     /* Reset logic */
     always_comb do_reset = ~resetn || bram_fifo_in.fifo_restart || bram_fifo_out.fifo_restart;
@@ -89,7 +90,7 @@ module piradio_bram_fifo
     end
     
     /* Address logic */
-    always_comb do_advance = (cnt < QUEUE_DEPTH) || do_read;
+    always_comb do_advance = ((cnt < QUEUE_DEPTH) || do_read) && structs_ready;
     
     always @(posedge clk) bram_valid <= do_reset ? 0 : { do_advance, bram_valid[bram_fifo_in.BRAM_LATENCY-1:1] };
     always @(posedge clk) bram_last <= do_reset ? 0 : { bram_fifo_in.bram_addr == {bram_fifo_in.BRAM_ADDR_WIDTH{1'b1}}, bram_last[bram_fifo_in.BRAM_LATENCY-1:1] };

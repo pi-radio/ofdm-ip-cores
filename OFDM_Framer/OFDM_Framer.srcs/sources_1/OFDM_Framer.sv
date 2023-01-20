@@ -80,11 +80,9 @@ import piradio_ofdm::*;
      .CDC_SYNC_STAGES(2), // DECIMAL
      .CLOCKING_MODE("common_clock"), // String
      .ECC_MODE("no_ecc"), // String
-     .FIFO_DEPTH(512), // DECIMAL
+     .FIFO_DEPTH(256), // DECIMAL
      .FIFO_MEMORY_TYPE("auto"), // String
      .PACKET_FIFO("false"), // String
-     .PROG_EMPTY_THRESH(10), // DECIMAL
-     .PROG_FULL_THRESH(254), // DECIMAL
      .RD_DATA_COUNT_WIDTH(1), // DECIMAL
      .RELATED_CLOCKS(0), // DECIMAL
      .SIM_ASSERT_CHK(0), // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
@@ -92,7 +90,6 @@ import piradio_ofdm::*;
      .TDEST_WIDTH(1), // DECIMAL
      .TID_WIDTH(1), // DECIMAL
      .TUSER_WIDTH(1), // DECIMAL
-     .USE_ADV_FEATURES("1002"), // String
      .WR_DATA_COUNT_WIDTH(1) // DECIMAL
     )
     xpm_fifo_axis_inst (

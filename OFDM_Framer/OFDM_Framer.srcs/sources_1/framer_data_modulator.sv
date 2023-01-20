@@ -19,7 +19,7 @@ module piradio_data_shift_reg
         input logic data_words_valid,
         input logic data_words_last,
 
-        input mod_t modulation_sr2e,
+        output mod_t modulation_sr2e,
         output logic [DATA_WIDTH-1:0] data_bits,
         output logic data_bits_valid,
         input logic data_bits_rdy,
@@ -50,7 +50,7 @@ module piradio_data_shift_reg
     always_comb data_words_ready = aresetn && (available_space >= DATA_WIDTH) && (modulation_in == shift_reg_mod || bits_available == 0);
 
     always_comb do_shift_in = data_words_ready & data_words_valid;
-
+    
     always @(posedge clk)
     begin
         if (~aresetn) begin
@@ -375,7 +375,7 @@ module piradio_sample_fifo
             last_count <= 0;
         end else if (last_count) begin
             last_count <= last_count - samples_out_desired;    
-        end else if (mod_samples_last) begin
+        end else if (mod_samples_last && samples_avail) begin
             last_count <= samples_avail - (output_advance ? samples_out_desired : 0) + NSAMPLES;
         end
     end
