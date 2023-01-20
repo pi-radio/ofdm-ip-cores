@@ -80,7 +80,11 @@ module piradio_sample_interleaver
                 
                 DATA: begin
                     if (fdm_out.samples_last) begin
-                        state <= TRAILER;
+                        if (fdm_out.samples_valid >= 4) begin
+                            state <= SYNC_WORD;//TRAILER;
+                        end
+                        else
+                            state <= IDLE;
                     end else begin
                         state <= DATA;
                     end
@@ -111,8 +115,8 @@ module piradio_sample_interleaver
     always @(posedge clk)
     begin
         if (state == DATA) begin
-            $display("Time: %0t: State: %d map: %0x samples: %0x", 
-                     $time(), state, current_map, fdm_out.samples);
+            // $display("Time: %0t: State: %d map: %0x samples: %0x",
+            //          $time(), state, current_map, fdm_out.samples);
             $display("    count_ones: %d %d %d %d syncw: %0x template: %0x", 
                      count_ones[0], count_ones[1], count_ones[2], count_ones[3], 
                      bram_syncw_out.fifo_data, bram_temp_out.fifo_data);
@@ -129,16 +133,18 @@ module piradio_sample_interleaver
 
     for (i = 0; i < fdm_out.MAX_SYMBOLS; i++) begin
         always @(posedge clk) begin
-            if (~resetn) begin
-                samples_out[i] <= 32'hBCBCBCBC;
-            end else if (state == IDLE) begin
-                samples_out[i] <= 32'hADADADAD;
-            end else if (state == SYNC_WORD) begin
-                samples_out[i] <= bram_syncw_out.fifo_data[i * 32 +: 32];
-            end else if (state == DATA) begin
-                samples_out[i] <= current_map[i] ? fdm_out.samples[count_ones[i]] : bram_temp_out.fifo_data[i * 32 +: 32];
-            end else if (state == TRAILER) begin
-                samples_out[i] <= bram_temp_out.fifo_data[i * 32 +: 32];
+            if(samples_out_rdy) begin
+                if (~resetn) begin
+                    samples_out[i] <= 32'hBCBCBCBC;
+                end else if (state == IDLE) begin
+                    samples_out[i] <= 32'hADADADAD;
+                end else if (state == SYNC_WORD) begin
+                    samples_out[i] <= bram_syncw_out.fifo_data[i * 32 +: 32];
+                end else if (state == DATA) begin
+                    samples_out[i] <= current_map[i] ? fdm_out.samples[count_ones[i]] : bram_temp_out.fifo_data[i * 32 +: 32];
+                end else if (state == TRAILER) begin
+                    samples_out[i] <= bram_temp_out.fifo_data[i * 32 +: 32];
+                end
             end
         end
     end

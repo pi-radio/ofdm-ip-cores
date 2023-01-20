@@ -58,7 +58,8 @@ module data_module
         .clk(s_axis_data_aclk),
         .resetn(s_axis_data_aresetn),
         .bram_fifo_in(bram_syncw_bus),
-        .bram_fifo_out(bram_fifo_syncw_out)
+        .bram_fifo_out(bram_fifo_syncw_out),
+        .structs_ready(structs_ready)
     );
     
     piradio_bram_fifo temp_bram_fifo
@@ -66,7 +67,8 @@ module data_module
         .clk(s_axis_data_aclk),
         .resetn(s_axis_data_aresetn),
         .bram_fifo_in(bram_temp_bus),
-        .bram_fifo_out(bram_fifo_temp_out)
+        .bram_fifo_out(bram_fifo_temp_out),
+        .structs_ready(structs_ready)
     );
     
     always_comb
