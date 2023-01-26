@@ -14,6 +14,7 @@
 
 		// Parameters of Axi Master Bus Interface M00_AXIS
 		parameter integer C_M00_AXIS_TDATA_WIDTH	= 128,
+		parameter integer SSR = 4,
 		parameter integer insert_cp = 0,
 		parameter integer scaled = 0
 	)
@@ -50,22 +51,17 @@
 		output wire  s00_axi_rvalid,
 		input wire  s00_axi_rready
 	);
-
+    localparam complex_size = 32;
     typedef enum {IDLE, OUT_CP, OUT_DATA} out_state_t;
     out_state_t state = IDLE;
-	wire [C_S00_AXIS_TDATA_WIDTH/2 - 1 : 0] in_real;
-	wire [C_S00_AXIS_TDATA_WIDTH/2 - 1: 0] in_imag;
+	logic [(complex_size / 2) - 1 : 0] in_real[0 : SSR - 1];
+	logic [(complex_size / 2) - 1 : 0] in_imag[0 : SSR - 1];
     wire [9 : 0] scale_in;
     wire [(C_M00_AXIS_TDATA_WIDTH / 4) - 1 : 0] m_axis_out_tdata_tmp[0 : 3];
     wire [9 : 0] out_scale;
-    wire signed [15 : 0] samp0_real;
-    wire signed [15 : 0] samp0_imag;
-    wire signed [15 : 0] samp1_real;
-    wire signed [15 : 0] samp1_imag;
-    wire signed [15 : 0] samp2_real;
-    wire signed [15 : 0] samp2_imag;
-    wire signed [15 : 0] samp3_real;
-    wire signed [15 : 0] samp3_imag;
+    logic signed [(complex_size / 2) - 1 : 0] samps_out_real[0 : SSR - 1];
+    logic signed [(complex_size / 2) - 1 : 0] samps_out_imag[0 : SSR - 1];
+    
     reg [8 : 0] read_index = 192;
     reg [8 : 0] write_index = 0;
     wire sysgen_fft_in_valid;
@@ -86,10 +82,131 @@
     reg [20 : 0] count_test_cp = 0;
     logic [25 : 0] ifft_out[0 : 7];
     logic [1 : 0] valid_shift_reg;
-    
     logic [5 : 0] shift_bits = 8;
     
-    xpm_memory_sdpram #(
+    assign en_interm_buff_in = m_fifo_valid && insert_cp;
+    assign s_fifo_data = {m_axis_out_tdata_tmp[3],m_axis_out_tdata_tmp[2],
+                                                m_axis_out_tdata_tmp[1],m_axis_out_tdata_tmp[0]};
+    assign en_interm_buff_out = (state == OUT_CP || state == OUT_DATA);
+    assign m00_axis_tdata = (valid_shift_reg == 2'b10) ? 128'h0000 : (insert_cp) ? 
+                                                interm_buff_output : {m_axis_out_tdata_tmp[3],m_axis_out_tdata_tmp[2],
+                                                        m_axis_out_tdata_tmp[1],m_axis_out_tdata_tmp[0]};
+    assign m00_axis_tvalid = (valid_shift_reg == 2'b10) ? 1 :
+                                    (insert_cp) ? shift_reg[0] : fft_valid;
+    assign scale_in = 10'h000;
+
+    assign m00_axis_tlast = (insert_cp) ? tlast_counter == 319 : tlast_counter == 255;
+    assign s00_axis_tready = (insert_cp) ? (count_input <= 255) : 1;
+	assign sysgen_fft_in_valid = (insert_cp) ? s00_axis_tready && s00_axis_tvalid : s00_axis_tvalid;
+
+	/* Adjust input to be in the form the sysgen core needs it, ie. all real parts and all imaginary bit_index
+	together */
+	
+	genvar i;
+	
+	generate
+	   for(i = 0; i < SSR ; i++) begin
+	       assign in_real[i] = s00_axis_tdata[i * complex_size +: (complex_size / 2)];
+	       assign in_imag[i] = s00_axis_tdata[i * complex_size + (complex_size / 2) +: (complex_size / 2)];
+	   end
+	endgenerate
+	
+	genvar k;
+	
+	generate
+	   for(k = 0; k < SSR ; k++) begin
+	       assign samps_out_real[k] = ifft_out[k * 2][shift_bits +: (complex_size / 2)];
+	       assign samps_out_imag[k] = ifft_out[k * 2 + 1][shift_bits +: (complex_size / 2)];
+	   end
+	endgenerate
+
+    genvar l;
+    
+	generate
+	   for(l = 0; l < SSR ; l++) begin
+	       assign m_axis_out_tdata_tmp[l] = scaled ?
+	                               {samps_out_imag[l], samps_out_real[l]} :  
+	                               {6'h00, ifft_out[l * 2 + 1], 6'h00, ifft_out[l * 2]};
+	   end
+	endgenerate    
+
+    always@(posedge s_axis_aclk) begin
+        if(!s_axis_aresetn)
+            valid_shift_reg <= 2'b0;
+        else begin
+            if(valid_shift_reg != 2'b10)
+                valid_shift_reg <= {valid_shift_reg[0], m00_axis_tvalid};
+            else
+                valid_shift_reg <= {valid_shift_reg[0], 1'b0};   
+        end
+    end
+
+    always@(posedge s_axis_aclk) begin
+        shift_reg <= {en_interm_buff_out, shift_reg[1]};
+    end
+
+    always@(posedge s_axis_aclk) begin
+        if(!s_axis_aresetn) begin
+            write_index <= 0;
+            read_index <= 192;
+            state <= IDLE;
+        end
+        else begin
+            if(en_interm_buff_in) begin
+                write_index <= write_index + 1;
+                if(write_index[7 : 0] == 0)
+                    avail[write_index[8]] <= 1;
+            end
+            if(write_index[7 : 0] == 8'hff && (state == IDLE || state == OUT_DATA)) begin
+                state <= OUT_CP;
+                avail[read_index[8]] <= 0;
+            end
+            if(state == OUT_CP)
+                if(read_index[7 : 0] < 8'hff)
+                    read_index <= read_index + 1;
+                else begin
+                    state <= OUT_DATA;
+                    read_index <= {read_index[8], 8'h00};
+                end
+            if(state == OUT_DATA) begin
+                if(read_index[7 : 0] < 8'hff)
+                    read_index <= read_index + 1;
+                else begin
+                    if(avail[~read_index[8]]) begin
+                        state <= OUT_CP;
+                        read_index <= {~read_index[8], 8'hC0};
+                    end
+                    else begin
+                        state <= IDLE;
+                        read_index <= {~read_index[8], 8'hC0};
+                    end
+                end
+            end
+        end
+    end
+
+    always@(posedge s_axis_aclk) begin
+        if(!s_axis_aresetn)
+            tlast_counter <= 0;
+         else begin
+            if(m00_axis_tready && m00_axis_tvalid) begin
+                if(insert_cp) begin
+                    if(tlast_counter < 319)
+                        tlast_counter <= tlast_counter + 1;
+                    else
+                        tlast_counter <= 0;
+                end
+                else begin
+                     if(tlast_counter < 255)
+                        tlast_counter <= tlast_counter + 1;
+                    else
+                        tlast_counter <= 0;
+                end
+            end
+         end
+    end
+    
+xpm_memory_sdpram #(
        .ADDR_WIDTH_A(9),               // DECIMAL
        .ADDR_WIDTH_B(9),               // DECIMAL
        .AUTO_SLEEP_TIME(0),            // DECIMAL
@@ -166,14 +283,14 @@
     sysgenssrifft_0 ssr_ifft_inst (
         .si(scale_in),
         .vi(sysgen_fft_in_valid),
-        .i_im_0(in_imag[15 : 0]),
-        .i_im_1(in_imag[31 : 16]),
-        .i_re_0(in_real[15 : 0]),
-        .i_re_1(in_real[31 : 16]),
-        .i_im_2(in_imag[47 : 32]),
-        .i_im_3(in_imag[63 : 48]),
-        .i_re_2(in_real[47 : 32]),
-        .i_re_3(in_real[63 : 48]),
+        .i_im_0(in_imag[0]),
+        .i_im_1(in_imag[1]),
+        .i_re_0(in_real[0]),
+        .i_re_1(in_real[1]),
+        .i_im_2(in_imag[2]),
+        .i_im_3(in_imag[3]),
+        .i_re_2(in_real[2]),
+        .i_re_3(in_real[3]),
         .clk(s_axis_aclk),
         .last(last),
         .so(out_scale),
@@ -187,132 +304,6 @@
         .o_re_2(ifft_out[4]),
         .o_re_3(ifft_out[6])
     );
-
-    assign en_interm_buff_in = m_fifo_valid && insert_cp;
-    assign s_fifo_data = {m_axis_out_tdata_tmp[3],m_axis_out_tdata_tmp[2],
-                                                m_axis_out_tdata_tmp[1],m_axis_out_tdata_tmp[0]};
-    assign en_interm_buff_out = (state == OUT_CP || state == OUT_DATA);
-    assign m00_axis_tdata = (valid_shift_reg == 2'b10) ? 128'h0000 : (insert_cp) ? 
-                                                interm_buff_output : {m_axis_out_tdata_tmp[3],m_axis_out_tdata_tmp[2],
-                                                        m_axis_out_tdata_tmp[1],m_axis_out_tdata_tmp[0]};
-    assign m00_axis_tvalid = (valid_shift_reg == 2'b10) ? 1 :
-                                    (insert_cp) ? shift_reg[0] : fft_valid;
-    assign scale_in = 10'h000;
-    
-    genvar i;
-
-    
-    assign samp0_real = (ifft_out[0][shift_bits +: 16]);//o_re_0>>>10;// o_re_0[23 : 8]; 25 : 10
-    assign samp0_imag = (ifft_out[1][shift_bits +: 16]);//o_im_0>>>10;//o_im_0[23 : 8];
-    assign samp1_real = (ifft_out[2][shift_bits +: 16]);//o_re_1>>>10;//
-    assign samp1_imag = (ifft_out[3][shift_bits +: 16]);//o_im_1>>>10;//
-    assign samp2_real = (ifft_out[4][shift_bits +: 16]); //o_re_2>>>10;//
-    assign samp2_imag = (ifft_out[5][shift_bits +: 16]);//o_im_2>>>10;//
-    assign samp3_real = (ifft_out[6][shift_bits +: 16]);//o_re_3>>>10;//
-    assign samp3_imag = (ifft_out[7][shift_bits +: 16]);//o_im_3>>>10;//
-
-    assign m00_axis_tlast = (insert_cp) ? tlast_counter == 319 : tlast_counter == 255;
-    assign s00_axis_tready = (insert_cp) ? (count_input <= 255) : 1;
-	assign sysgen_fft_in_valid = (insert_cp) ? s00_axis_tready && s00_axis_tvalid : s00_axis_tvalid;
-
-	/* Adjust input to be in the form the sysgen core needs it, ie. all real parts and all imaginary bit_index
-	together */
-
-	assign in_real[15 : 0] = s00_axis_tdata[15 : 0];
-    assign in_imag[15 : 0] = s00_axis_tdata[31 : 16];
-    assign in_real[31 : 16] = s00_axis_tdata[47 : 32];
-    assign in_imag[31 : 16] = s00_axis_tdata[63 : 48];
-    assign in_real[47 : 32] = s00_axis_tdata[79 : 64];
-    assign in_imag[47 : 32] = s00_axis_tdata[95 : 80];
-    assign in_real[63 : 48] = s00_axis_tdata[111 : 96];
-    assign in_imag[63 : 48] = s00_axis_tdata[127 : 112];
-
-    assign m_axis_out_tdata_tmp[0][(C_M00_AXIS_TDATA_WIDTH / 4) - 1  : 0] =  scaled ?
-                                                                        {samp0_imag, samp0_real} :
-                                                                        {6'h00, ifft_out[1], 6'h00, ifft_out[0]};
-    assign m_axis_out_tdata_tmp[1][(C_M00_AXIS_TDATA_WIDTH / 4) - 1  : 0] = scaled ?
-                                                                        {samp1_imag, samp1_real} :
-                                                                        {6'h00, ifft_out[3], 6'h00, ifft_out[2]};
-    assign m_axis_out_tdata_tmp[2][(C_M00_AXIS_TDATA_WIDTH / 4) - 1  : 0] = scaled ?
-                                                                        {samp2_imag, samp2_real} :
-                                                                        {6'h00, ifft_out[5], 6'h00, ifft_out[4]};
-    assign m_axis_out_tdata_tmp[3][(C_M00_AXIS_TDATA_WIDTH / 4) - 1  : 0] = scaled ? {samp3_imag, samp3_real} :
-                                                                        {6'h00, ifft_out[7], 6'h00, ifft_out[6]};
-    always@(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn)
-            valid_shift_reg <= 2'b0;
-        else begin
-            if(valid_shift_reg != 2'b10)
-                valid_shift_reg <= {valid_shift_reg[0], m00_axis_tvalid};
-            else
-                valid_shift_reg <= {valid_shift_reg[0], 1'b0};   
-        end
-    end
-
-    always@(posedge s_axis_aclk) begin
-        shift_reg <= {en_interm_buff_out, shift_reg[1]};
-    end
-
-    always@(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn) begin
-            write_index <= 0;
-            read_index <= 192;
-            state <= IDLE;
-        end
-        else begin
-            if(en_interm_buff_in) begin
-                write_index <= write_index + 1;
-                if(write_index[7 : 0] == 0)
-                    avail[write_index[8]] <= 1;
-            end
-            if(write_index[7 : 0] == 8'hff && (state == IDLE || state == OUT_DATA)) begin
-                state <= OUT_CP;
-                avail[read_index[8]] <= 0;
-            end
-            if(state == OUT_CP)
-                if(read_index[7 : 0] < 8'hff)
-                    read_index <= read_index + 1;
-                else begin
-                    state <= OUT_DATA;
-                    read_index <= {read_index[8], 8'h00};
-                end
-            if(state == OUT_DATA) begin
-                if(read_index[7 : 0] < 8'hff)
-                    read_index <= read_index + 1;
-                else begin
-                    if(avail[~read_index[8]]) begin
-                        state <= OUT_CP;
-                        read_index <= {~read_index[8], 8'hC0};
-                    end
-                    else begin
-                        state <= IDLE;
-                        read_index <= {~read_index[8], 8'hC0};
-                    end
-                end
-            end
-        end
-    end
-
-    always@(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn)
-            tlast_counter <= 0;
-         else begin
-            if(m00_axis_tready && m00_axis_tvalid) begin
-                if(insert_cp) begin
-                    if(tlast_counter < 319)
-                        tlast_counter <= tlast_counter + 1;
-                    else
-                        tlast_counter <= 0;
-                end
-                else begin
-                     if(tlast_counter < 255)
-                        tlast_counter <= tlast_counter + 1;
-                    else
-                        tlast_counter <= 0;
-                end
-            end
-         end
-    end
 
     /* Input condition refers to the first symbol which is to be output.
     *  For that first symbol only we do not deassert s_axis_tready. We start
