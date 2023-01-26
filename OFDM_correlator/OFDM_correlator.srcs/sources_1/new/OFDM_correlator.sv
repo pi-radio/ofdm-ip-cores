@@ -2,63 +2,145 @@
 
 	module OFDM_correlator #
 	(
-	    parameter integer C_S00_AXIS_CONFIG_TDATA_WIDTH	= 32,
-		parameter integer C_S00_AXIS_TDATA_WIDTH	= 128,
-		parameter integer C_M00_AXIS_TDATA_WIDTH	= 128
+	    parameter integer C_CONFIG_TDATA_WIDTH	= 32,
+		parameter integer C_TDATA_WIDTH	= 128,
+		parameter integer SSR = 4
 	)
 	(
-		input wire  s_axis_aclk,
-		input wire  s_axis_aresetn,
-		output wire  s00_axis_tready,
-		input wire [C_S00_AXIS_TDATA_WIDTH-1 : 0] s00_axis_tdata,
-		input wire [(C_S00_AXIS_TDATA_WIDTH/8)-1 : 0] s00_axis_tstrb,
-		input wire  s00_axis_tlast,
-		input wire  s00_axis_tvalid,
+		input wire  clk,
+		input wire  resetn,
+		output logic  s00_axis_tready,
+		input logic [C_TDATA_WIDTH-1 : 0] s00_axis_tdata,
+		input logic [(C_TDATA_WIDTH/8)-1 : 0] s00_axis_tstrb,
+		input logic  s00_axis_tlast,
+		input logic  s00_axis_tvalid,
 
-		output wire  s00_axis_config_tready,
-		input wire [C_S00_AXIS_CONFIG_TDATA_WIDTH-1 : 0] s00_axis_config_tdata,
-		input wire [(C_S00_AXIS_CONFIG_TDATA_WIDTH/8)-1 : 0] s00_axis_config_tstrb,
-		input wire  s00_axis_config_tlast,
-		input wire  s00_axis_config_tvalid,
+		output logic  s00_axis_config_tready,
+		input logic [C_CONFIG_TDATA_WIDTH-1 : 0] s00_axis_config_tdata,
+		input logic [(C_CONFIG_TDATA_WIDTH/8)-1 : 0] s00_axis_config_tstrb,
+		input logic  s00_axis_config_tlast,
+		input logic  s00_axis_config_tvalid,
 
-		output reg  m00_axis_tvalid,
-		output reg [C_M00_AXIS_TDATA_WIDTH-1 : 0] m00_axis_tdata,
-		output wire [(C_M00_AXIS_TDATA_WIDTH/8)-1 : 0] m00_axis_tstrb,
-		output wire  m00_axis_tlast,
-		input wire  m00_axis_tready
+		output logic  m00_axis_tvalid,
+		output logic [C_TDATA_WIDTH-1 : 0] m00_axis_tdata,
+		output logic [(C_TDATA_WIDTH/8)-1 : 0] m00_axis_tstrb,
+		output logic  m00_axis_tlast,
+		input logic  m00_axis_tready
 	);
-	wire s_cmpy_a_ready[0 : 3];
-	wire s_cmpy_b_ready[0 : 3];
-	wire m_cmpy_valid[0 : 3];
-	wire s_cmpy_a_valid, s_cmpy_b_valid;
-	wire [127 : 0] sync_word_in;
-	wire [127 : 0] sync_word_out;
-    reg [9 : 0] sync_word_in_addr = 0;
-    reg [7 : 0] sync_word_out_addr = 0;
-    reg sync_word_in_en = 0;
-    wire sync_word_out_en;
-    reg [9 : 0] sync_word_count = 0;
-    reg config_ready = 1;
-    wire s_cmpy_a_all_ready;
-    wire s_cmpy_b_all_ready;
-    wire m_cmpy_all_valid;
-    wire signed [31 : 0] tmp[0 : 3]; 
-    wire signed [31 : 0] input_conj[0 : 3];
-    wire [72 : 0] m_cmpy_data[0 : 3];
-    reg [1 : 0] shift_reg;
-    reg [255 : 0] input_shift_reg;
+	localparam complex_width = C_TDATA_WIDTH / SSR;
+
+	bram2corr_iface bram2corr();
+	datain2corr_iface datain2corr();
+
+	bram_sync_word bram_sync_word_inst(
+	   .*,
+	   .bram2corr(bram2corr)
+	);
+	data_in data_in_inst(
+	   .*,
+	   .datain2corr(datain2corr)
+	);
+
+    always_comb s00_axis_tready = bram2corr.config_done;
+    always @(posedge clk) m00_axis_tvalid <= bram2corr.bram_valid;
+
     reg [4 : 0] l;
-    genvar i;
-    wire signed [15 : 0] sync_word_re_signed[0 : 3];
-    localparam fft_size = 1024;
-    localparam samples_per_cycle = 4;
-    reg [C_M00_AXIS_TDATA_WIDTH - 1 : 0] config_samples = 0;
-    
-    xpm_memory_sdpram #(
+    genvar i, k;
+    logic signed [15 : 0] sync_word_re_signed[0 : 3];
+
+    generate
+        for(i = 0; i < SSR; i = i + 1) begin
+            assign sync_word_re_signed[i] = bram2corr.tdata[i * complex_width +: complex_width/2];
+        end
+    endgenerate
+
+    assign bram2corr.bram_en = datain2corr.out_valid && s00_axis_tready;//!s00_axis_config_tready;
+    assign datain2corr.out_ready = bram2corr.bram_valid;
+
+    always @(posedge clk) begin
+        if(bram2corr.bram_valid) begin
+            for(l = 0; l < 4; l = l + 1) begin
+                if(sync_word_re_signed[l] > 0) begin
+                    m00_axis_tdata[l * 32 +: 16] <= datain2corr.conj_real[l];
+                    m00_axis_tdata[l * 32 + 16 +: 16] <= datain2corr.conj_imag[l];
+                end
+                else if(sync_word_re_signed[l] < 0) begin
+                    m00_axis_tdata[l * 32 +: 16] <= (~datain2corr.conj_real[l]) + 1;
+                    m00_axis_tdata[l * 32 + 16 +: 16] <= (~datain2corr.conj_imag[l]) + 1;
+                end
+                else if(sync_word_re_signed[l] == 0) begin
+                    m00_axis_tdata[l * 32 +: 32] <= 32'h00000000;
+                end
+            end
+        end
+    end
+
+endmodule
+
+module bram_sync_word #(
+        parameter CONFIG_TDATA_WIDTH = 32,
+        parameter TDATA_WIDTH = 128,
+        parameter SSR = 4
+    )
+    (
+        input wire clk,
+        input wire resetn,
+        input logic [CONFIG_TDATA_WIDTH-1 : 0] s00_axis_config_tdata,
+		input logic  s00_axis_config_tlast,
+		input logic  s00_axis_config_tvalid,
+		output logic s00_axis_config_tready,
+		bram2corr_iface.master bram2corr
+    );
+    localparam fft_size_words = bram2corr.FFT_SIZE/SSR;
+
+    logic [$clog2(fft_size_words) : 0] config_word_count = 0;
+    logic [$clog2(SSR) - 1 : 0] bram_in_enable_reg;
+    logic bram_in_enable;
+    logic [TDATA_WIDTH - 1 : 0] data_shift_reg = 0;
+    logic [bram2corr.BRAM_LATENCY - 1 : 0] bram_out_valid_reg;
+    logic [$clog2(fft_size_words) - 1 : 0] bram_out_addr;
+
+    assign s00_axis_config_tready = (resetn && !bram2corr.config_done);
+
+    always@(posedge clk) bram_in_enable <= (bram_in_enable_reg == (SSR - 1)) && !bram2corr.config_done;
+    always@(posedge clk) begin
+        if(!resetn)
+            config_word_count <= 0;
+        else
+            config_word_count <= (bram_in_enable) ?
+                    config_word_count + 1 : config_word_count;
+    end
+
+    always@(posedge clk) bram_out_valid_reg <= {bram2corr.bram_en, bram_out_valid_reg[bram2corr.BRAM_LATENCY - 1 : 1]};
+    assign bram2corr.bram_valid = bram_out_valid_reg[0];
+    always_comb bram2corr.config_done <= (config_word_count >= fft_size_words);
+
+    always@(posedge clk) begin
+        if(!resetn)
+            bram_out_addr <= 0;
+        else
+            if(bram2corr.bram_en)
+                bram_out_addr <= bram_out_addr + 1;
+    end
+
+    always@(posedge clk) begin
+        if(!resetn) begin
+            data_shift_reg <= 0;
+            bram_in_enable_reg <= 0;
+        end
+        else begin
+            if(s00_axis_config_tvalid) begin
+                data_shift_reg <= {s00_axis_config_tdata, data_shift_reg[CONFIG_TDATA_WIDTH +: TDATA_WIDTH - CONFIG_TDATA_WIDTH]};
+                bram_in_enable_reg <= bram_in_enable_reg + 1;
+            end
+        end
+    end
+
+     xpm_memory_sdpram #(
        .ADDR_WIDTH_A(8),               // DECIMAL
        .ADDR_WIDTH_B(8),               // DECIMAL
        .AUTO_SLEEP_TIME(0),            // DECIMAL
-       .BYTE_WRITE_WIDTH_A(128),        // DECIMAL
+       .BYTE_WRITE_WIDTH_A(TDATA_WIDTH),        // DECIMAL
        .CASCADE_HEIGHT(0),             // DECIMAL
        .CLOCKING_MODE("common_clock"), // String
        .ECC_MODE("no_ecc"),            // String
@@ -66,9 +148,9 @@
        .MEMORY_INIT_PARAM("0"),        // String
        .MEMORY_OPTIMIZATION("true"),   // String
        .MEMORY_PRIMITIVE("auto"),      // String
-       .MEMORY_SIZE(32768),             // DECIMAL
+       .MEMORY_SIZE((bram2corr.FFT_SIZE/SSR) * TDATA_WIDTH),
        .MESSAGE_CONTROL(0),            // DECIMAL
-       .READ_DATA_WIDTH_B(128),         // DECIMAL
+       .READ_DATA_WIDTH_B(TDATA_WIDTH),         // DECIMAL
        .READ_LATENCY_B(2),             // DECIMAL
        .READ_RESET_VALUE_B("0"),       // String
        .RST_MODE_A("SYNC"),            // String
@@ -78,140 +160,75 @@
        .USE_MEM_INIT(1),               // DECIMAL
        .USE_MEM_INIT_MMI(0),           // DECIMAL
        .WAKEUP_TIME("disable_sleep"),  // String
-       .WRITE_DATA_WIDTH_A(128),        // DECIMAL
+       .WRITE_DATA_WIDTH_A(TDATA_WIDTH),        // DECIMAL
        .WRITE_MODE_B("no_change"),     // String
        .WRITE_PROTECT(1)               // DECIMAL
     )
-    sync_word_ram_inst (                                
-       .doutb(sync_word_out),
-       .addra((sync_word_in_addr / 4) - 1),
-       .addrb(sync_word_out_addr),
-       .clka(s_axis_aclk),
-       .clkb(s_axis_aclk),
-       .dina(config_samples),
-       .ena(sync_word_in_en),
-       .enb(sync_word_out_en),
-       .regceb(1),                        
+    sync_word_ram_inst (
+       .doutb(bram2corr.tdata),
+       .addra(config_word_count),
+       .addrb(bram_out_addr),
+       .clka(clk),
+       .clkb(clk),
+       .dina(data_shift_reg),
+       .ena(bram_in_enable),
+       .enb(bram2corr.bram_en),
+       .regceb(1),
        .wea(1)
     );
-    
-    logic [10 : 0] cnt = 0;
-    
+endmodule
+
+module data_in #(
+        parameter C_TDATA_WIDTH = 128,
+        parameter SSR = 4,
+        parameter COMPLEX_WIDTH = 32
+        )
+        (
+    	input wire  clk,
+		input wire  resetn,
+		input logic [C_TDATA_WIDTH-1 : 0] s00_axis_tdata,
+		input logic  s00_axis_tlast,
+		input logic  s00_axis_tvalid,
+		datain2corr_iface.master datain2corr
+    );
+    genvar k;
+    logic [C_TDATA_WIDTH - 1 : 0] fifo_out;
+    logic fifo_in_rdy;
+
     generate
-        for(i = 0; i < 4; i = i + 1) begin
-            assign sync_word_re_signed[i] = sync_word_out[i * 32 +: 16];
+        for(k = 0; k < SSR; k = k + 1) begin
+            assign datain2corr.conj_real[k] =  fifo_out[k * COMPLEX_WIDTH +: COMPLEX_WIDTH/2];
+            assign datain2corr.conj_imag[k] =  fifo_out[k * COMPLEX_WIDTH + COMPLEX_WIDTH/2 +: COMPLEX_WIDTH/2] * (-1);
         end
     endgenerate
 
-    
-    assign s_cmpy_a_all_ready = s_cmpy_a_ready[0] && s_cmpy_a_ready[1] && 
-                                s_cmpy_a_ready[2] && s_cmpy_a_ready[3];
-    assign s_cmpy_b_all_ready = s_cmpy_b_ready[0] && s_cmpy_b_ready[1] && 
-                                s_cmpy_b_ready[2] && s_cmpy_b_ready[3];
-    assign m_cmpy_all_valid = m_cmpy_valid[0] && m_cmpy_valid[1] && 
-                                m_cmpy_valid[2] && m_cmpy_valid[3];
-                                
-    assign tmp[0] = input_shift_reg[31 : 16] * (-1);
-    assign input_conj[0][31 : 16] = tmp[0][15 : 0];
-    assign input_conj[0][15 : 0] = input_shift_reg[15 : 0];
-    
-    assign tmp[1] = input_shift_reg[63 : 48] * (-1);
-    assign input_conj[1][31 : 16] = tmp[1][15 : 0];
-    assign input_conj[1][15 : 0] = input_shift_reg[47 : 32];
-    
-    assign tmp[2] = input_shift_reg[95 : 80] * (-1);
-    assign input_conj[2][31 : 16] = tmp[2][15 : 0];
-    assign input_conj[2][15 : 0] = input_shift_reg[79 : 64];
-    
-    assign tmp[3] = input_shift_reg[127 : 112] * (-1);
-    assign input_conj[3][31 : 16] = tmp[3][15 : 0];
-    assign input_conj[3][15 : 0] = input_shift_reg[111 : 96];
+    xpm_fifo_axis #(
+     .CDC_SYNC_STAGES(2), // DECIMAL
+     .CLOCKING_MODE("common_clock"), // String
+     .ECC_MODE("no_ecc"), // String
+     .FIFO_DEPTH(16), // DECIMAL
+     .FIFO_MEMORY_TYPE("auto"), // String
+     .PACKET_FIFO("false"), // String
+     .RD_DATA_COUNT_WIDTH(1), // DECIMAL
+     .RELATED_CLOCKS(0), // DECIMAL
+     .SIM_ASSERT_CHK(0), // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
+     .TDATA_WIDTH(C_TDATA_WIDTH), // DECIMAL
+     .TDEST_WIDTH(1), // DECIMAL
+     .TID_WIDTH(1), // DECIMAL
+     .TUSER_WIDTH(1), // DECIMAL
+     .WR_DATA_COUNT_WIDTH(1) // DECIMAL
+    )
+    xpm_fifo_corr_2_inst (
+     .m_axis_tdata(fifo_out),
+     .m_axis_tvalid(datain2corr.out_valid),
+     .s_axis_tready(fifo_in_rdy),
+     .m_aclk(clk),
+     .m_axis_tready(datain2corr.out_ready),
+     .s_aclk(clk),
+     .s_aresetn(resetn),
+     .s_axis_tdata(s00_axis_tdata),
+     .s_axis_tvalid(s00_axis_tvalid),
+     .s_axis_tlast(s00_axis_tlast)
+    );
 
-    assign s00_axis_config_tready = config_ready;
-    //assign sync_word_in_en = config_ready && s00_axis_config_tvalid;
-    assign s00_axis_tready = !s00_axis_config_tready; //!s00_axis_config_tready && s_cmpy_a_all_ready;
-    
-    assign s_cmpy_b_valid = shift_reg[0] && s_axis_aresetn;//!s00_axis_config_tready;// && S_AXIS_TVALID && s_axis_a_tready && s_axis_b_tready && M_AXIS_TREADY;
-    assign s_cmpy_a_valid = shift_reg[0] && s_axis_aresetn;
-    assign sync_word_out_en = s00_axis_tvalid && s00_axis_tready;//!s00_axis_config_tready;
-
-    always @(posedge s_axis_aclk) begin
-        shift_reg <= {sync_word_out_en, shift_reg[1]};
-    end
-    
-    always @(posedge s_axis_aclk) begin
-        input_shift_reg <= {s00_axis_tdata, input_shift_reg[255 : 128]};
-    end
-    
-    always @(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn) begin
-            sync_word_in_addr <= 0;
-            config_ready <= 1;
-        end
-        else begin
-            if(sync_word_in_addr >= (fft_size - 1)) begin
-                config_ready <= 0;
-            end
-            if(sync_word_in_en) sync_word_in_en <= 0;
-            if(config_ready && s00_axis_config_tvalid) begin
-                config_samples <= {s00_axis_config_tdata, config_samples[C_S00_AXIS_CONFIG_TDATA_WIDTH +:
-                                                         (C_M00_AXIS_TDATA_WIDTH-C_S00_AXIS_CONFIG_TDATA_WIDTH)]};
-                if(sync_word_in_addr < fft_size) begin
-                    sync_word_in_addr <= sync_word_in_addr + 1;
-                    if(sync_word_in_addr % samples_per_cycle == (samples_per_cycle - 1)) begin
-                        sync_word_in_en <= 1;
-                    end
-                end
-            end
-        end
-    end
-      
-    always @(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn) begin
-            sync_word_out_addr <= 0;
-        end
-        else begin
-            if(sync_word_out_en /* && s_cmpy_b_all_ready*/) begin//S_AXIS_TREADY && S_AXIS_TVALID && s_axis_a_tready && s_axis_b_tready && M_AXIS_TREADY) begin
-                sync_word_out_addr <= sync_word_out_addr + 1;
-            end
-        end
-    end
-    
-    always @(posedge s_axis_aclk) begin
-        if(s_cmpy_a_valid) begin
-            m00_axis_tvalid <= 1;
-            for(l = 0; l < 4; l = l + 1) begin
-                if(sync_word_re_signed[l] > 0) begin
-                    m00_axis_tdata[l * 32 +: 16] <= input_conj[l][15 : 0];
-                    m00_axis_tdata[l * 32 + 16 +: 16] <= input_conj[l][31 : 16];
-                end
-                else if(sync_word_re_signed[l] < 0) begin
-                    m00_axis_tdata[l * 32 +: 16] <= (~input_conj[l][15 : 0]) + 1;
-                    m00_axis_tdata[l * 32 + 16 +: 16] <= (~input_conj[l][31 : 16]) + 1;
-                end
-                else if(sync_word_re_signed[l] == 0) begin
-                    m00_axis_tdata[l * 32 +: 32] <= 32'h00000000;
-                end
-            end
-        end
-        else
-            m00_axis_tvalid <= 0;
-    end
-    // The multiplications should start two cycles after assertion of data_tvalid
-    // because of the latency of the BRAM holding the sync word
-    assert property (
-        @(posedge s_axis_aclk)
-	   ($rose(s00_axis_tvalid) |=> ##2 (s_cmpy_a_valid == 1))
-	   );
-	   
-	// Assert that the input data to the complex multipliers are stable if
-	// any of the controll signals are deasserted
-    assert property (
-        @(posedge s_axis_aclk)
-	   (!(s_cmpy_a_valid && s_cmpy_a_all_ready 
-	   && s_cmpy_b_valid && s_cmpy_b_all_ready) && s_axis_aresetn) |=> 
-	   ($stable(sync_word_out) && $stable(input_conj[0]) && $stable(input_conj[1]) && 
-	               $stable(input_conj[2]) && $stable(input_conj[3]))
-	   );
-	   
 endmodule
