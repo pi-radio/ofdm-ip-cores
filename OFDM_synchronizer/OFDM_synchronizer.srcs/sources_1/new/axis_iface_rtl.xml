@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:abstractionDefinition xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>interface</spirit:library>
+  <spirit:name>axis_iface_rtl</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_iface" spirit:version="1.0"/>
+  <spirit:ports>
+    <spirit:port>
+      <spirit:logicalName>tdata</spirit:logicalName>
+      <spirit:wire>
+        <spirit:onMaster/>
+        <spirit:onSlave>
+          <spirit:direction>in</spirit:direction>
+        </spirit:onSlave>
+      </spirit:wire>
+    </spirit:port>
+    <spirit:port>
+      <spirit:logicalName>tvalid</spirit:logicalName>
+      <spirit:wire>
+        <spirit:onMaster/>
+        <spirit:onSlave>
+          <spirit:direction>in</spirit:direction>
+        </spirit:onSlave>
+      </spirit:wire>
+    </spirit:port>
+    <spirit:port>
+      <spirit:logicalName>tready</spirit:logicalName>
+      <spirit:wire>
+        <spirit:onMaster>
+          <spirit:direction>in</spirit:direction>
+        </spirit:onMaster>
+        <spirit:onSlave/>
+      </spirit:wire>
+    </spirit:port>
+    <spirit:port>
+      <spirit:logicalName>tlast</spirit:logicalName>
+      <spirit:wire>
+        <spirit:onMaster/>
+        <spirit:onSlave>
+          <spirit:direction>in</spirit:direction>
+        </spirit:onSlave>
+      </spirit:wire>
+    </spirit:port>
+  </spirit:ports>
+  <spirit:description>axis_iface v1.0</spirit:description>
+</spirit:abstractionDefinition>
