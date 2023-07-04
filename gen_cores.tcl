@@ -41,7 +41,7 @@ file delete -force $origin_dir/signal_detect/signal_detect
 file delete -force $origin_dir/tlast_generator/tlast_generator
 file delete -force $origin_dir/iq_interleaver_gain/iq_interleaver_gain
 file delete -force $origin_dir/fec_controller/fec_controller
-file delete -force $origin_dir/zf_equalizer/zf_equalizer
+file delete -force $origin_dir/zf_equalizer/zf_equalizer/zf_equalizer
 file delete -force $origin_dir/cfo_estimator/cfo_estimator
 file delete -force $origin_dir/delay/delay
 file delete -force $origin_dir/medium_emulator/medium_emulator
@@ -60,9 +60,9 @@ cd ../iq_interleaver_gain
 source project.tcl
 cd ../fec_controller
 source project.tcl
-cd ../zf_equalizer
+cd ../zf_equalizer/zf_equalizer
 source project.tcl
-cd ../cfo_estimator
+cd ../../cfo_estimator
 source project.tcl
 cd ../delay
 source project.tcl
