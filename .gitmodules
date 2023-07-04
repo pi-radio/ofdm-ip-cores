@@ -1,0 +1,3 @@
+[submodule "zf_equalizer"]
+	path = zf_equalizer
+	url = https://github.com/pi-radio/zf_equalizer.git
