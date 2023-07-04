@@ -40,7 +40,7 @@ module stream_sync #(
     
     /* FIFO output becomes ready only when both correlation inputs have valid data available */
     
-    always_comb streams_fifo_ready = fifos_out_valid[0] && fifos_out_valid[1];
+    always_comb streams_fifo_ready <= fifos_out_valid[0] && fifos_out_valid[1];
                     
     always_comb m_axis_corr_1.tvalid <= streams_fifo_ready;
     always_comb m_axis_corr_2.tvalid <= streams_fifo_ready;

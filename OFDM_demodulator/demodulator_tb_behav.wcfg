@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="demodulator_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="demodulator_package" />
+            <top_module name="demodulator_tb" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="303.900 ns"></ZoomStartTime>
+      <ZoomEndTime time="430.901 ns"></ZoomEndTime>
+      <Cursor1Time time="125.000 ns"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="208"></NameColumnWidth>
+      <ValueColumnWidth column_width="89"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="15" />
+   <wvobject type="logic" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_tvalid">
+      <obj_property name="ElementShortName">in_tvalid</obj_property>
+      <obj_property name="ObjectShortName">in_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_tdata">
+      <obj_property name="ElementShortName">in_tdata[127:0]</obj_property>
+      <obj_property name="ObjectShortName">in_tdata[127:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_real">
+      <obj_property name="ElementShortName">in_real[0:3][15:0]</obj_property>
+      <obj_property name="ObjectShortName">in_real[0:3][15:0]</obj_property>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_real[0]">
+         <obj_property name="ElementShortName">[0][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+         <obj_property name="isExpanded"></obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_real[1]">
+         <obj_property name="ElementShortName">[1][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_real[2]">
+         <obj_property name="ElementShortName">[2][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/in_real[3]">
+         <obj_property name="ElementShortName">[3][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm">
+      <obj_property name="ElementShortName">interm[0:7][15:0]</obj_property>
+      <obj_property name="ObjectShortName">interm[0:7][15:0]</obj_property>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[0]">
+         <obj_property name="ElementShortName">[0][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[1]">
+         <obj_property name="ElementShortName">[1][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[2]">
+         <obj_property name="ElementShortName">[2][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[3]">
+         <obj_property name="ElementShortName">[3][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[4]">
+         <obj_property name="ElementShortName">[4][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[5]">
+         <obj_property name="ElementShortName">[5][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[6]">
+         <obj_property name="ElementShortName">[6][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/interm[7]">
+         <obj_property name="ElementShortName">[7][15:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][15:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/t1">
+      <obj_property name="ElementShortName">t1[15:0]</obj_property>
+      <obj_property name="ObjectShortName">t1[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/t2">
+      <obj_property name="ElementShortName">t2[16:0]</obj_property>
+      <obj_property name="ObjectShortName">t2[16:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/t3">
+      <obj_property name="ElementShortName">t3[15:0]</obj_property>
+      <obj_property name="ObjectShortName">t3[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/t4">
+      <obj_property name="ElementShortName">t4[15:0]</obj_property>
+      <obj_property name="ObjectShortName">t4[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/r_min">
+      <obj_property name="ElementShortName">r_min[15:0]</obj_property>
+      <obj_property name="ObjectShortName">r_min[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/r_max">
+      <obj_property name="ElementShortName">r_max[15:0]</obj_property>
+      <obj_property name="ObjectShortName">r_max[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata">
+      <obj_property name="ElementShortName">out_tdata[0:7][7:0]</obj_property>
+      <obj_property name="ObjectShortName">out_tdata[0:7][7:0]</obj_property>
+      <obj_property name="isExpanded"></obj_property>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[0]">
+         <obj_property name="ElementShortName">[0][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[0][7:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[1]">
+         <obj_property name="ElementShortName">[1][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[1][7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[2]">
+         <obj_property name="ElementShortName">[2][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[2][7:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[3]">
+         <obj_property name="ElementShortName">[3][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[3][7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[4]">
+         <obj_property name="ElementShortName">[4][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[4][7:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[5]">
+         <obj_property name="ElementShortName">[5][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[5][7:0]</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[6]">
+         <obj_property name="ElementShortName">[6][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[6][7:0]</obj_property>
+         <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+      </wvobject>
+      <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tdata[7]">
+         <obj_property name="ElementShortName">[7][7:0]</obj_property>
+         <obj_property name="ObjectShortName">[7][7:0]</obj_property>
+      </wvobject>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/r_min">
+      <obj_property name="ElementShortName">r_min[15:0]</obj_property>
+      <obj_property name="ObjectShortName">r_min[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/r_max">
+      <obj_property name="ElementShortName">r_max[15:0]</obj_property>
+      <obj_property name="ObjectShortName">r_max[15:0]</obj_property>
+      <obj_property name="Radix">SIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/demodulator_tb/m00_axis_tvalid">
+      <obj_property name="ElementShortName">m00_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">m00_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/demodulator_tb/dut/demod_soft_out_inst/mod2soft_inst/out_tvalid">
+      <obj_property name="ElementShortName">out_tvalid</obj_property>
+      <obj_property name="ObjectShortName">out_tvalid</obj_property>
+   </wvobject>
+</wave_config>

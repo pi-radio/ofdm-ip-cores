@@ -1,0 +1,1042 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<spirit:component xmlns:xilinx="http://www.xilinx.com" xmlns:spirit="http://www.spiritconsortium.org/XMLSchema/SPIRIT/1685-2009" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <spirit:vendor>xilinx.com</spirit:vendor>
+  <spirit:library>user</spirit:library>
+  <spirit:name>OFDM_Framer</spirit:name>
+  <spirit:version>1.0</spirit:version>
+  <spirit:busInterfaces>
+    <spirit:busInterface>
+      <spirit:name>m_axis_data</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:master/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_data_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_data_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_data_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>m_axis_data_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_config</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_config_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TSTRB</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_config_tstrb</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_config_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_config_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_config_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_data</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_data_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_data_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_data_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_data_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>axis_aresetn</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="reset_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>RST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>axis_aresetn</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>POLARITY</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.AXIS_ARESETN.POLARITY" spirit:choiceRef="choice_list_9d8b0d81">ACTIVE_LOW</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>axis_aclk</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="signal" spirit:name="clock_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>CLK</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>axis_aclk</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+      <spirit:parameters>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_RESET</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.AXIS_ACLK.ASSOCIATED_RESET">axis_aresetn</spirit:value>
+        </spirit:parameter>
+        <spirit:parameter>
+          <spirit:name>ASSOCIATED_BUSIF</spirit:name>
+          <spirit:value spirit:id="BUSIFPARAM_VALUE.AXIS_ACLK.ASSOCIATED_BUSIF">m_axis_data:s_axis_config:s_axis_data:s_axis_ctrl</spirit:value>
+        </spirit:parameter>
+      </spirit:parameters>
+    </spirit:busInterface>
+    <spirit:busInterface>
+      <spirit:name>s_axis_ctrl</spirit:name>
+      <spirit:busType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis" spirit:version="1.0"/>
+      <spirit:abstractionType spirit:vendor="xilinx.com" spirit:library="interface" spirit:name="axis_rtl" spirit:version="1.0"/>
+      <spirit:slave/>
+      <spirit:portMaps>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TDATA</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_ctrl_tdata</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TLAST</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_ctrl_tlast</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TVALID</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_ctrl_tvalid</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+        <spirit:portMap>
+          <spirit:logicalPort>
+            <spirit:name>TREADY</spirit:name>
+          </spirit:logicalPort>
+          <spirit:physicalPort>
+            <spirit:name>s_axis_ctrl_tready</spirit:name>
+          </spirit:physicalPort>
+        </spirit:portMap>
+      </spirit:portMaps>
+    </spirit:busInterface>
+  </spirit:busInterfaces>
+  <spirit:model>
+    <spirit:views>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagesynthesis</spirit:name>
+        <spirit:displayName>Synthesis</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:synthesis</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>OFDM_Framer</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagesynthesis_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>32c741a9</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_anylanguagebehavioralsimulation</spirit:name>
+        <spirit:displayName>Simulation</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation</spirit:envIdentifier>
+        <spirit:language>SystemVerilog</spirit:language>
+        <spirit:modelName>OFDM_Framer</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>32c741a9</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_testbench</spirit:name>
+        <spirit:displayName>Test Bench</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:simulation.testbench</spirit:envIdentifier>
+        <spirit:modelName>framer_tb</spirit:modelName>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_testbench_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>ff960218</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+      <spirit:view>
+        <spirit:name>xilinx_xpgui</spirit:name>
+        <spirit:displayName>UI Layout</spirit:displayName>
+        <spirit:envIdentifier>:vivado.xilinx.com:xgui.ui</spirit:envIdentifier>
+        <spirit:fileSetRef>
+          <spirit:localName>xilinx_xpgui_view_fileset</spirit:localName>
+        </spirit:fileSetRef>
+        <spirit:parameters>
+          <spirit:parameter>
+            <spirit:name>viewChecksum</spirit:name>
+            <spirit:value>4a1077bf</spirit:value>
+          </spirit:parameter>
+        </spirit:parameters>
+      </spirit:view>
+    </spirit:views>
+    <spirit:ports>
+      <spirit:port>
+        <spirit:name>axis_aclk</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>axis_aresetn</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_data_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_data_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_data_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_data_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_ctrl_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_ctrl_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_ctrl_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_ctrl_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_data_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_data_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH&apos;)) - 1)">127</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_data_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>m_axis_data_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_config_tready</spirit:name>
+        <spirit:wire>
+          <spirit:direction>out</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_config_tdata</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="(spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH&apos;)) - 1)">31</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_config_tstrb</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:vector>
+            <spirit:left spirit:format="long" spirit:resolve="dependent" spirit:dependency="((spirit:decode(id(&apos;MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH&apos;)) / 8) - 1)">3</spirit:left>
+            <spirit:right spirit:format="long">0</spirit:right>
+          </spirit:vector>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">1</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_config_tlast</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+          <spirit:driver>
+            <spirit:defaultValue spirit:format="long">0</spirit:defaultValue>
+          </spirit:driver>
+        </spirit:wire>
+      </spirit:port>
+      <spirit:port>
+        <spirit:name>s_axis_config_tvalid</spirit:name>
+        <spirit:wire>
+          <spirit:direction>in</spirit:direction>
+          <spirit:wireTypeDefs>
+            <spirit:wireTypeDef>
+              <spirit:typeName>wire</spirit:typeName>
+              <spirit:viewNameRef>xilinx_anylanguagesynthesis</spirit:viewNameRef>
+              <spirit:viewNameRef>xilinx_anylanguagebehavioralsimulation</spirit:viewNameRef>
+            </spirit:wireTypeDef>
+          </spirit:wireTypeDefs>
+        </spirit:wire>
+      </spirit:port>
+    </spirit:ports>
+    <spirit:modelParameters>
+      <spirit:modelParameter xsi:type="spirit:nameValueTypeType" spirit:dataType="integer">
+        <spirit:name>C_S_AXIS_DATA_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C S Axis Data Tdata Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH">32</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>C_M_AXIS_DATA_TDATA_WIDTH</spirit:name>
+        <spirit:displayName>C M Axis Data Tdata Width</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH">128</spirit:value>
+      </spirit:modelParameter>
+      <spirit:modelParameter spirit:dataType="integer">
+        <spirit:name>SAMPS_PER_FRAME</spirit:name>
+        <spirit:displayName>Samps Per Frame</spirit:displayName>
+        <spirit:value spirit:format="long" spirit:resolve="generated" spirit:id="MODELPARAM_VALUE.SAMPS_PER_FRAME">180</spirit:value>
+      </spirit:modelParameter>
+    </spirit:modelParameters>
+  </spirit:model>
+  <spirit:choices>
+    <spirit:choice>
+      <spirit:name>choice_list_9d8b0d81</spirit:name>
+      <spirit:enumeration>ACTIVE_HIGH</spirit:enumeration>
+      <spirit:enumeration>ACTIVE_LOW</spirit:enumeration>
+    </spirit:choice>
+  </spirit:choices>
+  <spirit:fileSets>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagesynthesis_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_ofdm.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_ifaces.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/data_module.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/sync_word_module.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_frame_parser.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/framer_data_modulator.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_sample_interleaver.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_bram_fifo.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/OFDM_Framer.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_418b646b</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_anylanguagebehavioralsimulation_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_ofdm.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_ifaces.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/data_module.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/sync_word_module.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_frame_parser.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/framer_data_modulator.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_sample_interleaver.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/piradio_bram_fifo.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>sources_1/imports/sources_1/OFDM_Framer.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_testbench_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>sim_1/imports/new/framer_tb.sv</spirit:name>
+        <spirit:fileType>systemVerilogSource</spirit:fileType>
+        <spirit:userFileType>USED_IN_implementation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+        <spirit:userFileType>USED_IN_synthesis</spirit:userFileType>
+      </spirit:file>
+      <spirit:file>
+        <spirit:name>../framer_tb_behav.wcfg</spirit:name>
+        <spirit:fileType>unknown</spirit:fileType>
+        <spirit:userFileType>USED_IN_simulation</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+    <spirit:fileSet>
+      <spirit:name>xilinx_xpgui_view_fileset</spirit:name>
+      <spirit:file>
+        <spirit:name>xgui/OFDM_Framer_v1_0.tcl</spirit:name>
+        <spirit:fileType>tclSource</spirit:fileType>
+        <spirit:userFileType>CHECKSUM_4a1077bf</spirit:userFileType>
+        <spirit:userFileType>XGUI_VERSION_2</spirit:userFileType>
+      </spirit:file>
+    </spirit:fileSet>
+  </spirit:fileSets>
+  <spirit:description>OFDM_Framer_v1_0</spirit:description>
+  <spirit:parameters>
+    <spirit:parameter>
+      <spirit:name>C_S_AXIS_DATA_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C S Axis Data Tdata Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_S_AXIS_DATA_TDATA_WIDTH">32</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>C_M_AXIS_DATA_TDATA_WIDTH</spirit:name>
+      <spirit:displayName>C M Axis Data Tdata Width</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.C_M_AXIS_DATA_TDATA_WIDTH">128</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>Component_Name</spirit:name>
+      <spirit:value spirit:resolve="user" spirit:id="PARAM_VALUE.Component_Name" spirit:order="1">OFDM_Framer_v1_0</spirit:value>
+    </spirit:parameter>
+    <spirit:parameter>
+      <spirit:name>SAMPS_PER_FRAME</spirit:name>
+      <spirit:displayName>Samps Per Frame</spirit:displayName>
+      <spirit:value spirit:format="long" spirit:resolve="user" spirit:id="PARAM_VALUE.SAMPS_PER_FRAME">180</spirit:value>
+    </spirit:parameter>
+  </spirit:parameters>
+  <spirit:vendorExtensions>
+    <xilinx:coreExtensions>
+      <xilinx:supportedFamilies>
+        <xilinx:family xilinx:lifeCycle="Production">virtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qvirtex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">versal</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qkintex7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">akintex7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">artix7l</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qartix7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">qzynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">azynq</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">spartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">aspartan7</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexu</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">zynquplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplusHBM</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">virtexuplus58g</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexuplus</xilinx:family>
+        <xilinx:family xilinx:lifeCycle="Production">kintexu</xilinx:family>
+      </xilinx:supportedFamilies>
+      <xilinx:taxonomies>
+        <xilinx:taxonomy>/UserIP</xilinx:taxonomy>
+      </xilinx:taxonomies>
+      <xilinx:displayName>OFDM_Framer_v1_0</xilinx:displayName>
+      <xilinx:definitionSource>package_project</xilinx:definitionSource>
+      <xilinx:xpmLibraries>
+        <xilinx:xpmLibrary>XPM_FIFO</xilinx:xpmLibrary>
+        <xilinx:xpmLibrary>XPM_MEMORY</xilinx:xpmLibrary>
+      </xilinx:xpmLibraries>
+      <xilinx:coreRevision>24</xilinx:coreRevision>
+      <xilinx:coreCreationDateTime>2023-06-07T09:58:42Z</xilinx:coreCreationDateTime>
+      <xilinx:tags>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5aa193d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27c19ed_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2b412ee_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ae6f163_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3748bc2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2687105f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@244c13c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ba1181d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7d1a9264_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7717a47_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f9de796_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@656cac48_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53a8dd45_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3dc4b761_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@256a8f73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d03e799_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3340891e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4579c3c2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bfeebcf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@458633d1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f0818c6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@256dfa93_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/ip/OFDM_Framer/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5255790a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21d2344_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65bcb721_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cd708ba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@522e88f6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@493bed0a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7af4bcc5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62ccf996_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d5227ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@277e60e2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d055652_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@a7d63dd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@22b490a0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6536b6fd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b931924_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@42260d63_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67ecbea8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7424975a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7bb058bd_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1259f73e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41a7665e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b7f8958_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3562e60b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f34f79a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1970c34e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2e0a3359_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@397f5489_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5dc989f1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39b27457_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38c2a430_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b76906a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@20a1856d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@65f2329d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d6a8a67_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4e377fe2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@403d7705_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7eadf7b3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3bf960c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3dbcdd12_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6155ca6f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@768b7399_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4da48b79_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ca20166_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@583de95d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@356e6cb5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5daca8cf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2695c95a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@76a32e72_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4080537a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a83dc30_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3efc925_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@19d23f7c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1b35f7ed_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63ce377c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1c4797e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@9486d62_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45aa6ab5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@692e777d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d56c9f3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1551d30b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c7268e1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@24b62c56_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d8f9a11_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@465e5af5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5943771a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f979855_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4245a1d6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3dd09a18_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@76f63b4c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2be07997_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@18eaacf3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d6215d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@559a6da6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@614d6737_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@78e805a4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1e693251_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ef5a95e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7e5729db_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@747f455_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14ae662b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17bbcc5d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@71f96dfe_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@49e8e914_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33084bb9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b2bd31d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@63511b7d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3d290d9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@435184_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f568982_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7fbc8392_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a74f0ba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@62107bb4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@104b64a3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1f8d18b0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@181bafe2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@339b141f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@320b332a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6ce6b740_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c32c5e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@30c4d004_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@326eda1c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7ef90ed3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15e07eba_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6bd2337b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1cd06307_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21c828a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@54faa622_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4ed12179_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@21c14f11_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1056ffc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2edb0b2c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2d5e816_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2673accb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5a790975_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64f823f1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@689cbbd2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@275d3650_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38d24d5a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@e834cea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@75c1809c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38934ab1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@17ea7f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c6ee36d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@511cb723_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@cd57213_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@29bc859_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5484d684_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fa9d9a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@78f3850e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2cec234a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@34315a54_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6aff2c9d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@648d50c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1a30773e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ff12f3e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@473b1594_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4bf4ddbb_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d1682f8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@f51f71a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@57ae8348_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@386ccd42_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@d064a9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@700cc630_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5ca2ca85_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@515e1ac3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3c35cd36_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@22b0da12_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@67eeafdf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15fb030b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@424d26ab_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@524bbe69_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fcc334e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@58c10a65_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@41c8c400_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15ee16be_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2974820f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2433efcc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2fd9e9f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@15aaf768_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@36e29e04_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@343b8ed5_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6cf6a8c3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@715f4475_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@508cfee9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@383a905b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@376e8273_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2f24635b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3935524b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4feed009_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@712333c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@14de0b9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46966458_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6af5edd9_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@16e8b3e2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@72380da8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@577a237f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@39801b3d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53019732_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@622ee5b4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d3c74b1_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@622b7516_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@bb19d76_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@53982753_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2ef496e7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45bcab25_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@ab8fdf6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7cb2ca6b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@38dfac84_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5d7f3dea_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2c0b02bf_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5fc608d0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5834d1d4_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@8a8d8cc_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1d299dc6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6965f3a7_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46cd7d6c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2052970f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5b4fe698_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@27778fa8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@494b7c0a_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@33e3983c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6417dcaa_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5c25669f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@277b638_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6d748630_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b4059e3_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7b888e1d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3646f1e6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@222baab6_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1105d07d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@739afe86_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7f56b6e8_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@b45a94c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4b522841_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5aba024c_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5aef9149_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2bc29250_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@412a008f_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@55316452_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@46cbfc73_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@1bd4d165_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@64c21e57_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@2056ba69_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@5f9b9598_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6e1519f2_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@4a55669b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3e4a6c05_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@74b98794_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@6b91f764_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@44d046e0_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@68e6267e_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3731b82d_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@45399f8b_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@3f3d4d95_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+        <xilinx:tag xilinx:name="ui.data.coregen.df@7c513839_ARCHIVE_LOCATION">/home/george/Documents/piradio_driver_dev/test_cores/ip/OFDM_Framer/OFDM_Framer.srcs</xilinx:tag>
+      </xilinx:tags>
+    </xilinx:coreExtensions>
+    <xilinx:packagingInfo>
+      <xilinx:xilinxVersion>2021.1</xilinx:xilinxVersion>
+      <xilinx:checksum xilinx:scope="busInterfaces" xilinx:value="ea2c46b3"/>
+      <xilinx:checksum xilinx:scope="fileGroups" xilinx:value="a945f78c"/>
+      <xilinx:checksum xilinx:scope="ports" xilinx:value="395abb10"/>
+      <xilinx:checksum xilinx:scope="hdlParameters" xilinx:value="846e46d1"/>
+      <xilinx:checksum xilinx:scope="parameters" xilinx:value="99461c71"/>
+    </xilinx:packagingInfo>
+  </spirit:vendorExtensions>
+</spirit:component>

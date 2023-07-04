@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="signal_detect_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="glbl" />
+            <top_module name="signal_detect_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="600.000001 us"></ZoomEndTime>
+      <Cursor1Time time="101.000000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="292"></NameColumnWidth>
+      <ValueColumnWidth column_width="163"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="16" />
+   <wvobject type="logic" fp_name="/signal_detect_tb/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/aresetn">
+      <obj_property name="ElementShortName">aresetn</obj_property>
+      <obj_property name="ObjectShortName">aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/s_axis_data">
+      <obj_property name="ElementShortName">s_axis_data[127:0]</obj_property>
+      <obj_property name="ObjectShortName">s_axis_data[127:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/s_axis_tvalid">
+      <obj_property name="ElementShortName">s_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/s_axis_tready">
+      <obj_property name="ElementShortName">s_axis_tready</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tready</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/no_signal">
+      <obj_property name="ElementShortName">no_signal[127:0]</obj_property>
+      <obj_property name="ObjectShortName">no_signal[127:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/signal">
+      <obj_property name="ElementShortName">signal[127:0]</obj_property>
+      <obj_property name="ObjectShortName">signal[127:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/i">
+      <obj_property name="ElementShortName">i[31:0]</obj_property>
+      <obj_property name="ObjectShortName">i[31:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/signal_detect_inst/energy_calc_inst/energy">
+      <obj_property name="ElementShortName">energy[15:0]</obj_property>
+      <obj_property name="ObjectShortName">energy[15:0]</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/signal_detect_inst/estimate">
+      <obj_property name="ElementShortName">estimate[24:0]</obj_property>
+      <obj_property name="ObjectShortName">estimate[24:0]</obj_property>
+      <obj_property name="CellHeight">100</obj_property>
+      <obj_property name="AnalogYRangeType">ANALOG_YRANGETYPE_AUTO</obj_property>
+      <obj_property name="AnalogYRangeMin">0.000000</obj_property>
+      <obj_property name="AnalogYRRangeMax">0.000000</obj_property>
+      <obj_property name="AnalogInterpolation">ANALOG_INTERPOLATION_HOLD</obj_property>
+      <obj_property name="AnalogOffscale">ANALOG_OFFSCALE_HIDE</obj_property>
+      <obj_property name="AnalogHorizLine">0.000000</obj_property>
+      <obj_property name="WaveformStyle">STYLE_ANALOG</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/signal_detect_tb/signal_detect_inst/subtracted">
+      <obj_property name="ElementShortName">subtracted[15:0]</obj_property>
+      <obj_property name="ObjectShortName">subtracted[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/signal_detect_inst/integration_fifo_inst/s_axis_tvalid">
+      <obj_property name="ElementShortName">s_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/signal_detect_inst/integration_fifo_inst/s_axis_tready">
+      <obj_property name="ElementShortName">s_axis_tready</obj_property>
+      <obj_property name="ObjectShortName">s_axis_tready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/signal_detect_inst/integration_fifo_inst/m_axis_tvalid">
+      <obj_property name="ElementShortName">m_axis_tvalid</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tvalid</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/signal_detect_inst/integration_fifo_inst/m_axis_tready">
+      <obj_property name="ElementShortName">m_axis_tready</obj_property>
+      <obj_property name="ObjectShortName">m_axis_tready</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/signal_detect_tb/signal_detect_inst/integration_fifo_inst/prog_full_axis">
+      <obj_property name="ElementShortName">prog_full_axis</obj_property>
+      <obj_property name="ObjectShortName">prog_full_axis</obj_property>
+   </wvobject>
+</wave_config>

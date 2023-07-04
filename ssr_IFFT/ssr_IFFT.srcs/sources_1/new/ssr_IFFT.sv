@@ -14,9 +14,12 @@
 
 		// Parameters of Axi Master Bus Interface M00_AXIS
 		parameter integer C_M00_AXIS_TDATA_WIDTH	= 128,
-		parameter integer SSR = 4,
-		parameter integer insert_cp = 0,
-		parameter integer scaled = 0
+		parameter integer FFT_SIZE                  = 1024,
+		parameter integer CP_DURATION               = 256,
+		parameter integer SSR                       = 4,
+		parameter integer insert_cp                 = 0,
+		parameter integer scaled                    = 0,
+		parameter integer fft_shift                 = 0
 	)
 	(
 		input wire  s_axis_aclk,
@@ -31,301 +34,72 @@
 		output wire  m00_axis_tlast,
 		input wire  m00_axis_tready,
 		
-		input wire [4-1 : 0] s00_axi_awaddr,
-		input wire [2 : 0] s00_axi_awprot,
-		input wire  s00_axi_awvalid,
-		output wire  s00_axi_awready,
-		input wire [32-1 : 0] s00_axi_wdata,
-		input wire [(32/8)-1 : 0] s00_axi_wstrb,
-		input wire  s00_axi_wvalid,
-		output wire  s00_axi_wready,
-		output wire [1 : 0] s00_axi_bresp,
-		output wire  s00_axi_bvalid,
-		input wire  s00_axi_bready,
-		input wire [4-1 : 0] s00_axi_araddr,
-		input wire [2 : 0] s00_axi_arprot,
-		input wire  s00_axi_arvalid,
-		output wire  s00_axi_arready,
-		output wire [32-1 : 0] s00_axi_rdata,
-		output wire [1 : 0] s00_axi_rresp,
-		output wire  s00_axi_rvalid,
-		input wire  s00_axi_rready
+		output wire trigger,
+		output wire trigger2
 	);
-    localparam complex_size = 32;
-    typedef enum {IDLE, OUT_CP, OUT_DATA} out_state_t;
-    out_state_t state = IDLE;
-	logic [(complex_size / 2) - 1 : 0] in_real[0 : SSR - 1];
-	logic [(complex_size / 2) - 1 : 0] in_imag[0 : SSR - 1];
-    wire [9 : 0] scale_in;
-    wire [(C_M00_AXIS_TDATA_WIDTH / 4) - 1 : 0] m_axis_out_tdata_tmp[0 : 3];
-    wire [9 : 0] out_scale;
-    logic signed [(complex_size / 2) - 1 : 0] samps_out_real[0 : SSR - 1];
-    logic signed [(complex_size / 2) - 1 : 0] samps_out_imag[0 : SSR - 1];
-    
-    reg [8 : 0] read_index = 192;
-    reg [8 : 0] write_index = 0;
-    wire sysgen_fft_in_valid;
-    reg [10 : 0]tlast_counter = 0;
-    wire [127 : 0] interm_buff_input;
-    wire [127 : 0] interm_buff_output;
-    wire en_interm_buff_in;
-    wire en_interm_buff_out;
-    reg [1 : 0] shift_reg = 0;
-    reg [1 : 0] avail = 0;
-    wire s_fifo_valid;
-    wire s_fifo_ready;
-    wire [127 : 0] s_fifo_data;
-    wire fft_valid;
-    wire [127 : 0] m_fifo_data;
-    wire m_fifo_valid;
-    reg [20 : 0] count_input = 0;
-    reg [20 : 0] count_test_cp = 0;
-    logic [25 : 0] ifft_out[0 : 7];
-    logic [1 : 0] valid_shift_reg;
-    logic [5 : 0] shift_bits = 8;
-    
-    assign en_interm_buff_in = m_fifo_valid && insert_cp;
-    assign s_fifo_data = {m_axis_out_tdata_tmp[3],m_axis_out_tdata_tmp[2],
-                                                m_axis_out_tdata_tmp[1],m_axis_out_tdata_tmp[0]};
-    assign en_interm_buff_out = (state == OUT_CP || state == OUT_DATA);
-    assign m00_axis_tdata = (valid_shift_reg == 2'b10) ? 128'h0000 : (insert_cp) ? 
-                                                interm_buff_output : {m_axis_out_tdata_tmp[3],m_axis_out_tdata_tmp[2],
-                                                        m_axis_out_tdata_tmp[1],m_axis_out_tdata_tmp[0]};
-    assign m00_axis_tvalid = (valid_shift_reg == 2'b10) ? 1 :
-                                    (insert_cp) ? shift_reg[0] : fft_valid;
-    assign scale_in = 10'h000;
-
-    assign m00_axis_tlast = (insert_cp) ? tlast_counter == 319 : tlast_counter == 255;
-    assign s00_axis_tready = (insert_cp) ? (count_input <= 255) : 1;
-	assign sysgen_fft_in_valid = (insert_cp) ? s00_axis_tready && s00_axis_tvalid : s00_axis_tvalid;
-
-	/* Adjust input to be in the form the sysgen core needs it, ie. all real parts and all imaginary bit_index
-	together */
+	localparam tdata_out_width = (scaled) ? 128 : 256;
+	localparam symbol_duration = (insert_cp) ? (FFT_SIZE + CP_DURATION)/4 : (FFT_SIZE)/4;
 	
-	genvar i;
-	
-	generate
-	   for(i = 0; i < SSR ; i++) begin
-	       assign in_real[i] = s00_axis_tdata[i * complex_size +: (complex_size / 2)];
-	       assign in_imag[i] = s00_axis_tdata[i * complex_size + (complex_size / 2) +: (complex_size / 2)];
-	   end
-	endgenerate
-	
-	genvar k;
-	
-	generate
-	   for(k = 0; k < SSR ; k++) begin
-	       assign samps_out_real[k] = ifft_out[k * 2][shift_bits +: (complex_size / 2)];
-	       assign samps_out_imag[k] = ifft_out[k * 2 + 1][shift_bits +: (complex_size / 2)];
-	   end
-	endgenerate
-
-    genvar l;
-    
-	generate
-	   for(l = 0; l < SSR ; l++) begin
-	       assign m_axis_out_tdata_tmp[l] = scaled ?
-	                               {samps_out_imag[l], samps_out_real[l]} :  
-	                               {6'h00, ifft_out[l * 2 + 1], 6'h00, ifft_out[l * 2]};
-	   end
-	endgenerate    
-
-    always@(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn)
-            valid_shift_reg <= 2'b0;
-        else begin
-            if(valid_shift_reg != 2'b10)
-                valid_shift_reg <= {valid_shift_reg[0], m00_axis_tvalid};
-            else
-                valid_shift_reg <= {valid_shift_reg[0], 1'b0};   
-        end
-    end
-
-    always@(posedge s_axis_aclk) begin
-        shift_reg <= {en_interm_buff_out, shift_reg[1]};
-    end
-
-    always@(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn) begin
-            write_index <= 0;
-            read_index <= 192;
-            state <= IDLE;
-        end
-        else begin
-            if(en_interm_buff_in) begin
-                write_index <= write_index + 1;
-                if(write_index[7 : 0] == 0)
-                    avail[write_index[8]] <= 1;
-            end
-            if(write_index[7 : 0] == 8'hff && (state == IDLE || state == OUT_DATA)) begin
-                state <= OUT_CP;
-                avail[read_index[8]] <= 0;
-            end
-            if(state == OUT_CP)
-                if(read_index[7 : 0] < 8'hff)
-                    read_index <= read_index + 1;
-                else begin
-                    state <= OUT_DATA;
-                    read_index <= {read_index[8], 8'h00};
-                end
-            if(state == OUT_DATA) begin
-                if(read_index[7 : 0] < 8'hff)
-                    read_index <= read_index + 1;
-                else begin
-                    if(avail[~read_index[8]]) begin
-                        state <= OUT_CP;
-                        read_index <= {~read_index[8], 8'hC0};
-                    end
-                    else begin
-                        state <= IDLE;
-                        read_index <= {~read_index[8], 8'hC0};
-                    end
-                end
-            end
-        end
-    end
-
-    always@(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn)
-            tlast_counter <= 0;
-         else begin
-            if(m00_axis_tready && m00_axis_tvalid) begin
-                if(insert_cp) begin
-                    if(tlast_counter < 319)
-                        tlast_counter <= tlast_counter + 1;
-                    else
-                        tlast_counter <= 0;
-                end
-                else begin
-                     if(tlast_counter < 255)
-                        tlast_counter <= tlast_counter + 1;
-                    else
-                        tlast_counter <= 0;
-                end
-            end
-         end
-    end
-    
-xpm_memory_sdpram #(
-       .ADDR_WIDTH_A(9),               // DECIMAL
-       .ADDR_WIDTH_B(9),               // DECIMAL
-       .AUTO_SLEEP_TIME(0),            // DECIMAL
-       .BYTE_WRITE_WIDTH_A(128),        // DECIMAL
-       .CASCADE_HEIGHT(0),             // DECIMAL
-       .CLOCKING_MODE("common_clock"), // String
-       .ECC_MODE("no_ecc"),            // String
-       .MEMORY_INIT_FILE("none"),      // String
-       .MEMORY_INIT_PARAM("0"),        // String
-       .MEMORY_OPTIMIZATION("true"),   // String
-       .MEMORY_PRIMITIVE("auto"),      // String
-       .MEMORY_SIZE(65536),             // DECIMAL
-       .MESSAGE_CONTROL(0),            // DECIMAL
-       .READ_DATA_WIDTH_B(128),         // DECIMAL
-       .READ_LATENCY_B(2),             // DECIMAL
-       .READ_RESET_VALUE_B("0"),       // String
-       .RST_MODE_A("SYNC"),            // String
-       .RST_MODE_B("SYNC"),            // String
-       .SIM_ASSERT_CHK(1),             // DECIMAL
-       .USE_EMBEDDED_CONSTRAINT(0),    // DECIMAL
-       .USE_MEM_INIT(1),               // DECIMAL
-       .USE_MEM_INIT_MMI(0),           // DECIMAL
-       .WAKEUP_TIME("disable_sleep"),  // String
-       .WRITE_DATA_WIDTH_A(128),        // DECIMAL
-       .WRITE_MODE_B("no_change"),     // String
-       .WRITE_PROTECT(1)               // DECIMAL
-    )
-    interm_buffer_inst (
-       .doutb(interm_buff_output),
-       .addra(write_index),
-       .addrb(read_index),
-       .clka(s_axis_aclk),
-       .clkb(s_axis_aclk),
-       .dina(m_fifo_data),
-       .ena(m_fifo_valid),
-       .enb(en_interm_buff_out),
-       .regceb(1),
-       .wea(1)
-    );
-
-    xpm_fifo_axis #(
-     .CDC_SYNC_STAGES(2), // DECIMAL
-     .CLOCKING_MODE("common_clock"), // String
-     .ECC_MODE("no_ecc"), // String
-     .FIFO_DEPTH(2048), // DECIMAL
-     .FIFO_MEMORY_TYPE("auto"), // String
-     .PACKET_FIFO("false"), // String
-     .PROG_EMPTY_THRESH(10), // DECIMAL
-     .PROG_FULL_THRESH(257), // DECIMAL
-     .RD_DATA_COUNT_WIDTH(1), // DECIMAL
-     .RELATED_CLOCKS(0), // DECIMAL
-     .SIM_ASSERT_CHK(0), // DECIMAL
-     .TDATA_WIDTH(128), // DECIMAL
-     .TDEST_WIDTH(1), // DECIMAL
-     .TID_WIDTH(1), // DECIMAL
-     .TUSER_WIDTH(1), // DECIMAL
-     .USE_ADV_FEATURES("1000"), // String
-     .WR_DATA_COUNT_WIDTH(1) // DECIMAL
-    )
-    output_fifo_inst (
-     .m_axis_tdata(m_fifo_data),
-     .m_axis_tvalid(m_fifo_valid),
-     .m_axis_tlast(m_axis_data_tlast),
-     .s_axis_tready(s_fifo_ready),
-     .m_aclk(axis_aclk),
-     .m_axis_tready(en_interm_buff_in),
-     .s_aclk(s_axis_aclk),
-     .s_aresetn(s_axis_aresetn),
-     .s_axis_tdata(s_fifo_data),
-     .s_axis_tvalid(fft_valid),
-     .s_axis_tlast(s_axis_fifo_tlast)
-    );
-
-    sysgenssrifft_0 ssr_ifft_inst (
-        .si(scale_in),
-        .vi(sysgen_fft_in_valid),
-        .i_im_0(in_imag[0]),
-        .i_im_1(in_imag[1]),
-        .i_re_0(in_real[0]),
-        .i_re_1(in_real[1]),
-        .i_im_2(in_imag[2]),
-        .i_im_3(in_imag[3]),
-        .i_re_2(in_real[2]),
-        .i_re_3(in_real[3]),
+	module_iface #(.TDATA_WIDTH(tdata_out_width))ishift2ifft();
+	module_iface #(.TDATA_WIDTH(tdata_out_width))ih2ifftshift();
+	module_iface #(.TDATA_WIDTH(tdata_out_width))ifft2switch();
+	module_iface #(.TDATA_WIDTH(tdata_out_width))cpadder2switch();
+	module_iface #(.TDATA_WIDTH(tdata_out_width))switch2tlast();
+	tlast2out_iface #(.TDATA_WIDTH(tdata_out_width)) tlast2out();
+	input_handler #(.CP_INSERT(insert_cp))
+	   input_handler_inst(
         .clk(s_axis_aclk),
-        .last(last),
-        .so(out_scale),
-        .vo(fft_valid),
-        .o_im_0(ifft_out[1]),
-        .o_im_1(ifft_out[3]),
-        .o_re_0(ifft_out[0]),
-        .o_re_1(ifft_out[2]),
-        .o_im_2(ifft_out[5]),
-        .o_im_3(ifft_out[7]),
-        .o_re_2(ifft_out[4]),
-        .o_re_3(ifft_out[6])
+        .aresetn(s_axis_aresetn),
+        .ih2ifftshift(ih2ifftshift),
+        .s00_axis_tready(s00_axis_tready),
+        .s00_axis_tdata(s00_axis_tdata),
+        .s00_axis_tlast(s00_axis_tlast),
+        .s00_axis_tvalid(s00_axis_tvalid)
+	);
+	ifftshift #(.ENABLE(fft_shift))
+	  ifftshift_inst(
+        .clk(s_axis_aclk),
+        .aresetn(s_axis_aresetn),
+        .ih2ifftshift(ih2ifftshift),
+        .ishift2ifft(ishift2ifft)
     );
+    
+	ifft #(.SCALED(scaled))ifft_inst(
+	    .clk(s_axis_aclk),
+        .aresetn(s_axis_aresetn),
+	   .ishift2ifft(ishift2ifft),
+	   .ifft2switch(ifft2switch)
+	);
+	cp_adder cp_adder_inst(
+	   .clk(s_axis_aclk),
+        .aresetn(s_axis_aresetn),
+        .ifft2cpadder(ifft2switch),
+	   .*
+	);
+	
+	switch #(.CP_INSERT(insert_cp))
+	   switch_inst(
+	   .clk(s_axis_aclk),
+       .aresetn(s_axis_aresetn),
+	   .*	
+	);
+	
+	tlast_insert#(.DURATION(symbol_duration)) tlast_insert_inst(
+	   .clk(s_axis_aclk),
+       .aresetn(s_axis_aresetn),
+	   .*
+	);
+	
+	assign m00_axis_tdata = tlast2out.tdata;
+	assign m00_axis_tvalid = tlast2out.tvalid;
+	assign m00_axis_tlast = tlast2out.tlast;
 
-    /* Input condition refers to the first symbol which is to be output.
-    *  For that first symbol only we do not deassert s_axis_tready. We start
-    *  deasserting it only from the second symbol on for latency reasons.
-    *
-    */
-    always @(posedge s_axis_aclk) begin
-        if(!s_axis_aresetn)
-            count_input <= 0;
-        else begin
-            if(s00_axis_tvalid || (!s00_axis_tvalid && count_input != 0)) begin
-                if(count_input < 319)
-                    count_input <= count_input + 1;
-                else
-                    count_input <= 0;
-            end
-        end
-    end
 
     // Make sure the CP is added properly by checking if the
     // last 64 samples transmitted for every frame are the same
     // as the first 64. We also keep a counter register for help
+    
+    logic [10 : 0] count_test_cp ;
     always@(posedge s_axis_aclk) begin
         if(!s_axis_aresetn)
             count_test_cp <= 0;
@@ -344,31 +118,31 @@ xpm_memory_sdpram #(
             assert(m00_axis_tdata == $past(m00_axis_tdata, 256));
     end
 
-    /*Make sure we never fill-up the FIFO */
-    assert property (@(posedge s_axis_aclk)
-	   (!(!s_fifo_ready && fft_valid && insert_cp)));
+//    /*Make sure we never fill-up the FIFO */
+//    assert property (@(posedge s_axis_aclk)
+//	   (!(!s_fifo_ready && fft_valid && insert_cp)));
 
-    /* Make sure data does not change if FIFO saxis_tready or tvalid deasserts*/
-	assert property (@(posedge s_axis_aclk)
-	   (s_fifo_valid && !s_fifo_ready && s_axis_aresetn && insert_cp)
-	       |=> s_fifo_valid && $stable(s_fifo_data));
+//    /* Make sure data does not change if FIFO saxis_tready or tvalid deasserts*/
+//	assert property (@(posedge s_axis_aclk)
+//	   (s_fifo_valid && !s_fifo_ready && s_axis_aresetn && insert_cp)
+//	       |=> s_fifo_valid && $stable(s_fifo_data));
 
-	assert property (@(posedge s_axis_aclk)
-	   (!s_fifo_valid && s_fifo_ready && s_axis_aresetn && insert_cp)
-	       |-> $stable(s_fifo_data));
+//	assert property (@(posedge s_axis_aclk)
+//	   (!s_fifo_valid && s_fifo_ready && s_axis_aresetn && insert_cp)
+//	       |-> $stable(s_fifo_data));
 
-	// Make sure s_tvalid is always asserted for at least 256 cycles
-	reg [7 : 0] count_s_valid = 0;
-	always @(posedge s_axis_aclk) begin
-        if(s00_axis_tvalid && s00_axis_tready)
-            count_s_valid <= count_s_valid + 1;
-    end
-    assert property (@(posedge s_axis_aclk)
-	   $fell(s00_axis_tvalid) |=>
-	               (count_s_valid == 0));
-	assert property (@(posedge s_axis_aclk)
-	   $fell(s00_axis_tready) |=>
-	               (count_s_valid == 0));
+//	// Make sure s_tvalid is always asserted for at least 256 cycles
+	
+//	always @(posedge s_axis_aclk) begin
+//        if(s00_axis_tvalid && s00_axis_tready)
+//            count_s_valid <= count_s_valid + 1;
+//    end
+//    assert property (@(posedge s_axis_aclk)
+//	   $fell(s00_axis_tvalid) |=>
+//	               (count_s_valid == 0));
+//	assert property (@(posedge s_axis_aclk)
+//	   $fell(s00_axis_tready) |=>
+//	               (count_s_valid == 0));
 	// Make sure we output multiples of 256 / 320 samples depending if we also add the CP
 	reg [8 : 0] count_m_valid = 0;
 	always @(posedge s_axis_aclk) begin
@@ -387,3 +161,475 @@ xpm_memory_sdpram #(
 	               (count_m_valid == 0));
 
 	endmodule
+
+    module input_handler #(
+        parameter integer S_AXIS_TDATA_WIDTH = 128,
+        parameter integer IFFT_SIZE          = 1024,
+        parameter integer SSR                = 4,
+        parameter integer CP_LEN             = 256,
+        parameter integer CP_INSERT          = 0
+    )
+    (
+        input wire  clk,
+		input wire  aresetn,
+		output logic  s00_axis_tready,
+		input logic [S_AXIS_TDATA_WIDTH-1 : 0] s00_axis_tdata,
+		input logic  s00_axis_tlast,
+		input logic  s00_axis_tvalid,
+		module_iface.master ih2ifftshift
+    );
+    localparam symbol_duration = (CP_INSERT) ? (IFFT_SIZE + CP_LEN) / SSR : IFFT_SIZE / SSR;
+    logic [$clog2((IFFT_SIZE/SSR) + (CP_LEN / SSR)) - 1 : 0] input_count;
+    logic inv_input;
+    
+    assign s00_axis_tready = (input_count < (IFFT_SIZE / SSR) && !inv_input);
+    assign ih2ifftshift.tdata = (inv_input) ? 2 : s00_axis_tdata;
+    assign ih2ifftshift.tvalid = (input_count < (IFFT_SIZE / SSR)) && (input_count != 0 || s00_axis_tvalid);
+    
+    // This logic block handles cases where the input is not asserted for
+    // the required period, so in order not to mess up the IFFT afterwards
+    // we use the inv_input register to fill the remaining input to the 
+    // subsequent IFFT with zeros and maintain the FFT SIZE window.
+    
+    always@(posedge clk) begin
+        if(!aresetn) inv_input <= 0;
+        else begin
+            if((input_count != 0 && input_count < (IFFT_SIZE / SSR)) 
+                    && !s00_axis_tvalid) begin
+                inv_input <= 1;
+            end
+            else if(input_count == (symbol_duration - 1)) begin
+                inv_input <= 0;
+            end
+        end
+    end
+    
+    // The input_count register starts counting as soon as valid input is present
+    // And stops only after the FFT_LENGTH + CP_LENTH period has passed
+    
+    always@(posedge clk) begin
+        if(!aresetn) input_count <= 0;
+        else begin
+            if(s00_axis_tvalid && input_count == 0) begin
+                input_count <= input_count + 1;
+            end
+            else if(input_count != 0) begin
+                if(input_count < (symbol_duration - 1))
+                    input_count <= input_count + 1;
+                else
+                    input_count <= 0;
+            end
+        end
+    end
+    
+    endmodule
+    
+    module ifftshift #(
+    parameter integer DATA_WIDTH = 128,
+    parameter integer FFT_LENGTH = 256,
+    parameter integer FIFO_SIZE = 2 * FFT_LENGTH,
+    parameter integer ENABLE = 0
+    )(
+    input wire clk,
+    input wire aresetn,
+    module_iface.slave ih2ifftshift,
+    module_iface.master ishift2ifft
+    );
+    
+    
+    
+    localparam low = 112 / 4 - 1;
+    localparam middle = 512 / 4 - 1;
+    localparam high = 912 / 4 - 1;
+    logic [255 : 0] samples_data_reg;
+    logic [10 : 0] avail;
+    logic test_valid;
+    
+    logic [$clog2(FIFO_SIZE) - 1 : 0] read_addr;
+    logic [$clog2(FIFO_SIZE) - 1 : 0] write_addr;
+    logic [$clog2(FIFO_SIZE) - 2 : 0] half_fft;
+    logic read_enable, write_enable;
+    logic [1 : 0] valid_shift_reg;
+    logic [7 : 0] cnt = 0;
+    logic [DATA_WIDTH - 1 : 0] data_out;
+    
+    always@(posedge clk)
+        if(ishift2ifft.tvalid) cnt <= cnt + 1;
+    
+    assign half_fft = FFT_LENGTH / 2;
+    
+    assign write_enable = (ENABLE) ? ih2ifftshift.tvalid : 0;
+    assign ishift2ifft.tvalid = (ENABLE) ? valid_shift_reg[1] : ih2ifftshift.tvalid;
+    assign ishift2ifft.tdata = (ENABLE) ? data_out : ih2ifftshift.tdata;
+    
+    always@(posedge clk) begin
+        if(ishift2ifft.tvalid && ENABLE) begin
+            if(cnt < low) begin
+                test_valid <= 1;
+                avail <= 0;
+            end
+            else if(cnt >= low && cnt < middle) begin
+                avail <= 4;
+                samples_data_reg <= {{128{1'b0}}, ishift2ifft.tdata};
+            end
+            else if(cnt == middle) begin
+                avail <= 3;
+                samples_data_reg <= {{160{1'b0}}, ishift2ifft.tdata[95 : 0]};
+            end
+            else if(cnt == middle + 1 && cnt < high) begin
+                avail <= 4;
+                samples_data_reg <= {{64{1'b0}},ishift2ifft.tdata[127 : 32], samples_data_reg[95 : 0]};
+            end
+            else if(cnt > (middle + 1) && cnt < high) begin
+                avail <= 4;
+                samples_data_reg <= {{64{1'b0}},ishift2ifft.tdata[127 : 0], samples_data_reg[128 +: 64]};
+            end
+            else if(cnt == high) begin
+                avail <= 4;
+                samples_data_reg <= {{96{1'b0}},ishift2ifft.tdata[32 : 0], samples_data_reg[128 +: 64]};
+            end
+            else begin
+                avail <= 0;
+                test_valid <= 0;
+            end
+        end
+    end
+    
+    always@(posedge clk) begin
+        if(!aresetn) begin
+            write_addr <= FFT_LENGTH / 2;
+        end
+        else begin
+            if(ih2ifftshift.tvalid && ENABLE) begin
+                if(write_addr[$clog2(FIFO_SIZE) - 2 : 0] == FFT_LENGTH - 1) begin
+                    write_addr <= write_addr - FFT_LENGTH + 1;
+                end 
+                else if(write_addr[$clog2(FIFO_SIZE) - 2 : 0] == FFT_LENGTH / 2 - 1) begin
+                    write_addr <= {~write_addr[$clog2(FIFO_SIZE) - 1], half_fft};
+                end
+                else
+                    write_addr <= write_addr + 1;
+            end
+        end
+    end
+    
+    always@(posedge clk) begin
+        if(!aresetn) begin
+            read_addr <= 0;
+            read_enable <= 0;
+        end
+        else begin
+            if(ENABLE) begin
+                if(write_addr[$clog2(FIFO_SIZE) - 2 : 0] == 0 || read_enable) begin
+                    if(read_enable) read_addr <= read_addr  + 1;
+                    if(read_addr[$clog2(FIFO_SIZE) - 2 : 0] == FFT_LENGTH - 1) begin
+                        if(read_addr == FIFO_SIZE - 1)
+                            read_addr <= 0;
+                        else
+                            read_addr <= FFT_LENGTH;
+                        read_enable <= 0;
+                    end
+                    else begin
+                        read_enable <= 1;
+                    end
+                end
+            end
+        end
+    end
+    
+    always@(posedge clk) begin
+        if(!aresetn)
+            valid_shift_reg <= 2'b0;
+        else begin
+            valid_shift_reg <= {valid_shift_reg[0], read_enable};
+        end
+    end
+
+ xpm_memory_sdpram #(
+   .ADDR_WIDTH_A($clog2(FIFO_SIZE)),  
+   .ADDR_WIDTH_B($clog2(FIFO_SIZE)),    
+   .AUTO_SLEEP_TIME(0),            // DECIMAL
+   .BYTE_WRITE_WIDTH_A(DATA_WIDTH),        // DECIMAL
+   .CASCADE_HEIGHT(0),             // DECIMAL
+   .CLOCKING_MODE("common_clock"), // String
+   .ECC_MODE("no_ecc"),            // String
+   .MEMORY_INIT_FILE("none"),      // String
+   .MEMORY_INIT_PARAM("0"),        // String
+   .MEMORY_OPTIMIZATION("true"),   // String
+   .MEMORY_PRIMITIVE("auto"),      // String
+   .MEMORY_SIZE(FIFO_SIZE * DATA_WIDTH), // 2 time domain OFDM symbols
+   .MESSAGE_CONTROL(0),            // DECIMAL
+   .READ_DATA_WIDTH_B(DATA_WIDTH),  // DECIMAL
+   .READ_LATENCY_B(2),             // DECIMAL
+   .READ_RESET_VALUE_B("0"),       // String
+   .RST_MODE_A("SYNC"),            // String
+   .RST_MODE_B("SYNC"),            // String
+   .SIM_ASSERT_CHK(1),             // DECIMAL; 0=disable simulation messages, 1=enable simulation messages
+   .USE_EMBEDDED_CONSTRAINT(0),    // DECIMAL
+   .USE_MEM_INIT(1),               // DECIMAL
+   .USE_MEM_INIT_MMI(0),           // DECIMAL
+   .WAKEUP_TIME("disable_sleep"),  // String
+   .WRITE_DATA_WIDTH_A(DATA_WIDTH),        // DECIMAL
+   .WRITE_MODE_B("no_change"),     // String
+   .WRITE_PROTECT(1)               // DECIMAL
+)
+symbol_ram_inst (                                
+   .doutb(data_out),
+   .addra(write_addr),
+   .addrb(read_addr),
+   .clka(clk),
+   .clkb(clk),
+   .dina(ih2ifftshift.tdata),
+   .ena(write_enable),
+   .enb(read_enable),
+   .regceb(1),                        
+   .wea(1)
+);       
+endmodule
+    
+    
+    module ifft #(
+        parameter integer SCALED             = 1,
+        parameter integer SSR                = 4
+    )
+    (
+        input wire  clk,
+		input wire  aresetn,
+		module_iface.slave ishift2ifft,
+		module_iface.master ifft2switch
+    );
+    localparam complex_size = 32;
+    localparam shift_bits = 8;
+    logic [9 : 0] scale_in;
+    logic [9 : 0] scale_out;
+    logic [(complex_size / 2) - 1 : 0] in_real[0 : SSR - 1];
+	logic [(complex_size / 2) - 1 : 0] in_imag[0 : SSR - 1];
+	logic signed [(complex_size / 2) - 1 : 0] samps_out_real[0 : SSR - 1];
+    logic signed [(complex_size / 2) - 1 : 0] samps_out_imag[0 : SSR - 1];
+    logic [25 : 0] ifft_out[0 : 2 * SSR - 1];
+    logic [(ifft2switch.TDATA_WIDTH / 4) - 1 : 0] data_out[0 : 3];
+    logic fft_valid;
+    logic [ifft2switch.TDATA_WIDTH - 1 : 0] data_fifo_in;
+    logic fifo_ready;
+	
+	assign scale_in = 10'h000;
+    
+    genvar i,k;
+	
+	generate
+	   for(i = 0; i < SSR ; i++) begin
+	       assign in_real[i] = ishift2ifft.tdata[i * complex_size +: (complex_size / 2)];
+	       assign in_imag[i] = ishift2ifft.tdata[i * complex_size + (complex_size / 2) +: (complex_size / 2)];
+	   end
+	endgenerate
+	
+	generate
+	   for(k = 0; k < SSR ; k++) begin
+	       assign samps_out_real[k] = ifft_out[k * 2][shift_bits +: (complex_size / 2)];
+	       assign samps_out_imag[k] = ifft_out[k * 2 + 1][shift_bits +: (complex_size / 2)];
+	   end
+	endgenerate
+
+    genvar l;
+    
+	generate
+	   for(l = 0; l < SSR ; l++) begin
+	       assign ifft2switch.tdata[(l + 1) * ifft2switch.TDATA_WIDTH/SSR - 1 : l * ifft2switch.TDATA_WIDTH/SSR] = SCALED ?
+	                               {samps_out_imag[l], samps_out_real[l]} :  
+	                               {6'h00, ifft_out[l * 2 + 1], 6'h00, ifft_out[l * 2]};
+	   end
+	endgenerate 
+	
+	assign ifft2switch.tvalid = fft_valid;
+    
+     sysgenssrifft_0 ssr_ifft_inst (
+        .si(scale_in),
+        .vi(ishift2ifft.tvalid),
+        .i_im_0(in_imag[0]),
+        .i_im_1(in_imag[1]),
+        .i_re_0(in_real[0]),
+        .i_re_1(in_real[1]),
+        .i_im_2(in_imag[2]),
+        .i_im_3(in_imag[3]),
+        .i_re_2(in_real[2]),
+        .i_re_3(in_real[3]),
+        .clk(clk),
+        .so(scale_out),
+        .vo(fft_valid),
+        .o_im_0(ifft_out[1]),
+        .o_im_1(ifft_out[3]),
+        .o_re_0(ifft_out[0]),
+        .o_re_1(ifft_out[2]),
+        .o_im_2(ifft_out[5]),
+        .o_im_3(ifft_out[7]),
+        .o_re_2(ifft_out[4]),
+        .o_re_3(ifft_out[6])
+    );
+    
+    
+      
+    endmodule
+    
+    module cp_adder #(
+        parameter integer CP_LEN             = 256,
+        parameter integer FFT_SIZE           = 1024,
+        parameter integer SSR                = 4
+    )
+    (
+        input wire  clk,
+		input wire  aresetn,
+		module_iface.slave ifft2cpadder,
+		module_iface.master cpadder2switch
+    );
+    localparam bram_read_latency = 2;
+    localparam symbol_size = (FFT_SIZE + CP_LEN) / SSR;
+    logic [$clog2(FFT_SIZE/SSR) : 0] write_addr;
+    logic [$clog2(FFT_SIZE/SSR) : 0] read_addr;
+    logic [127 : 0] out;
+    logic read_enable;
+    logic copy_cp;
+    logic [$clog2(FFT_SIZE/SSR) - 1 : 0] write_in_buffer_addr;
+    logic write_buffer_idx;
+    logic [$clog2(FFT_SIZE/SSR) - 1 : 0] read_in_buffer_addr;
+    logic read_buffer_idx;
+    logic [bram_read_latency - 1 : 0] tvalid_shift_reg;
+    
+    logic test; 
+    logic [7 : 0] tt;
+    
+    assign read_in_buffer_addr  = read_addr[$clog2(FFT_SIZE/SSR) - 1 : 0];
+    assign read_buffer_idx      = read_addr[$clog2(FFT_SIZE/SSR)];
+    assign write_buffer_idx     = write_addr[$clog2(FFT_SIZE/SSR)];
+    assign write_in_buffer_addr = write_addr[$clog2(FFT_SIZE/SSR) - 1: 0];
+    
+    assign cpadder2switch.tvalid = tvalid_shift_reg[bram_read_latency  - 1];
+    
+    always@(posedge clk) begin
+        if(!aresetn) tvalid_shift_reg <= 0;
+        else begin
+            tvalid_shift_reg <= {tvalid_shift_reg[bram_read_latency - 2 : 0], read_enable};
+        end
+    end
+    
+    always@ (posedge clk) begin
+        if(!aresetn) write_addr <= 0;
+        else begin
+            if(ifft2cpadder.tvalid)
+                if(write_addr < symbol_size * 2 - 1)
+                    write_addr <= write_addr + 1;
+                else
+                      write_addr <= 0; 
+        end
+    end
+    
+    always@ (posedge clk) begin
+        if(!aresetn) begin
+            read_addr <= 0;
+            read_enable <= 0;
+            copy_cp <= 1;
+        end
+        else begin
+            if( write_in_buffer_addr == (FFT_SIZE - CP_LEN)/SSR) begin
+                read_enable <= 1;
+                read_addr <= {write_buffer_idx, write_in_buffer_addr};
+                copy_cp <= 1;
+            end
+            else if((read_in_buffer_addr == FFT_SIZE/SSR - 1) && copy_cp) begin
+                read_addr <= {read_buffer_idx, {$clog2(FFT_SIZE/SSR){1'b0}}};
+                copy_cp <= 0;
+            end
+            else if ((read_in_buffer_addr == FFT_SIZE/SSR - 1) && !copy_cp) begin
+                read_enable <= 0;
+                copy_cp <= 1;
+            end
+            else if(read_enable)
+                read_addr <= read_addr + 1;
+        end
+    end
+    
+    
+    xpm_memory_sdpram #(
+       .ADDR_WIDTH_A(9),               // DECIMAL
+       .ADDR_WIDTH_B(9),               // DECIMAL
+       .AUTO_SLEEP_TIME(0),            // DECIMAL
+       .BYTE_WRITE_WIDTH_A(ifft2cpadder.TDATA_WIDTH),        // DECIMAL
+       .CASCADE_HEIGHT(0),             // DECIMAL
+       .CLOCKING_MODE("common_clock"), // String
+       .ECC_MODE("no_ecc"),            // String
+       .MEMORY_INIT_FILE("none"),      // String
+       .MEMORY_INIT_PARAM("0"),        // String
+       .MEMORY_OPTIMIZATION("true"),   // String
+       .MEMORY_PRIMITIVE("auto"),      // String
+       .MEMORY_SIZE(65536),             // DECIMAL
+       .MESSAGE_CONTROL(0),            // DECIMAL
+       .READ_DATA_WIDTH_B(ifft2cpadder.TDATA_WIDTH),         // DECIMAL
+       .READ_LATENCY_B(bram_read_latency),             // DECIMAL
+       .READ_RESET_VALUE_B("0"),       // String
+       .RST_MODE_A("SYNC"),            // String
+       .RST_MODE_B("SYNC"),            // String
+       .SIM_ASSERT_CHK(1),             // DECIMAL
+       .USE_EMBEDDED_CONSTRAINT(0),    // DECIMAL
+       .USE_MEM_INIT(1),               // DECIMAL
+       .USE_MEM_INIT_MMI(0),           // DECIMAL
+       .WAKEUP_TIME("disable_sleep"),  // String
+       .WRITE_DATA_WIDTH_A(ifft2cpadder.TDATA_WIDTH),        // DECIMAL
+       .WRITE_MODE_B("no_change"),     // String
+       .WRITE_PROTECT(1)               // DECIMAL
+    )
+    cp_bram_inst (
+       .doutb(cpadder2switch.tdata),
+       .addra(write_addr),
+       .addrb(read_addr),
+       .clka(clk),
+       .clkb(clk),
+       .dina(ifft2cpadder.tdata),
+       .ena(ifft2cpadder.tvalid),
+       .enb(read_enable),
+       .regceb(1),
+       .wea(1)
+    );
+    endmodule
+    
+    module switch #(
+        parameter integer CP_INSERT = 0
+        )(
+        input wire  clk,
+		input wire  aresetn,
+		module_iface.slave ifft2switch,
+		module_iface.slave cpadder2switch,
+		module_iface.slave switch2tlast
+    );
+    
+    assign switch2tlast.tdata = (CP_INSERT) ? cpadder2switch.tdata : ifft2switch.tdata;
+    assign switch2tlast.tvalid = (CP_INSERT) ? cpadder2switch.tvalid : ifft2switch.tvalid;
+        
+    endmodule
+    
+    module tlast_insert #(
+        parameter integer DURATION = 256
+        )(
+        input wire  clk,
+		input wire  aresetn,
+		module_iface.slave switch2tlast,
+		tlast2out_iface.master tlast2out
+    );
+    
+    logic [$clog2(DURATION) : 0] counter;
+    
+    assign tlast2out.tdata = switch2tlast.tdata;
+    assign tlast2out.tvalid = switch2tlast.tvalid;
+    assign tlast2out.tlast = (counter == DURATION - 1);
+    
+    always@(posedge clk) begin
+        if(!aresetn)
+            counter <= 0;
+        else begin
+            if(switch2tlast.tvalid) begin
+                if(counter < DURATION - 1) counter <= counter + 1;
+                else counter <= 0;
+             end
+        end
+            
+    end
+        
+    endmodule
