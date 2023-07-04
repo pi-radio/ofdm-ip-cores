@@ -48,7 +48,8 @@ module synchronizer_tb(
      logic m_axis_tready;
      logic m_axis_tlast;
      
-    synchronizer synchronizer_inst 
+    synchronizer #(.enable(1))
+    synchronizer_inst 
     (
       .*
     );

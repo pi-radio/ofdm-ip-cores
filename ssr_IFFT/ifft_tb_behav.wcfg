@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="ifft_tb_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="complex_fixed_pkg" />
+            <top_module name="glbl" />
+            <top_module name="ifft_tb" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="0.000000 us"></ZoomStartTime>
+      <ZoomEndTime time="76.600001 us"></ZoomEndTime>
+      <Cursor1Time time="29.005000 us"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="204"></NameColumnWidth>
+      <ValueColumnWidth column_width="70"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="13" />
+   <wvobject type="logic" fp_name="/ifft_tb/dut/cp_adder_inst/clk">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ifft_tb/dut/cp_adder_inst/aresetn">
+      <obj_property name="ElementShortName">aresetn</obj_property>
+      <obj_property name="ObjectShortName">aresetn</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/write_addr">
+      <obj_property name="ElementShortName">write_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">write_addr[8:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/read_addr">
+      <obj_property name="ElementShortName">read_addr[8:0]</obj_property>
+      <obj_property name="ObjectShortName">read_addr[8:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/out">
+      <obj_property name="ElementShortName">out[127:0]</obj_property>
+      <obj_property name="ObjectShortName">out[127:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ifft_tb/dut/cp_adder_inst/read_enable">
+      <obj_property name="ElementShortName">read_enable</obj_property>
+      <obj_property name="ObjectShortName">read_enable</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ifft_tb/dut/cp_adder_inst/copy_cp">
+      <obj_property name="ElementShortName">copy_cp</obj_property>
+      <obj_property name="ObjectShortName">copy_cp</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/write_in_buffer_addr">
+      <obj_property name="ElementShortName">write_in_buffer_addr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">write_in_buffer_addr[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ifft_tb/dut/cp_adder_inst/write_buffer_idx">
+      <obj_property name="ElementShortName">write_buffer_idx</obj_property>
+      <obj_property name="ObjectShortName">write_buffer_idx</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/read_in_buffer_addr">
+      <obj_property name="ElementShortName">read_in_buffer_addr[7:0]</obj_property>
+      <obj_property name="ObjectShortName">read_in_buffer_addr[7:0]</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/ifft_tb/dut/cp_adder_inst/read_buffer_idx">
+      <obj_property name="ElementShortName">read_buffer_idx</obj_property>
+      <obj_property name="ObjectShortName">read_buffer_idx</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/tvalid_shift_reg">
+      <obj_property name="ElementShortName">tvalid_shift_reg[1:0]</obj_property>
+      <obj_property name="ObjectShortName">tvalid_shift_reg[1:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/ifft_tb/dut/cp_adder_inst/tt">
+      <obj_property name="ElementShortName">tt[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tt[7:0]</obj_property>
+   </wvobject>
+</wave_config>

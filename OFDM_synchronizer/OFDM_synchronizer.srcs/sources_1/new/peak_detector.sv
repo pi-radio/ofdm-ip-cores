@@ -12,25 +12,29 @@ module peak_detector(
     max_cmpt2peak_det_iface max_cmpt2peak_det();
     
     mag_squared mag_squared_inst1(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .corr_output(corr_iface_out),
         .mag_sq2max_cmpt(mag_sq2max_cmpt)
     );
     
     max_compute max_compute_inst(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .mag_sq2max_cmpt(mag_sq2max_cmpt),
         .max_cmpt2peak_det(max_cmpt2peak_det)
     );
     
     peak_detect peak_detect_inst(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .max_cmpt2peak_det(max_cmpt2peak_det),
         .peak_det2frame_det(peak_det2frame_det)
     );
     
     frame_detect frame_detect_inst(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .peak_det2frame_det(peak_det2frame_det),
         .frame_det2corr_arbiter(frame_det2corr_arbiter)
     );
@@ -183,7 +187,7 @@ module peak_detect(
             if(max_cmpt2peak_det.max_valid) begin
                 if(max_cmpt2peak_det.max_last) begin
                     peak_det2frame_det.symbol_last <= 1;
-                    if(max_cmpt2peak_det.max_mag > symbol_max_mag) begin
+                    if(max_cmpt2peak_det.max_mag > symbol_max_mag && max_cmpt2peak_det.max_mag > 32'h20) begin
                         peak_det2frame_det.max_idx <= sample_cntr;
                         peak_det2frame_det.ssr_idx <= max_cmpt2peak_det.max_idx;
                         peak_det2frame_det.idx_valid <= 1;
@@ -198,7 +202,8 @@ module peak_detect(
                 else begin
                    if(max_cmpt2peak_det.max_valid) begin
                         peak_det2frame_det.symbol_last <= 0;
-                        if(max_cmpt2peak_det.max_mag > symbol_max_mag) begin
+                        if(max_cmpt2peak_det.max_mag > symbol_max_mag 
+                            && max_cmpt2peak_det.max_mag > 32'h20) begin
                             symbol_max_mag <= max_cmpt2peak_det.max_mag;
                             symbol_max_idx <= max_cmpt2peak_det.max_idx;
                             peak_det2frame_det.max_idx <= sample_cntr;
@@ -239,8 +244,8 @@ module frame_detect(
     logic correct_peak;
     
     always_comb peak_detected <= peak_det2frame_det.symbol_last && peak_det2frame_det.idx_valid;
-    always_comb correct_peak <= peak_det2frame_det.max_idx == max_idx && 
-                                                peak_det2frame_det.ssr_idx == peak_ssr_idx;
+    always_comb correct_peak <= peak_det2frame_det.max_idx == max_idx /*&& 
+                                                peak_det2frame_det.ssr_idx == peak_ssr_idx*/;
     
     always@(posedge clk) frame_det2corr_arbiter.start_idx_valid <= 
                         (peak_detected && correct_peak && state_peak_det == SECOND_SEARCH);

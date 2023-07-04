@@ -13,7 +13,8 @@
 module synchronizer #
         ( parameter CORR_DATA_WIDTH = 256,
           parameter DATA_WIDTH = 128,
-          parameter integer cp_rm_enable = 0
+          parameter integer cp_rm_enable = 0,
+          parameter integer NUM_DATA_SYMBOLS = 9
         )
         (
         input logic clk,
@@ -46,11 +47,11 @@ module synchronizer #
     frame_det2corr_arbiter_iface frame_det2corr_arbiter1();
     frame_det2corr_arbiter_iface frame_det2corr_arbiter2();
     corr_arbiter2sample_buff_iface corr_arbiter2sample_buff();
-    sample_buff2cp_rm_iface sample_buff2cp_rm();
+    sample_buff2cp_rm_iface#(.NUM_DATA_SYMBOLS(NUM_DATA_SYMBOLS)) sample_buff2cp_rm();
     cp_rm2out_iface cp_rm2out();
                                           
-    always_comb corr_1_iface_out.tready = 1;
-    always_comb corr_2_iface_out.tready = 1;
+//    always_comb corr_1_iface_out.tready <= 1;
+//    always_comb corr_2_iface_out.tready <= 1;
     
     always_comb m_axis_tdata <= cp_rm2out.samples_out;
     always_comb m_axis_tvalid <= cp_rm2out.samples_valid;
@@ -59,7 +60,20 @@ module synchronizer #
     stream_sync  #(.CORR_DATA_WIDTH(CORR_DATA_WIDTH))
         stream_sync_inst
        (
-        .*,
+        .clk(clk),
+        .resetn(resetn),
+        .s_axis_corr_1_tdata(s_axis_corr_1_tdata),
+        .s_axis_corr_1_tvalid(s_axis_corr_1_tvalid),
+        .s_axis_corr_1_tready(s_axis_corr_1_tready),
+        .s_axis_corr_1_tlast(s_axis_corr_1_tlast),
+        .s_axis_corr_2_tdata(s_axis_corr_2_tdata),
+        .s_axis_corr_2_tvalid(s_axis_corr_2_tvalid),
+        .s_axis_corr_2_tready(s_axis_corr_2_tready),
+        .s_axis_corr_2_tlast(s_axis_corr_2_tlast),
+        .s_axis_tdata(s_axis_tdata),
+        .s_axis_tvalid(s_axis_tvalid),
+        .s_axis_tready(s_axis_tready),
+        .s_axis_tlast(s_axis_tlast),
         .m_axis_corr_1(corr_1_iface_out),
         .m_axis_corr_2(corr_2_iface_out),
         .m_axis_data(data_iface_out)
@@ -68,7 +82,8 @@ module synchronizer #
     /* 1st correlator related cores */
     
     peak_detector peak_detector_inst1(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .corr_iface_out(corr_1_iface_out),
         .frame_det2corr_arbiter(frame_det2corr_arbiter1)
     ); 
@@ -76,27 +91,31 @@ module synchronizer #
      /* 2nd correlator related cores */
     
     peak_detector peak_detector_inst2(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .corr_iface_out(corr_2_iface_out),
         .frame_det2corr_arbiter(frame_det2corr_arbiter2)
     );
     /* --------------------------------------------------- */
     correlator_arbiter correlator_arbiter_inst(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .frame_det2corr_arbiter1(frame_det2corr_arbiter1),
         .frame_det2corr_arbiter2(frame_det2corr_arbiter2),
         .corr_arbiter2sample_buff(corr_arbiter2sample_buff)
     );
     
     bram_ctrl bram_ctrl_inst(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .corr_arbiter2sample_buff(corr_arbiter2sample_buff),
         .input_fifo2buff(data_iface_out),
         .sample_buff2cp_rm(sample_buff2cp_rm)
     );
     
     cp_remover cp_remover_inst(
-        .*,
+        .clk(clk),
+        .resetn(resetn),
         .enable(cp_rm_enable),
         .sample_buff2cp_rm(sample_buff2cp_rm),
         .cp_rm2out(cp_rm2out)
@@ -149,16 +168,21 @@ module correlator_arbiter(
     corr_arbiter2sample_buff_iface.master corr_arbiter2sample_buff
     );
     
-    always_comb corr_arbiter2sample_buff.samples_valid <= frame_det2corr_arbiter1.samples_valid;
-    always_comb begin
+    always@(posedge clk)
+         corr_arbiter2sample_buff.samples_valid <= frame_det2corr_arbiter1.samples_valid;
+    always@(posedge clk) begin
         if(corr_arbiter2sample_buff.src_ready) begin
-            if(frame_det2corr_arbiter1.start_idx_valid) begin
+            if(frame_det2corr_arbiter1.start_idx_valid 
+                && frame_det2corr_arbiter1.start_idx < 192
+                && frame_det2corr_arbiter1.start_idx > 0) begin
                 corr_arbiter2sample_buff.start_idx_valid <= frame_det2corr_arbiter1.start_idx_valid;
                 corr_arbiter2sample_buff.start_idx <= frame_det2corr_arbiter1.start_idx;
                 corr_arbiter2sample_buff.ssr_idx <= frame_det2corr_arbiter1.ssr_idx;
                 corr_arbiter2sample_buff.correlator_idx <= 2'h1;
             end
-            else if(frame_det2corr_arbiter2.start_idx_valid) begin
+            else if(frame_det2corr_arbiter2.start_idx_valid 
+            && frame_det2corr_arbiter2.start_idx < 192
+            && frame_det2corr_arbiter2.start_idx > 0) begin
                 corr_arbiter2sample_buff.start_idx_valid <= frame_det2corr_arbiter2.start_idx_valid;
                 corr_arbiter2sample_buff.start_idx <= frame_det2corr_arbiter2.start_idx;
                 corr_arbiter2sample_buff.ssr_idx <= frame_det2corr_arbiter2.ssr_idx;
