@@ -255,7 +255,11 @@ module adder (
     logic signed [31 : 0] sum_real;
     logic signed [31 : 0] sum_imag;
         
-    assign adder2correction.angle = {sum_imag, sum_real};
+    //assign adder2correction.angle = {sum_imag, sum_real};
+    assign adder2correction.angle[31 : 0] = (sum_real[31 : 30] == 2'b10 || sum_real[31 : 29] == 2'b01) ?
+                                                    sum_real >> 2 : sum_real;
+    assign adder2correction.angle[63 : 32] = (sum_imag[31 : 30] == 2'b10 || sum_imag[31 : 29] == 2'b01) ?
+                                                    sum_imag >> 2 : sum_imag;                                                
     always@(posedge clk) begin
         if(~aresetn) begin
             sum_real <= 0;

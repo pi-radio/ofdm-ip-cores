@@ -99,10 +99,19 @@ module bram_sync_word #(
     logic [TDATA_WIDTH - 1 : 0] data_shift_reg = 0;
     logic [bram2corr.BRAM_LATENCY - 1 : 0] bram_out_valid_reg;
     logic [$clog2(fft_size_words) - 1 : 0] bram_out_addr;
+    logic init;
 
     assign s00_axis_config_tready = (resetn && !bram2corr.config_done);
-
-    always@(posedge clk) bram_in_enable <= (bram_in_enable_reg == (SSR - 1)) && !bram2corr.config_done;
+    
+    always@(posedge clk) begin
+        if(!resetn) bram_in_enable <= 0;
+        else begin
+            if(bram_in_enable_reg == 3 && s00_axis_config_tvalid)
+                bram_in_enable <= 1;
+            else
+                bram_in_enable <= 0;
+        end
+    end
     always@(posedge clk) begin
         if(!resetn)
             config_word_count <= 0;
@@ -113,7 +122,15 @@ module bram_sync_word #(
 
     always@(posedge clk) bram_out_valid_reg <= {bram2corr.bram_en, bram_out_valid_reg[bram2corr.BRAM_LATENCY - 1 : 1]};
     assign bram2corr.bram_valid = bram_out_valid_reg[0];
-    always_comb bram2corr.config_done <= (config_word_count >= fft_size_words);
+    always@(posedge clk) begin
+        if(!resetn)
+            bram2corr.config_done <= 0;
+        else begin
+            if(!bram2corr.config_done && (config_word_count >= fft_size_words - 1)
+                         && (bram_in_enable_reg == 3 && s00_axis_config_tvalid))
+                bram2corr.config_done <= 1;
+        end
+    end
 
     always@(posedge clk) begin
         if(!resetn)
@@ -127,9 +144,11 @@ module bram_sync_word #(
         if(!resetn) begin
             data_shift_reg <= 0;
             bram_in_enable_reg <= 0;
+            init <= 1;
         end
         else begin
             if(s00_axis_config_tvalid) begin
+                init <= 0;
                 data_shift_reg <= {s00_axis_config_tdata, data_shift_reg[CONFIG_TDATA_WIDTH +: TDATA_WIDTH - CONFIG_TDATA_WIDTH]};
                 bram_in_enable_reg <= bram_in_enable_reg + 1;
             end
