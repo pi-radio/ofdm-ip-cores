@@ -149,13 +149,13 @@ module mod2soft
     
     for(i = 0; i < SSR; i++) begin
         always@(posedge clk) begin
-            if(in_tvalid) begin
+            if(in_tvalid && out_tready) begin
                 if(modulation == BPSK) begin
                     out_tdata[2 * i] <= in_real[i][11 : 4];//(interm[i * 2]) >> 8;
                 end
                 else if (modulation == QPSK) begin
-                    out_tdata[2 * i] <= (interm[2 * i] >> 8);
-                    out_tdata[2 * i + 1] <= (interm[2 * i + 1] >> 8);
+                    out_tdata[2 * i] <= in_real[i][11 : 4]; ;//(interm[2 * i] >> 8);
+                    out_tdata[2 * i + 1] <= in_imag[i][11 : 4]; ;//(interm[2 * i + 1] >> 8);
                 end
             end
         end   

@@ -9,7 +9,7 @@
 		// Do not modify the parameters beyond this line
 
 		// Parameters of Axi Slave Bus Interface S00_AXIS
-		
+
 		parameter integer C_S00_AXIS_TDATA_WIDTH	= 128,
 
 		// Parameters of Axi Master Bus Interface M00_AXIS
@@ -33,13 +33,13 @@
 		output wire [C_M00_AXIS_TDATA_WIDTH - 1 : 0] m00_axis_tdata,
 		output wire  m00_axis_tlast,
 		input wire  m00_axis_tready,
-		
+
 		output wire trigger,
 		output wire trigger2
 	);
 	localparam tdata_out_width = (scaled) ? 128 : 256;
 	localparam symbol_duration = (insert_cp) ? (FFT_SIZE + CP_DURATION)/4 : (FFT_SIZE)/4;
-	
+
 	module_iface #(.TDATA_WIDTH(tdata_out_width))ishift2ifft();
 	module_iface #(.TDATA_WIDTH(tdata_out_width))ih2ifftshift();
 	module_iface #(.TDATA_WIDTH(tdata_out_width))ifft2switch();
@@ -63,7 +63,7 @@
         .ih2ifftshift(ih2ifftshift),
         .ishift2ifft(ishift2ifft)
     );
-    
+
 	ifft #(.SCALED(scaled))ifft_inst(
 	    .clk(s_axis_aclk),
         .aresetn(s_axis_aresetn),
@@ -76,20 +76,20 @@
         .ifft2cpadder(ifft2switch),
 	   .*
 	);
-	
+
 	switch #(.CP_INSERT(insert_cp))
 	   switch_inst(
 	   .clk(s_axis_aclk),
        .aresetn(s_axis_aresetn),
-	   .*	
+	   .*
 	);
-	
+
 	tlast_insert#(.DURATION(symbol_duration)) tlast_insert_inst(
 	   .clk(s_axis_aclk),
        .aresetn(s_axis_aresetn),
 	   .*
 	);
-	
+
 	assign m00_axis_tdata = tlast2out.tdata;
 	assign m00_axis_tvalid = tlast2out.tvalid;
 	assign m00_axis_tlast = tlast2out.tlast;
@@ -98,7 +98,7 @@
     // Make sure the CP is added properly by checking if the
     // last 64 samples transmitted for every frame are the same
     // as the first 64. We also keep a counter register for help
-    
+
     logic [10 : 0] count_test_cp ;
     always@(posedge s_axis_aclk) begin
         if(!s_axis_aresetn)
@@ -132,7 +132,7 @@
 //	       |-> $stable(s_fifo_data));
 
 //	// Make sure s_tvalid is always asserted for at least 256 cycles
-	
+
 //	always @(posedge s_axis_aclk) begin
 //        if(s00_axis_tvalid && s00_axis_tready)
 //            count_s_valid <= count_s_valid + 1;
@@ -181,20 +181,20 @@
     localparam symbol_duration = (CP_INSERT) ? (IFFT_SIZE + CP_LEN) / SSR : IFFT_SIZE / SSR;
     logic [$clog2((IFFT_SIZE/SSR) + (CP_LEN / SSR)) - 1 : 0] input_count;
     logic inv_input;
-    
+
     assign s00_axis_tready = (input_count < (IFFT_SIZE / SSR) && !inv_input);
     assign ih2ifftshift.tdata = (inv_input) ? 2 : s00_axis_tdata;
     assign ih2ifftshift.tvalid = (input_count < (IFFT_SIZE / SSR)) && (input_count != 0 || s00_axis_tvalid);
-    
+
     // This logic block handles cases where the input is not asserted for
     // the required period, so in order not to mess up the IFFT afterwards
-    // we use the inv_input register to fill the remaining input to the 
+    // we use the inv_input register to fill the remaining input to the
     // subsequent IFFT with zeros and maintain the FFT SIZE window.
-    
+
     always@(posedge clk) begin
         if(!aresetn) inv_input <= 0;
         else begin
-            if((input_count != 0 && input_count < (IFFT_SIZE / SSR)) 
+            if((input_count != 0 && input_count < (IFFT_SIZE / SSR))
                     && !s00_axis_tvalid) begin
                 inv_input <= 1;
             end
@@ -203,10 +203,10 @@
             end
         end
     end
-    
+
     // The input_count register starts counting as soon as valid input is present
     // And stops only after the FFT_LENGTH + CP_LENTH period has passed
-    
+
     always@(posedge clk) begin
         if(!aresetn) input_count <= 0;
         else begin
@@ -221,9 +221,9 @@
             end
         end
     end
-    
+
     endmodule
-    
+
     module ifftshift #(
     parameter integer DATA_WIDTH = 128,
     parameter integer FFT_LENGTH = 256,
@@ -235,16 +235,16 @@
     module_iface.slave ih2ifftshift,
     module_iface.master ishift2ifft
     );
-    
-    
-    
+
+
+
     localparam low = 112 / 4 - 1;
     localparam middle = 512 / 4 - 1;
     localparam high = 912 / 4 - 1;
     logic [255 : 0] samples_data_reg;
     logic [10 : 0] avail;
     logic test_valid;
-    
+
     logic [$clog2(FIFO_SIZE) - 1 : 0] read_addr;
     logic [$clog2(FIFO_SIZE) - 1 : 0] write_addr;
     logic [$clog2(FIFO_SIZE) - 2 : 0] half_fft;
@@ -252,16 +252,16 @@
     logic [1 : 0] valid_shift_reg;
     logic [7 : 0] cnt = 0;
     logic [DATA_WIDTH - 1 : 0] data_out;
-    
+
     always@(posedge clk)
         if(ishift2ifft.tvalid) cnt <= cnt + 1;
-    
+
     assign half_fft = FFT_LENGTH / 2;
-    
+
     assign write_enable = (ENABLE) ? ih2ifftshift.tvalid : 0;
     assign ishift2ifft.tvalid = (ENABLE) ? valid_shift_reg[1] : ih2ifftshift.tvalid;
     assign ishift2ifft.tdata = (ENABLE) ? data_out : ih2ifftshift.tdata;
-    
+
     always@(posedge clk) begin
         if(ishift2ifft.tvalid && ENABLE) begin
             if(cnt < low) begin
@@ -294,7 +294,7 @@
             end
         end
     end
-    
+
     always@(posedge clk) begin
         if(!aresetn) begin
             write_addr <= FFT_LENGTH / 2;
@@ -303,7 +303,7 @@
             if(ih2ifftshift.tvalid && ENABLE) begin
                 if(write_addr[$clog2(FIFO_SIZE) - 2 : 0] == FFT_LENGTH - 1) begin
                     write_addr <= write_addr - FFT_LENGTH + 1;
-                end 
+                end
                 else if(write_addr[$clog2(FIFO_SIZE) - 2 : 0] == FFT_LENGTH / 2 - 1) begin
                     write_addr <= {~write_addr[$clog2(FIFO_SIZE) - 1], half_fft};
                 end
@@ -312,7 +312,7 @@
             end
         end
     end
-    
+
     always@(posedge clk) begin
         if(!aresetn) begin
             read_addr <= 0;
@@ -336,7 +336,7 @@
             end
         end
     end
-    
+
     always@(posedge clk) begin
         if(!aresetn)
             valid_shift_reg <= 2'b0;
@@ -346,8 +346,8 @@
     end
 
  xpm_memory_sdpram #(
-   .ADDR_WIDTH_A($clog2(FIFO_SIZE)),  
-   .ADDR_WIDTH_B($clog2(FIFO_SIZE)),    
+   .ADDR_WIDTH_A($clog2(FIFO_SIZE)),
+   .ADDR_WIDTH_B($clog2(FIFO_SIZE)),
    .AUTO_SLEEP_TIME(0),            // DECIMAL
    .BYTE_WRITE_WIDTH_A(DATA_WIDTH),        // DECIMAL
    .CASCADE_HEIGHT(0),             // DECIMAL
@@ -373,7 +373,7 @@
    .WRITE_MODE_B("no_change"),     // String
    .WRITE_PROTECT(1)               // DECIMAL
 )
-symbol_ram_inst (                                
+symbol_ram_inst (
    .doutb(data_out),
    .addra(write_addr),
    .addrb(read_addr),
@@ -382,12 +382,12 @@ symbol_ram_inst (
    .dina(ih2ifftshift.tdata),
    .ena(write_enable),
    .enb(read_enable),
-   .regceb(1),                        
+   .regceb(1),
    .wea(1)
-);       
+);
 endmodule
-    
-    
+
+
     module ifft #(
         parameter integer SCALED             = 1,
         parameter integer SSR                = 4
@@ -399,7 +399,7 @@ endmodule
 		module_iface.master ifft2switch
     );
     localparam complex_size = 32;
-    localparam shift_bits = 8;
+    localparam shift_bits = 5;
     logic [9 : 0] scale_in;
     logic [9 : 0] scale_out;
     logic [(complex_size / 2) - 1 : 0] in_real[0 : SSR - 1];
@@ -411,37 +411,48 @@ endmodule
     logic fft_valid;
     logic [ifft2switch.TDATA_WIDTH - 1 : 0] data_fifo_in;
     logic fifo_ready;
-	
+    logic signed [19 : 0] clip [0 : 7];
+    localparam low_end = -32768;
+    localparam high_end = 32767;
+
 	assign scale_in = 10'h000;
-    
-    genvar i,k;
-	
-	generate
+
+    genvar i,k,j;
+
+    generate
 	   for(i = 0; i < SSR ; i++) begin
 	       assign in_real[i] = ishift2ifft.tdata[i * complex_size +: (complex_size / 2)];
 	       assign in_imag[i] = ishift2ifft.tdata[i * complex_size + (complex_size / 2) +: (complex_size / 2)];
 	   end
 	endgenerate
-	
+
+	generate
+	   for(j = 0; j < SSR * 2 ; j++) begin
+	       assign clip[j] = ifft_out[j][25 : 6];
+	   end
+	endgenerate
+
 	generate
 	   for(k = 0; k < SSR ; k++) begin
-	       assign samps_out_real[k] = ifft_out[k * 2][shift_bits +: (complex_size / 2)];
-	       assign samps_out_imag[k] = ifft_out[k * 2 + 1][shift_bits +: (complex_size / 2)];
+	       assign samps_out_real[k] = (clip[k * 2] > high_end) ? high_end :
+	                                  ((clip[k * 2] < low_end) ? low_end : clip[k * 2][15 : 0]);
+	       assign samps_out_imag[k] = (clip[k * 2 + 1] > high_end) ? high_end :
+	                                  ((clip[k * 2 + 1] < low_end) ? low_end : clip[k * 2 + 1][15 : 0]);
 	   end
 	endgenerate
 
     genvar l;
-    
+
 	generate
 	   for(l = 0; l < SSR ; l++) begin
 	       assign ifft2switch.tdata[(l + 1) * ifft2switch.TDATA_WIDTH/SSR - 1 : l * ifft2switch.TDATA_WIDTH/SSR] = SCALED ?
-	                               {samps_out_imag[l], samps_out_real[l]} :  
+	                               {samps_out_imag[l], samps_out_real[l]} :
 	                               {6'h00, ifft_out[l * 2 + 1], 6'h00, ifft_out[l * 2]};
 	   end
-	endgenerate 
-	
+	endgenerate
+
 	assign ifft2switch.tvalid = fft_valid;
-    
+
      sysgenssrifft_0 ssr_ifft_inst (
         .si(scale_in),
         .vi(ishift2ifft.tvalid),
@@ -465,11 +476,11 @@ endmodule
         .o_re_2(ifft_out[4]),
         .o_re_3(ifft_out[6])
     );
-    
-    
-      
+
+
+
     endmodule
-    
+
     module cp_adder #(
         parameter integer CP_LEN             = 256,
         parameter integer FFT_SIZE           = 1024,
@@ -493,24 +504,24 @@ endmodule
     logic [$clog2(FFT_SIZE/SSR) - 1 : 0] read_in_buffer_addr;
     logic read_buffer_idx;
     logic [bram_read_latency - 1 : 0] tvalid_shift_reg;
-    
-    logic test; 
+
+    logic test;
     logic [7 : 0] tt;
-    
+
     assign read_in_buffer_addr  = read_addr[$clog2(FFT_SIZE/SSR) - 1 : 0];
     assign read_buffer_idx      = read_addr[$clog2(FFT_SIZE/SSR)];
     assign write_buffer_idx     = write_addr[$clog2(FFT_SIZE/SSR)];
     assign write_in_buffer_addr = write_addr[$clog2(FFT_SIZE/SSR) - 1: 0];
-    
+
     assign cpadder2switch.tvalid = tvalid_shift_reg[bram_read_latency  - 1];
-    
+
     always@(posedge clk) begin
         if(!aresetn) tvalid_shift_reg <= 0;
         else begin
             tvalid_shift_reg <= {tvalid_shift_reg[bram_read_latency - 2 : 0], read_enable};
         end
     end
-    
+
     always@ (posedge clk) begin
         if(!aresetn) write_addr <= 0;
         else begin
@@ -518,10 +529,10 @@ endmodule
                 if(write_addr < symbol_size * 2 - 1)
                     write_addr <= write_addr + 1;
                 else
-                      write_addr <= 0; 
+                      write_addr <= 0;
         end
     end
-    
+
     always@ (posedge clk) begin
         if(!aresetn) begin
             read_addr <= 0;
@@ -546,8 +557,8 @@ endmodule
                 read_addr <= read_addr + 1;
         end
     end
-    
-    
+
+
     xpm_memory_sdpram #(
        .ADDR_WIDTH_A(9),               // DECIMAL
        .ADDR_WIDTH_B(9),               // DECIMAL
@@ -589,7 +600,7 @@ endmodule
        .wea(1)
     );
     endmodule
-    
+
     module switch #(
         parameter integer CP_INSERT = 0
         )(
@@ -599,12 +610,12 @@ endmodule
 		module_iface.slave cpadder2switch,
 		module_iface.slave switch2tlast
     );
-    
+
     assign switch2tlast.tdata = (CP_INSERT) ? cpadder2switch.tdata : ifft2switch.tdata;
     assign switch2tlast.tvalid = (CP_INSERT) ? cpadder2switch.tvalid : ifft2switch.tvalid;
-        
+
     endmodule
-    
+
     module tlast_insert #(
         parameter integer DURATION = 256
         )(
@@ -613,13 +624,13 @@ endmodule
 		module_iface.slave switch2tlast,
 		tlast2out_iface.master tlast2out
     );
-    
+
     logic [$clog2(DURATION) : 0] counter;
-    
+
     assign tlast2out.tdata = switch2tlast.tdata;
     assign tlast2out.tvalid = switch2tlast.tvalid;
     assign tlast2out.tlast = (counter == DURATION - 1);
-    
+
     always@(posedge clk) begin
         if(!aresetn)
             counter <= 0;
@@ -629,7 +640,7 @@ endmodule
                 else counter <= 0;
              end
         end
-            
+
     end
-        
+
     endmodule

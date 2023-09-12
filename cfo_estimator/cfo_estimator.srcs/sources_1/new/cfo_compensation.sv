@@ -28,7 +28,8 @@ module cfo_compensation(
     mult2out_iface.master mult2out
     );
     
-    logic [31 : 0] term = 32'h3bc90fdb;
+    logic [31 : 0] term = 32'h3a800000 ;//32'h3bc90fdb;
+    
     logic [15 : 0] angle;
     logic angle_valid;
     logic [31 : 0] mult_out;
@@ -181,26 +182,26 @@ module sine_wave_gen
 (
     input wire clk,
     input wire aresetn,
-    input logic [15 : 0] phase_increment,
+    input logic [31 : 0] phase_increment,
     input logic phase_in_valid,
     output logic [31 : 0] sine_out,
     output logic sine_out_valid
 );
-    logic signed [15 : 0] high_end = 16'h6488;
-    logic signed [15 : 0] low_end = 16'h9B78;
+    logic signed [31 : 0] high_end = 32'h64880000;
+    logic signed [31 : 0] low_end = 32'h9b780000;
     localparam fft_width_ssr = 256;
-    logic [15 : 0] phase_increment_reg;
-    logic signed [15 : 0] next_inc;
+    logic [31 : 0] phase_increment_reg;
+    logic signed [31 : 0] next_inc;
     
     logic [31 : 0] sample_cnt;
-    logic signed [15 : 0] phase = 0;
+    logic signed [31 : 0] phase = 0;
     logic start = 0;
     logic [31 : 0] sine_out_reg;
     logic [15 : 0] sine_out_reg_real;
     logic [15 : 0] sine_out_reg_imag;
     
     
-    assign next_inc = phase + phase_increment_reg;
+    assign next_inc = phase + 4 * phase_increment_reg;
     
     always@(posedge clk) begin
         if(!aresetn) begin
@@ -224,11 +225,11 @@ module sine_wave_gen
         end
         else begin 
             if(start) begin
-                if((next_inc > high_end) && ~phase[15]) begin  
+                if((next_inc > high_end) && ~phase[31]) begin  
                     phase <= (next_inc - (high_end + 1)) + low_end;
                     sample_cnt <= sample_cnt + 1;
                 end
-                else if((next_inc < low_end) && phase[15]) begin  
+                else if((next_inc < low_end) && phase[31]) begin  
                     phase <= high_end + (low_end - phase);
                     sample_cnt <= sample_cnt + 1;
                 end
@@ -308,8 +309,8 @@ module correction(
             if(bram_ctrl2mult.symbol_tvalid) begin
                 mult2out.symbol_tvalid <= 1;
                 for(k = 0; k < bram_ctrl2mult.SSR; k = k + 1) begin
-                    results_real[k] <= ((symbol_reals[k] * sine_real * 2) - (symbol_imags[k] * sine_imag * 2));
-                    results_imag[k] <= ((symbol_reals[k] * sine_imag * 2) + (symbol_imags[k] * sine_real * 2));
+                    results_real[k] <= ((symbol_reals[k] * sine_real * 2) + (symbol_imags[k] * sine_imag * 2));
+                    results_imag[k] <= ((symbol_reals[k] * sine_imag * (-2)) + (symbol_imags[k] * sine_real * 2));
                 end
             end
             else

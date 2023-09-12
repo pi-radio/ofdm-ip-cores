@@ -106,7 +106,7 @@ module bram_sync_word #(
     always@(posedge clk) begin
         if(!resetn) bram_in_enable <= 0;
         else begin
-            if(bram_in_enable_reg == 3 && s00_axis_config_tvalid)
+            if(bram_in_enable_reg == 3 && s00_axis_config_tvalid && s00_axis_config_tready)
                 bram_in_enable <= 1;
             else
                 bram_in_enable <= 0;
@@ -147,7 +147,7 @@ module bram_sync_word #(
             init <= 1;
         end
         else begin
-            if(s00_axis_config_tvalid) begin
+            if(s00_axis_config_tvalid && s00_axis_config_tready) begin
                 init <= 0;
                 data_shift_reg <= {s00_axis_config_tdata, data_shift_reg[CONFIG_TDATA_WIDTH +: TDATA_WIDTH - CONFIG_TDATA_WIDTH]};
                 bram_in_enable_reg <= bram_in_enable_reg + 1;

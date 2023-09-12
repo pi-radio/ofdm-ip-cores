@@ -34,7 +34,8 @@ module synchronizer #
         output logic [DATA_WIDTH - 1 : 0] m_axis_tdata,
         output logic m_axis_tvalid,
         input logic m_axis_tready,
-        output logic m_axis_tlast
+        output logic m_axis_tlast,
+        output logic [63 : 0] log
     );
     
     /* Interface declarations */
@@ -56,6 +57,8 @@ module synchronizer #
     always_comb m_axis_tdata <= cp_rm2out.samples_out;
     always_comb m_axis_tvalid <= cp_rm2out.samples_valid;
     always_comb m_axis_tlast <= cp_rm2out.samples_last;
+    
+    assign log = {{32{1'b0}}, correlator_arbiter_inst.counter};
     
     stream_sync  #(.CORR_DATA_WIDTH(CORR_DATA_WIDTH))
         stream_sync_inst
@@ -167,7 +170,7 @@ module correlator_arbiter(
     frame_det2corr_arbiter_iface.slave frame_det2corr_arbiter2,
     corr_arbiter2sample_buff_iface.master corr_arbiter2sample_buff
     );
-    
+    logic [31 : 0] counter = 0;
     always@(posedge clk)
          corr_arbiter2sample_buff.samples_valid <= frame_det2corr_arbiter1.samples_valid;
     always@(posedge clk) begin
@@ -179,6 +182,7 @@ module correlator_arbiter(
                 corr_arbiter2sample_buff.start_idx <= frame_det2corr_arbiter1.start_idx;
                 corr_arbiter2sample_buff.ssr_idx <= frame_det2corr_arbiter1.ssr_idx;
                 corr_arbiter2sample_buff.correlator_idx <= 2'h1;
+                counter <= counter + 1;
             end
             else if(frame_det2corr_arbiter2.start_idx_valid 
             && frame_det2corr_arbiter2.start_idx < 192
@@ -187,6 +191,7 @@ module correlator_arbiter(
                 corr_arbiter2sample_buff.start_idx <= frame_det2corr_arbiter2.start_idx;
                 corr_arbiter2sample_buff.ssr_idx <= frame_det2corr_arbiter2.ssr_idx;
                 corr_arbiter2sample_buff.correlator_idx <= 2'h2;
+                counter <= counter + 1;
             end
         end
         else begin
