@@ -193,6 +193,7 @@ set files [list \
  [file normalize "${origin_dir}/OFDM_synchronizer.srcs/sources_1/new/synchronizer.sv" ]\
  [file normalize "${origin_dir}/component.xml" ]\
  [file normalize "${origin_dir}/OFDM_synchronizer.srcs/sources_1/new/peak_detector.sv" ]\
+ [file normalize "${origin_dir}/OFDM_synchronizer.srcs/sources_1/new/axil_slave.v" ]\
  [file normalize "${origin_dir}/OFDM_synchronizer.srcs/sources_1/new/bram_ctrl.sv" ]\
 ]
 set added_files [add_files -fileset sources_1 $files]
@@ -225,6 +226,9 @@ set file "new/bram_ctrl.sv"
 set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
 set_property -name "file_type" -value "SystemVerilog" -objects $file_obj
 
+set file "new/axil_slave.v"
+set file_obj [get_files -of_objects [get_filesets sources_1] [list "*$file"]]
+set_property -name "file_type" -value "SystemVerilog" -objects $file_obj
 
 # Set 'sources_1' fileset properties
 set obj [get_filesets sources_1]
