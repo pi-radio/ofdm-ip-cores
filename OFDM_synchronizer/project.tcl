@@ -47,6 +47,7 @@ proc checkRequiredFiles { origin_dir} {
  "[file normalize "$origin_dir/component.xml"]"\
  "[file normalize "$origin_dir/OFDM_synchronizer.srcs/sources_1/new/peak_detector.sv"]"\
  "[file normalize "$origin_dir/OFDM_synchronizer.srcs/sources_1/new/bram_ctrl.sv"]"\
+ "[file normalize "$origin_dir/OFDM_synchronizer.srcs/sources_1/new/axil_slave.v"]"\
  "[file normalize "$origin_dir/OFDM_synchronizer.srcs/sim_1/new/synchronizer_tb.sv"]"\
   ]
   foreach ifile $files {

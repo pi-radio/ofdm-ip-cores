@@ -4,6 +4,7 @@
 module peak_detector(
         input wire clk,
         input wire resetn,
+        input [31 : 0] threshold,
         axis_iface.slave corr_iface_out,
         frame_det2corr_arbiter_iface.master frame_det2corr_arbiter
     );
@@ -29,7 +30,8 @@ module peak_detector(
         .clk(clk),
         .resetn(resetn),
         .max_cmpt2peak_det(max_cmpt2peak_det),
-        .peak_det2frame_det(peak_det2frame_det)
+        .peak_det2frame_det(peak_det2frame_det),
+        .threshold(threshold)
     );
     
     frame_detect frame_detect_inst(
@@ -167,6 +169,7 @@ endmodule
 module peak_detect(
     input wire clk,
     input wire resetn,
+    input logic [31 : 0] threshold,
     max_cmpt2peak_det_iface.slave max_cmpt2peak_det,
     peak_det2frame_det_iface.master peak_det2frame_det
     );
@@ -187,7 +190,7 @@ module peak_detect(
             if(max_cmpt2peak_det.max_valid) begin
                 if(max_cmpt2peak_det.max_last) begin
                     peak_det2frame_det.symbol_last <= 1;
-                    if(max_cmpt2peak_det.max_mag > symbol_max_mag && max_cmpt2peak_det.max_mag > 32'h20) begin
+                    if(max_cmpt2peak_det.max_mag > symbol_max_mag && max_cmpt2peak_det.max_mag > threshold) begin
                         peak_det2frame_det.max_idx <= sample_cntr;
                         peak_det2frame_det.ssr_idx <= max_cmpt2peak_det.max_idx;
                         peak_det2frame_det.idx_valid <= 1;
@@ -203,7 +206,7 @@ module peak_detect(
                    if(max_cmpt2peak_det.max_valid) begin
                         peak_det2frame_det.symbol_last <= 0;
                         if(max_cmpt2peak_det.max_mag > symbol_max_mag 
-                            && max_cmpt2peak_det.max_mag > 32'h20) begin
+                            && max_cmpt2peak_det.max_mag > threshold) begin
                             symbol_max_mag <= max_cmpt2peak_det.max_mag;
                             symbol_max_idx <= max_cmpt2peak_det.max_idx;
                             peak_det2frame_det.max_idx <= sample_cntr;
