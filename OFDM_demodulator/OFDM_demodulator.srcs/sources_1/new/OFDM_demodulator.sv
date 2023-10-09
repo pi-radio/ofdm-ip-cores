@@ -1,25 +1,14 @@
 `timescale 1ns / 1ps
 
 import demodulator_package::*;
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 06/23/2022 02:51:23 PM
-// Design Name: 
-// Module Name: OFDM_demodulator
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+/*
+Author: George Vardakis
+
+This core performs BPSK/QPSK demodulation with soft or hard output.
+A MM interface is used to program the desired modulation according 
+to the mod_t type. For the soft output, a number of bits is selected
+from the input and is put onto the master interface.
+*/
 
 
 module OFDM_demodulator

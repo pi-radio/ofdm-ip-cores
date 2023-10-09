@@ -7,7 +7,8 @@
 // the known sync word, and the other is the correlation of the time domain samples
 // delayed by half a symbol, with the known sync word. This helps to detect symbol
 // boundaries when timing is not optimal. The third input to the core is the time
-// domain samples themselves. 
+// domain samples themselves. The MM interface is used to program the threshold for
+// the peak detection. 
 //
 
 module synchronizer #

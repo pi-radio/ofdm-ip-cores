@@ -1,29 +1,19 @@
 `timescale 1ns / 1ps
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: 
-// 
-// Create Date: 03/24/2023 01:58:57 PM
-// Design Name: 
-// Module Name: fec_controller
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
+/*
+Author: George Vardakis
+
+This core is responsible for reconfiguring the Xilinx SDFEC core.
+As the Xilinx core requires one configuration block per data block
+at its input, this core helps to count the data at the input of the 
+SDFEC core and program it accordingly when required. It uses a memory
+mapped interface in order for the user to program the number of bytes
+per block as well as the configuration word for the SDFEC core.
+*/
 
 
 module fec_controller        #(
 		parameter integer C_S00_AXIS_TDATA_WIDTH	= 128,
 		parameter integer C_M00_AXIS_TDATA_WIDTH	= 40,
-		// Parameters of Axi Slave Bus Interface S00_AXI
 		parameter integer C_S00_AXI_DATA_WIDTH	= 32,
 		parameter integer C_S00_AXI_ADDR_WIDTH	= 4,
 		parameter integer BITS_PER_SYMBOL       = 1

@@ -1,5 +1,13 @@
 `timescale 1 ns / 1 ps
+/*
+Author: George Vardakis
 
+The core performs correlation between the input and the known synchronization word.
+The synchronization word is multiplied with the complex conjugate of the input,
+and the output is put on the m00_axis interface. The synchronization word is provided
+to the core through the s00_axis_config interface. It should be provided in the 
+frequency domain.
+*/
 	module OFDM_correlator #
 	(
 	    parameter integer C_CONFIG_TDATA_WIDTH	= 32,

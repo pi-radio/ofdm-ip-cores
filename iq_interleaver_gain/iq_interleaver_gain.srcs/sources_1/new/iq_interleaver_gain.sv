@@ -1,6 +1,11 @@
 
 `timescale 1 ns / 1 ps
+/*
+Author: George Vardakis
 
+This core interleaves the Real (s00_axis interface) with the Imaginary (s01_axis interface)
+at the input. It optionally left-shifts the input data by the value programmed at the MM register.
+*/
 	module iq_interleaver_gain #
 	(
 		parameter integer SAMPLES_PER_CYCLE	        = 4,

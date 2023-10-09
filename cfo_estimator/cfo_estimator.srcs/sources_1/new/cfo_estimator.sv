@@ -1,5 +1,20 @@
 `timescale 1ns / 1ps
 
+/*
+
+Author: George Vardakis
+
+This core calculates the CFO of a OFDM symbol
+The symbol is assumed to have a cyclic prefix. The CFO is calculated
+through a crosscorrelation of the cyclic prefix with the cyclic suffix
+of the symbol. The prefix is multiplied with the complex conjugate of
+the suffix. The outputs of the multiplication are added, and the
+arctangend of the summation output is calculated. Then, the result
+is devided by the FFT size and this is used as the phase increment for
+the generation of the complex sine wave that will undo the carrier 
+frequency offset present in the symbol.
+
+*/
 module cfo_estimator 
     #(
     parameter integer S_AXIS_TDATA_WIDTH = 128,

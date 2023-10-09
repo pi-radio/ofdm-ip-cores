@@ -1,14 +1,15 @@
 
 `timescale 1 ns / 1 ps
 
+/*
+Author : George Vardakis
+
+This block adds a delay to the input axi stream interface.
+The output is zero padded for DELAY number of clock cycles
+after reset and if m_axis_ready is asserted.
+*/
 	module delay #
 	(
-		// Users to add parameters here
-
-		// User parameters ends
-		// Do not modify the parameters beyond this line
-
-
 		// Parameters of Axi Slave Bus Interface S00_AXIS
 		parameter integer C_S00_AXIS_TDATA_WIDTH	= 128,
 
@@ -17,13 +18,6 @@
 		parameter integer DELAY	= 0
 	)
 	(
-		// Users to add ports here
-
-		// User ports ends
-		// Do not modify the ports beyond this line
-
-
-		// Ports of Axi Slave Bus Interface S00_AXIS
 		input wire  axis_aclk,
 		input wire  axis_aresetn,
 		output wire  s00_axis_tready,

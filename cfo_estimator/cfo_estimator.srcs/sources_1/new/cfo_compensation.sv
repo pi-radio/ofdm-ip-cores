@@ -28,7 +28,11 @@ module cfo_compensation(
     mult2out_iface.master mult2out
     );
     
-    logic [31 : 0] term = 32'h3a800000 ;//32'h3bc90fdb;
+    /* This term is equal to 1/1024 (where 1024 the FFT size)
+    in floating point representation and is used to calculate
+    the phase increment for the CORDIC sine/cosine generator.
+    phase_increment = ((cfo_est * bandwidth)/nfft)/bandwidth -> phase_inc = cfo_est/nfft */
+    logic [31 : 0] term = 32'h3a800000 ;
     
     logic [15 : 0] angle;
     logic angle_valid;

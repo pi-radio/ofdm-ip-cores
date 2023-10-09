@@ -25,9 +25,10 @@ module axi_slave
 		output logic [1 : 0] s_axi_rresp,
 		output logic  s_axi_rvalid,
 		input logic  s_axi_rready,
-		output logic [39 : 0] ctrl_data,
-		output logic [31 : 0] block_len,
-        output logic ctrl_active
+		output logic [39 : 0] ctrl_data, // Configuration word at address 0 and 4
+		output logic [31 : 0] block_len, // Block length at address 8
+        output logic ctrl_active // This register needs to be programmed with the value 1
+                                 // (address 0xC) when the core is ready to run.
     );
     localparam ADDRLSB = $clog2(C_S_AXI_DATA_WIDTH) - 3;
     
